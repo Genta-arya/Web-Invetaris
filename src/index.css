@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* index.css atau file CSS global */
+.scroll-container {
+  position: relative;
+  padding-left: 0px; 
+  padding-right: 0;
+  margin-top: 10px;
+  max-width: 100%; 
+  overflow-x: auto;
+}
+
+.scroll-container::-webkit-scrollbar {
+  height: 8px; 
+
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #018A8C; 
+  cursor: pointer;
+  border-radius: 0px; 
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #016a6a; 
+}
