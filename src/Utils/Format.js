@@ -13,3 +13,33 @@ export const formatRupiah = (value) => {
     rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
     return rupiah ? 'Rp ' + rupiah : '';
   };
+
+
+ export const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    
+    };
+    return new Date(dateString).toLocaleDateString("id-ID", options);
+  };
+
+  export const formatTanggal = (dateString) => {
+    const date = new Date(dateString);
+    
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+    const year = date.getFullYear();
+  
+    return `${day}-${month}-${year}`;
+  };
+  
+
+
+  export const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(amount);
+  };

@@ -57,7 +57,7 @@ const ModalInput = ({ isOpen, onClose, refresh }) => {
       formData.append("kondisi", kondisi);
       formData.append("image", foto);
       formData.append("perolehan", perolehan);
-      formData.append("jenis", jenisBarang); // Add item type to formData
+      formData.append("jenis", jenisBarang); 
 
       await PostBarang(formData);
       refresh();
@@ -74,7 +74,7 @@ const ModalInput = ({ isOpen, onClose, refresh }) => {
       setKondisi("");
       setFoto(null);
       setPerolehan("");
-      setJenisBarang("Habis Pakai"); // Reset item type
+      setJenisBarang("Habis Pakai"); 
     } catch (error) {
       handleError(error);
     } finally {

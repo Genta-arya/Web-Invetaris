@@ -1,8 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import handleError from "../../../../Utils/HandleError";
+import { getAllInventaris } from "../../../../Service/API/Inventaris/Service_Inventaris";
+import ModalPreview from "../../Barang/BarangMasuk/components/BarcodePreview";
+import ModalImagePreview from "./ModalImagePreview";
+
 
 const TableItem = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRoom, setSelectedRoom] = useState("");
+  const [selectImage, setSelectImage] = useState(null);
+  const [openImage, setOpenImage] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await getAllInventaris();
+      setData(response.data);
+    } catch (error) {
+      handleError(error);
+    }
+  };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -11,50 +32,50 @@ const TableItem = () => {
   const handleRoomFilter = (event) => {
     setSelectedRoom(event.target.value);
   };
+  const handleOpenImage = (data) => {
+    setOpenImage(true);
+    setSelectImage(data);
+  };
 
-  const data = [
-    {
-      kodeBarang: "001",
-      namaBarang: "Contoh Barang",
-      nomorRegister: "123456",
-      merkType: "Merk A",
-      ukuran: "M",
-      tahun: "2024",
-      asalUsul: "Pembelian",
-      hargaBarang: "Rp1.000.000",
-      kondisi: "Baru",
-      ruangPenempatan: ["Ruang 1", "Ruang 2"],
-      foto: "https://via.placeholder.com/100",
-      barcode: "https://via.placeholder.com/50x20?text=Barcode",
-    },
-    {
-      kodeBarang: "002",
-      namaBarang: "Contoh Barang 1",
-      nomorRegister: "123457",
-      merkType: "Merk B",
-      ukuran: "L",
-      tahun: "2023",
-      asalUsul: "Hibah",
-      hargaBarang: "Rp500.000",
-      kondisi: "Bekas",
-      ruangPenempatan: ["Ruang 4"],
-      foto: "https://via.placeholder.com/100",
-      barcode: "https://via.placeholder.com/50x20?text=Barcode",
-    },
-    // Tambahkan data lainnya di sini
-  ];
+  const aggregateData = () => {
+    const aggregated = {};
 
-  const filteredData = data
+    data.forEach((item) => {
+      const key = item.barang.id;
+      if (!aggregated[key]) {
+        aggregated[key] = {
+          ...item.barang,
+          ruangan: [item.ruangan.nama],
+          qty: item.qty,
+        };
+      } else {
+        aggregated[key].ruangan.push(item.ruangan.nama);
+        aggregated[key].qty += item.qty;
+      }
+    });
+
+    return Object.values(aggregated);
+  };
+
+  const aggregatedData = aggregateData();
+
+  const filteredData = aggregatedData
     .filter((item) =>
       item.namaBarang.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .filter((item) =>
       selectedRoom === ""
         ? true
-        : item.ruangPenempatan.includes(selectedRoom)
+        : item.ruangan.join(", ").includes(selectedRoom)
     );
 
-  const uniqueRooms = [...new Set(data.flatMap((item) => item.ruangPenempatan))];
+  const uniqueRooms = [...new Set(data.map((item) => item.ruangan.nama))];
+  const formatRupiah = (value) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(value);
+  }
 
   return (
     <div className="p-4">
@@ -70,7 +91,6 @@ const TableItem = () => {
         <select
           className="px-4 py-2 text-xs border-gray-300 rounded border-2 focus:outline-none focus:ring-2 focus:ring-hijau"
           value={selectedRoom}
-          defaultValue=""
           onChange={handleRoomFilter}
         >
           <option value="">Semua Ruang</option>
@@ -87,7 +107,7 @@ const TableItem = () => {
           <thead>
             <tr className="text-xs">
               <th className="border-b py-2 px-4 text-center">Aksi</th>
-              <th className="border-b py-2 px-4 text-left">Barcode</th>
+              <th className="border-b py-2 px-4 text-left">QrCode</th>
               <th className="border-b-2 py-2 px-4 text-left">Kode Barang</th>
               <th className="border-b-2 py-2 px-4 text-left">Nama Barang</th>
               <th className="border-b py-2 px-4 text-left">Nomor Register</th>
@@ -105,19 +125,16 @@ const TableItem = () => {
           </thead>
           <tbody className="text-xs">
             {filteredData.map((item, index) => (
-              <tr key={index}>
+              <tr key={index} className="text-center">
                 <td className="border-b py-2 px-4">
                   <div className="flex gap-2 items-center">
-                    <button className="bg-white text-black border border-hijau font-bold px-2 py-1 rounded w-14">
-                      Edit
-                    </button>
                     <button className="bg-white text-black border border-hijau font-bold px-2 py-1 rounded w-14">
                       Hapus
                     </button>
                   </div>
                 </td>
-                <td className="border-b py-2 px-4">
-                  <img src={item.barcode} alt="Barcode" />
+                <td className="border-b py-2 px-4 cursor-pointer"   onClick={() => handleOpenImage(item.imageBarcode)}>
+                  <img src={item.imageBarcode} alt="Barcode" />
                 </td>
                 <td className="border-b py-2 px-4">{item.kodeBarang}</td>
                 <td className="border-b py-2 px-4">{item.namaBarang}</td>
@@ -125,13 +142,16 @@ const TableItem = () => {
                 <td className="border-b py-2 px-4">{item.merkType}</td>
                 <td className="border-b py-2 px-4">{item.ukuran}</td>
                 <td className="border-b py-2 px-4">{item.tahun}</td>
-                <td className="border-b py-2 px-4">{item.asalUsul}</td>
-                <td className="border-b py-2 px-4">{item.hargaBarang}</td>
+                <td className="border-b py-2 px-4">{item.perolehan}</td>
+                <td className="border-b py-2 px-4">{formatRupiah(item.hargaBarang)}</td>
                 <td className="border-b py-2 px-4">{item.kondisi}</td>
                 <td className="border-b py-2 px-4">
-                  {item.ruangPenempatan.join(", ")}
+                  {item.ruangan.join(", ")}
                 </td>
-                <td className="border-b py-2 px-4">
+                <td
+                  className="border-b py-2 px-4 cursor-pointer"
+                  onClick={() => handleOpenImage(item.foto)}
+                >
                   <img src={item.foto} alt="Foto Barang" />
                 </td>
               </tr>
@@ -139,6 +159,14 @@ const TableItem = () => {
           </tbody>
         </table>
       </div>
+      {openImage && (
+        <ModalImagePreview
+          imageSrc={selectImage}
+          onClose={() => {
+            setOpenImage(false), setSelectImage(null);
+          }}
+        />
+      )}
     </div>
   );
 };

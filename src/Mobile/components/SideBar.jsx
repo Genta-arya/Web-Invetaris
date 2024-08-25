@@ -128,13 +128,13 @@ const SideBar = () => {
           >
             
             <li>
-              <Link to={'/inventory/barang-masuk'} className={`${isSubMenuOpen2 ? "visible" : " hidden "} flex items-center p-4 transition-colors cursor-pointer ${location.pathname === '/inventory/barang-masuk' ? 'underline' : 'hover:opacity-80'}`}>
+              <Link to={'/permintaan'} className={`${isSubMenuOpen2 ? "visible" : " hidden "} flex items-center p-4 transition-colors cursor-pointer ${location.pathname === '/permintaan' ? 'underline' : 'hover:opacity-80'}`}>
                 <FaSignOutAlt  className="mr-3" />
                 <span>Data Permintaan</span>
               </Link>
             </li>
             <li>
-              <Link to={'/permintaan'} className={`${isSubMenuOpen2 ? "visible" : " hidden "} flex items-center p-4 transition-colors cursor-pointer ${location.pathname === '/inventory/barang-keluar' ? 'border-t border-b' : 'hover:opacity-80'}`}>
+              <Link to={'/pengajuan/permintaan'} className={`${isSubMenuOpen2 ? "visible" : " hidden "} flex items-center p-4 transition-colors cursor-pointer ${location.pathname === '/pengajuan/permintaan' ? 'border-t border-b' : 'hover:opacity-80'}`}>
                 <FaCartFlatbed className="mr-3" />
                 <span>Ajukan Permintaan</span>
               </Link>

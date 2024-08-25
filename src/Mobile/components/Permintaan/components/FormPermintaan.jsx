@@ -1,25 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { GetBarang } from "../../../../Service/API/Barang/Service_Barang";
-import {  Data_Ruang } from "../../../../DataDummy/Data";
+import { getAllRuangan } from "../../../../Service/API/Ruangan/Service_Ruangan";
+import LoadingGlobal from "../../LoadingGlobal";
+import handleError from "../../../../Utils/HandleError";
+import { addPermintaan } from "../../../../Service/API/Permintaan/service_Permintaan";
+
 const FormPermintaan = () => {
   const [requests, setRequests] = useState([{ namaBarang: "", jumlah: "" }]);
   const [selectedRuang, setSelectedRuang] = useState("");
   const [barangList, setBarangList] = useState([]);
-
+  const [ruangList, setRuangList] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const fetchBarang = async () => {
+    const fetchData = async () => {
       try {
-        const response = await GetBarang();
-        if (response && response.data) {
-          setBarangList(response.data); 
+        setLoading(true);
+
+        const [barangResponse, ruanganResponse] = await Promise.all([
+          GetBarang(),
+          getAllRuangan(),
+        ]);
+
+        if (barangResponse && barangResponse.data) {
+          setBarangList(barangResponse.data);
+        }
+
+        if (ruanganResponse && ruanganResponse.data) {
+          setRuangList(ruanganResponse.data);
         }
       } catch (error) {
-        console.error("Gagal memuat data barang:", error);
+        handleError(error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchBarang();
+    fetchData();
   }, []);
 
   const handleRuangChange = (e) => {
@@ -48,14 +65,17 @@ const FormPermintaan = () => {
     setRequests(newRequests);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedRuang) {
       alert("Silakan pilih ruangan terlebih dahulu.");
       return;
     }
     console.log("Permintaan:", { ruangan: selectedRuang, items: requests });
-    // Reset form
+    await addPermintaan({
+      ruangan: selectedRuang,
+      items: requests,
+    });
     setRequests([{ namaBarang: "", jumlah: "" }]);
     setSelectedRuang("");
   };
@@ -68,6 +88,10 @@ const FormPermintaan = () => {
         item.namaBarang === requests[currentIndex].namaBarang
     );
   };
+
+  if (loading) {
+    return <LoadingGlobal />;
+  }
 
   return (
     <div className="p-6">
@@ -91,9 +115,9 @@ const FormPermintaan = () => {
             <option value="" disabled>
               Pilih Ruangan
             </option>
-            {Data_Ruang.map((ruang) => (
-              <option key={ruang.id} value={ruang.namaRuangan}>
-                {ruang.namaRuangan} - {ruang.lokasi}
+            {ruangList.map((ruang) => (
+              <option key={ruang.id} value={ruang.id}>
+                {ruang.nama}
               </option>
             ))}
           </select>

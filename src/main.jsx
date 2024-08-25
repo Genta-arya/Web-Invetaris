@@ -9,6 +9,8 @@ import PagePermintaan from "./Mobile/components/Permintaan/PagePermintaan.jsx";
 import PageLogin from "./Authentikasi/PageLogin.jsx";
 import ProtectedRoute from "./ProtectRoute/ProtectRoute.jsx";
 import PageDetail from "./Mobile/components/Detail/PageDetail.jsx";
+import PageDetailBarangRuangan from "./Mobile/components/Ruangan/Detail/PageDetailBarangRuangan.jsx";
+import PageBarangKeluar from "./Mobile/components/Barang/BarangKeluar/PageBarangKeluar.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,18 @@ const router = createBrowserRouter([
   {
     path: "/ruangan",
     element: <ProtectedRoute element={<PageRuangan />} />,
+  },
+  {
+    path: "/barang/ruangan/:id",
+    element: <ProtectedRoute element={<PageDetailBarangRuangan />} />,
+  },
+  {
+    path: "/inventory/barang-keluar",
+    element: <ProtectedRoute element={<PageBarangKeluar />} />,
+  },
+  {
+    path: "/pengajuan/permintaan",
+    element: <ProtectedRoute element={<PagePermintaan />} />,
   },
   {
     path: "/permintaan",

@@ -1,43 +1,78 @@
-import React, { useState } from 'react';
-import { GetBarang } from '../../../../Service/API/Barang/Service_Barang';
+import React, { useEffect, useState } from "react";
+
+import ModalAddRuangan from "./ModalAddRuangan";
+import {
+  DeleteRuangan,
+  getAllRuangan,
+} from "../../../../Service/API/Ruangan/Service_Ruangan";
+import handleError from "../../../../Utils/HandleError";
+import useLoadingStore from "../../../../Utils/Zustand/useLoading";
+import LoadingGlobal from "./../../LoadingGlobal";
+import ModalEditRuangan from "./ModalEditRuangan";
+import { toast, Toaster } from "sonner";
+import { Link, Navigate } from "react-router-dom";
 
 const TableRuangan = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [ruanganList, setRuanganList] = useState([
-    { id: 1, namaRuangan: 'Ruang 1', lokasi: 'Gedung A'},
-    { id: 2, namaRuangan: 'Ruang 2', lokasi: 'Gedung B'},
-    { id: 3, namaRuangan: 'Ruang 3', lokasi: 'Gedung C' },
-   
-  ]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [OpenAdd, setOpenAdd] = useState(false);
+  const [selectData, setSelectData] = useState([]);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [ruanganList, setRuanganList] = useState([]);
+  const { loading, setLoading } = useLoadingStore();
 
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await getAllRuangan();
+      if (response && response.data) {
+        setRuanganList(response.data);
+      }
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const HandleEdit = (data) => {
+    setOpenEdit(true);
+    setSelectData(data);
+  };
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleAdd = () => {
-  
-    const newRuangan = {
-      id: ruanganList.length + 1,
-      namaRuangan: `Ruang ${ruanganList.length + 1}`,
-      lokasi: `Gedung ${String.fromCharCode(65 + ruanganList.length)}`,
-    
-    };
-    setRuanganList([...ruanganList, newRuangan]);
-  };
-
-  const handleEdit = (id) => {
-    // Logika untuk mengedit ruangan berdasarkan ID
-    console.log(`Edit ruangan dengan ID: ${id}`);
-  };
-
-  const handleDelete = (id) => {
-    // Logika untuk menghapus ruangan berdasarkan ID
-    setRuanganList(ruanganList.filter((ruangan) => ruangan.id !== id));
-  };
-
   const filteredRuangan = ruanganList.filter((ruangan) =>
-    ruangan.namaRuangan.toLowerCase().includes(searchTerm.toLowerCase())
+    ruangan.nama.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleDelete = async (id) => {
+    const message = `
+        Menghapus ruangan ini akan menghapus:
+        - Data Permintaan terkait
+        - Data Inventaris terkait
+        Tetapi akan mengembalikan semua stok barang
+        Apakah Anda yakin ingin melanjutkan penghapusan ruangan ini?
+    `;
+
+    if (!window.confirm(message)) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await DeleteRuangan(id);
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <LoadingGlobal />;
 
   return (
     <div className="p-4">
@@ -51,7 +86,7 @@ const TableRuangan = () => {
         />
         <button
           className="border-hijau text-gray-800 font-bold border-2 text-xs px-2 py-1 rounded"
-          onClick={handleAdd}
+          onClick={() => setOpenAdd(true)}
         >
           Tambah Ruangan
         </button>
@@ -63,8 +98,7 @@ const TableRuangan = () => {
             <tr className="text-xs text-center">
               <th className="border-b py-2 px-4">No</th>
               <th className="border-b py-2 px-4">Nama Ruangan</th>
-              <th className="border-b py-2 px-4">Lokasi</th>
-             
+
               <th className="border-b py-2 px-4">Aksi</th>
             </tr>
           </thead>
@@ -72,20 +106,25 @@ const TableRuangan = () => {
             {filteredRuangan.map((ruangan, index) => (
               <tr key={ruangan.id}>
                 <td className="border-b py-2 px-4">{index + 1}</td>
-                <td className="border-b py-2 px-4">{ruangan.namaRuangan}</td>
-                <td className="border-b py-2 px-4">{ruangan.lokasi}</td>
-              
+                <td className="border-b py-2 px-4">{ruangan.nama}</td>
+
                 <td className="border-b py-2 px-4">
                   <div className="flex justify-center gap-2">
-                    <button
+                    <Link
+                      to={`/barang/ruangan/${ruangan.id}`}
                       className="border-hijau text-gray-800 font-bold border-2 w-14 px-2 py-1 rounded"
-                      onClick={() => handleEdit(ruangan.id)}
+                    >
+                      Detail
+                    </Link>
+                    <button
+                      onClick={() => HandleEdit(ruangan)}
+                      className="border-hijau text-gray-800 font-bold border-2 w-14 px-2 py-1 rounded"
                     >
                       Edit
                     </button>
                     <button
-                      className="border-hijau text-gray-800 font-bold border-2 w-14 px-2 py-1 rounded"
                       onClick={() => handleDelete(ruangan.id)}
+                      className="border-hijau text-gray-800 font-bold border-2 w-14 px-2 py-1 rounded"
                     >
                       Hapus
                     </button>
@@ -96,6 +135,20 @@ const TableRuangan = () => {
           </tbody>
         </table>
       </div>
+      {OpenAdd && (
+        <ModalAddRuangan
+          onClose={() => setOpenAdd(false)}
+          refresh={fetchData}
+        />
+      )}
+      {openEdit && (
+        <ModalEditRuangan
+          data={selectData}
+          onClose={() => setOpenEdit(false)}
+          refresh={fetchData}
+        />
+      )}
+      <Toaster richColors position="top-right" />
     </div>
   );
 };

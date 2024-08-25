@@ -1,29 +1,28 @@
 import React, { useEffect, useState } from "react";
 import handleError from "../../../Utils/HandleError";
 import LoadingGlobal from "../LoadingGlobal";
+import { GetSingleBarang } from "../../../Service/API/Barang/Service_Barang";
+import { formatCurrency } from "../../../Utils/Format";
+import { useNavigate } from "react-router-dom";
 
 const Content = ({ id }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   const fetchData = async () => {
-    setLoading(true);
     try {
-      const response = await fetch(
-        `http://192.168.0.2:5001/api/v1/barang/${id}`
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const result = await response.json();
-      setData(result.data);
+      setLoading(true);
+      const response = await GetSingleBarang(id);
+      setData(response.data);
     } catch (error) {
       handleError(error);
     } finally {
       setLoading(false);
     }
   };
-
+  const handleBarangClick = (ruangId) => {
+    navigate(`/barang/ruangan/${ruangId}`); // Arahkan ke halaman detail barang
+  };
   useEffect(() => {
     fetchData();
   }, [id]);
@@ -38,27 +37,13 @@ const Content = ({ id }) => {
     );
   }
 
-  // Format the date
-  const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    };
-    return new Date(dateString).toLocaleDateString("id-ID", options);
-  };
+  const totalDistributed = data.inventaris.reduce(
+    (acc, curr) => acc + curr.qty,
+    0
+  );
 
-  // Format currency to Rupiah
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-    }).format(amount);
-  };
+  const stokGudang = data.qty;
 
-  // Define the order of fields to display
   const displayOrder = [
     { key: "kodeBarang", label: "Kode Barang" },
     { key: "nomorRegister", label: "Nomor Register" },
@@ -66,9 +51,7 @@ const Content = ({ id }) => {
     { key: "merkType", label: "Merk" },
     { key: "ukuran", label: "Ukuran" },
     { key: "perolehan", label: "Perolehan" },
-    { key: "qty", label: "Jumlah" },
     { key: "kondisi", label: "Kondisi" },
-    { key: "ruangan", label: "Ruangan" },
     { key: "hargaBarang", label: "Harga Barang" },
     { key: "foto", label: "Foto" },
   ];
@@ -104,6 +87,30 @@ const Content = ({ id }) => {
                 </td>
               </tr>
             ) : null
+          )}
+
+          <tr>
+            <td className="border-b py-2 px-4 font-semibold">Tersedia</td>
+            <td className="border-b py-2 px-4">{stokGudang} unit</td>
+          </tr>
+
+          {data.inventaris && data.inventaris.length > 0 && (
+            <tr>
+              <td className="border-b py-2 px-4 font-semibold">Terpakai</td>
+              <td className="border-b py-2 px-4">
+                <ul>
+                  {data.inventaris.map((inv, index) => (
+                    <li
+                      key={index}
+                      className="py-1 hover:text-hijau hover:underline hover:cursor-pointer"
+                      onClick={() => handleBarangClick(inv.ruangan.id)}
+                    >
+                      {index + 1}. {inv.ruangan.nama} ( {inv.qty} unit )
+                    </li>
+                  ))}
+                </ul>
+              </td>
+            </tr>
           )}
         </tbody>
       </table>
