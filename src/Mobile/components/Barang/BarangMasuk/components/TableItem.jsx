@@ -85,7 +85,7 @@ const TableItem = () => {
 
   return (
     <div className="p-4">
-      <div className="mb-4 flex-row-reverse flex-wrap flex gap-4 justify-between">
+      <div className="mb-4 flex-col flex gap-4 justify-between">
         <input
           type="text"
           placeholder="Cari Nama Barang..."
@@ -96,15 +96,28 @@ const TableItem = () => {
 
         <div className="flex gap-4 flex-row ">
           {isBarangMasukPage && (
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="bg-hijau text-white px-4 py-2 rounded text-xs"
-            >
-              <div className="flex items-center gap-2">
-                <FaPlus />
-                <p>Tambah Barang</p>
+            <>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="bg-hijau text-white px-4 py-2 rounded text-xs"
+                >
+                  <div className="flex items-center gap-2">
+                    <FaPlus />
+                    <p>Tambah Barang</p>
+                  </div>
+                </button>
+                <button
+                
+                  className="bg-hijau text-white px-4 py-2 rounded text-xs"
+                >
+                  <div className="flex items-center gap-2">
+                    <FaPlus />
+                    <p>Penerimaan Stok</p>
+                  </div>
+                </button>
               </div>
-            </button>
+            </>
           )}
         </div>
       </div>

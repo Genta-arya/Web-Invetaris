@@ -3,7 +3,7 @@ import handleError from "../../../../Utils/HandleError";
 import { getAllInventaris } from "../../../../Service/API/Inventaris/Service_Inventaris";
 import ModalPreview from "../../Barang/BarangMasuk/components/BarcodePreview";
 import ModalImagePreview from "./ModalImagePreview";
-
+import { FaPrint } from "react-icons/fa";
 
 const TableItem = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -75,7 +75,11 @@ const TableItem = () => {
       style: "currency",
       currency: "IDR",
     }).format(value);
-  }
+  };
+
+  const handlePrint = () => {
+    window.print();
+  };
 
   return (
     <div className="p-4">
@@ -83,13 +87,13 @@ const TableItem = () => {
         <input
           type="text"
           placeholder="Cari Nama Barang..."
-          className="px-4 py-2 text-xs border-gray-300 rounded border-2 focus:outline-none focus:ring-2 focus:ring-hijau"
+          className="px-4 py-2 w-full text-xs border-gray-300 rounded border-2 focus:outline-none focus:ring-2 focus:ring-hijau"
           value={searchTerm}
           onChange={handleSearch}
         />
 
         <select
-          className="px-4 py-2 text-xs border-gray-300 rounded border-2 focus:outline-none focus:ring-2 focus:ring-hijau"
+          className="px-4 py-1 text-xs border-gray-300 rounded border-2 focus:outline-none focus:ring-2 focus:ring-hijau"
           value={selectedRoom}
           onChange={handleRoomFilter}
         >
@@ -100,6 +104,12 @@ const TableItem = () => {
             </option>
           ))}
         </select>
+        <button className="px-4 py-1  text-xs bg-hijau text-white rounded hover:opacity-80">
+          <div className="flex items-center gap-2">
+            <FaPrint />
+            <p>Rekap Tahunan</p>
+          </div>
+        </button>
       </div>
 
       <div className="scroll-container overflow-x-auto">
@@ -133,7 +143,10 @@ const TableItem = () => {
                     </button>
                   </div>
                 </td>
-                <td className="border-b py-2 px-4 cursor-pointer"   onClick={() => handleOpenImage(item.imageBarcode)}>
+                <td
+                  className="border-b py-2 px-4 cursor-pointer"
+                  onClick={() => handleOpenImage(item.imageBarcode)}
+                >
                   <img src={item.imageBarcode} alt="Barcode" />
                 </td>
                 <td className="border-b py-2 px-4">{item.kodeBarang}</td>
@@ -143,7 +156,9 @@ const TableItem = () => {
                 <td className="border-b py-2 px-4">{item.ukuran}</td>
                 <td className="border-b py-2 px-4">{item.tahun}</td>
                 <td className="border-b py-2 px-4">{item.perolehan}</td>
-                <td className="border-b py-2 px-4">{formatRupiah(item.hargaBarang)}</td>
+                <td className="border-b py-2 px-4">
+                  {formatRupiah(item.hargaBarang)}
+                </td>
                 <td className="border-b py-2 px-4">{item.kondisi}</td>
                 <td className="border-b py-2 px-4">
                   {item.ruangan.join(", ")}

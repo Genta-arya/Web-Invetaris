@@ -3,6 +3,7 @@ import handleError from "../../../../../Utils/HandleError";
 import { getBarangKeluar } from "../../../../../Service/API/Barang/Service_Barang";
 import { formatTanggal } from "./../../../../../Utils/Format";
 import { useNavigate } from "react-router-dom";
+import LoadingGlobal from "../../../LoadingGlobal";
 
 const jenisStyles = {
   "Habis Pakai": "bg-blue-100 text-blue-800",
@@ -68,7 +69,7 @@ const ContentBarangKeluar = () => {
   }, [barangKeluar, filterRuangan, searchNamaBarang]);
 
   if (loading) {
-    return <div className="text-center text-xs">Loading...</div>;
+    return <LoadingGlobal />;
   }
 
   return (
@@ -106,7 +107,7 @@ const ContentBarangKeluar = () => {
             value={searchNamaBarang}
             onChange={(e) => setSearchNamaBarang(e.target.value)}
             placeholder="Masukkan nama barang"
-            className="border border-hijau outline-none rounded px-2 py-1 text-xs w-full"
+            className="border border-hijau outline-none rounded px-2 py-2 text-xs w-full"
           />
         </div>
       </div>
