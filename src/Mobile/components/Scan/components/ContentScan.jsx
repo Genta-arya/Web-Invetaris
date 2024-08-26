@@ -86,25 +86,25 @@ const ContentScan = () => {
   };
 
   return (
-    <div className='p-4'>
+    <div className='relative p-4'>
       <h1 className='text-lg font-bold mb-4'>Camera View</h1>
       {hasPermission === null ? (
         <p>Meminta izin akses kamera...</p>
       ) : !hasPermission ? (
         <p className='text-red-500'>Izin akses kamera tidak diberikan. Harap izinkan akses kamera untuk menggunakan fitur ini.</p>
       ) : (
-        <div>
+        <div className='relative'>
           <Webcam
             audio={false}
             ref={webcamRef}
             screenshotFormat='image/jpeg'
             width='100%'
             videoConstraints={{ facingMode: 'environment' }}
-            style={{ border: '1px solid green' }} // Tambahkan style sementara
+            style={{ border: '1px solid green' }}
           />
           <canvas
             ref={canvasRef}
-            style={{ display: 'none' }} // Canvas is used internally, so hide it
+            style={{ display: 'none' }}
           />
           {scanResult && (
             <div className='mt-4'>
@@ -113,7 +113,8 @@ const ContentScan = () => {
                 href={scanResult}
                 target='_blank'
                 rel='noopener noreferrer'
-                className='block text-blue-500 truncate overflow-hidden bg-gray-100 p-4 border border-gray-300 rounded hover:bg-gray-200'
+                className='block text-blue-500 bg-gray-100 p-4 border border-gray-300 rounded hover:bg-gray-200'
+                style={{ wordBreak: 'break-word' }} // Make sure text wraps
               >
                 {scanResult}
               </a>
