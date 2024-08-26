@@ -2,20 +2,23 @@ import React, { useRef, useState, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import jsQR from 'jsqr';
 import PermissionModal from './PermissionModal';
+import { toast } from 'sonner'; // Import Sonner toast
+
+const CONTENT_URL = 'https://web-invetaris.vercel.app/detail/55e91ad1-de32-4532-a287-7b0ceaeb15b3'; // The URL to check for
 
 const ContentScan = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [scanResult, setScanResult] = useState(null);
+  const [loading, setLoading] = useState(false); // Add loading state
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    // Check if permission has already been granted
     const checkPermission = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        stream.getTracks().forEach(track => track.stop()); // Stop the stream
+        stream.getTracks().forEach(track => track.stop());
         setHasPermission(true);
       } catch (error) {
         setHasPermission(false);
@@ -56,9 +59,12 @@ const ContentScan = () => {
               const result = code.data;
               setScanResult(result);
 
-              // Check if result is a valid URL
-              if (isValidUrl(result)) {
+              setLoading(false); // Hide loading indicator
+
+              if (result === CONTENT_URL) {
                 window.location.href = result; // Navigate to the URL
+              } else {
+                toast.error('QR code tidak dikenali'); // Show toast notification
               }
 
               return; // Stop detection after successful scan
@@ -69,22 +75,14 @@ const ContentScan = () => {
         }
       }
 
-      requestAnimationFrame(detectQR); // Continue detecting QR codes
+      requestAnimationFrame(detectQR);
     };
 
-    detectQR(); // Start detecting QR codes
+    setLoading(true); // Show loading indicator
+    detectQR();
 
-    return () => cancelAnimationFrame(detectQR); // Clean up
+    return () => cancelAnimationFrame(detectQR);
   }, [hasPermission]);
-
-  const isValidUrl = (string) => {
-    try {
-      new URL(string);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  };
 
   const requestCameraPermission = async () => {
     try {
@@ -97,12 +95,12 @@ const ContentScan = () => {
 
   const denyCameraPermission = () => {
     setHasPermission(false);
-    setShowModal(false); // Hide modal on denial
+    setShowModal(false);
   };
 
   return (
     <div className='relative p-4'>
-     
+      <h1 className='text-lg font-bold mb-4'>Scan Sekarang</h1>
       {hasPermission === null ? (
         <p className='text-gray-500 mt-12'>Meminta izin akses kamera...</p>
       ) : !hasPermission ? (
@@ -123,12 +121,9 @@ const ContentScan = () => {
             ref={canvasRef}
             style={{ display: 'none' }}
           />
-          {scanResult && (
-            <div className='mt-4'>
-              <p className='text-md font-medium mb-2'>Scan Result:</p>
-              <p className='bg-gray-100 p-4 border border-gray-300 rounded' style={{ wordBreak: 'break-word' }}>
-                {scanResult}
-              </p>
+          {loading && (
+            <div className='absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50'>
+              <div className='text-white'>Loading...</div>
             </div>
           )}
         </div>
