@@ -68,8 +68,8 @@ const ContentScan = () => {
 
               // Check if result is a URL
               if (
-                result.startsWith("http://") ||
-                result.startsWith("https://")
+                result.startsWith("https://web-invetaris.vercel.app/detail/") ||
+                result.startsWith("https://web-invetaris.vercel.app/detail/")
               ) {
                 window.open(result, "_blank");
                 setCameraActive(false); // Deactivate camera
@@ -77,8 +77,8 @@ const ContentScan = () => {
                 return; // Stop detection after successful scan
               } else {
                 // Show a toast if the result is not a URL
-                toast("QR Code tidak dikenali", {
-                  description: "Hasil QR code bukan URL yang valid.",
+                toast.info("QR Code tidak dikenali", {
+                  description: "Hasil QR code bukan dari barang inventaris.",
                 });
                 setCameraActive(false);
                 setScanResult(null); // Clear scan result
