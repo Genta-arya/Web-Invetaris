@@ -2,9 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import jsQR from 'jsqr';
 import PermissionModal from './PermissionModal';
-import { toast } from 'sonner'; // Import Sonner toast
+import { toast, Toaster } from 'sonner'; // Import Sonner toast
 
-const CONTENT_URL = 'https://web-invetaris.vercel.app/detail/55e91ad1-de32-4532-a287-7b0ceaeb15b3'; // The URL to check for
+const CONTENT_URL_PREFIX = 'https://web-invetaris.vercel.app/detail/'; // URL prefix to check for
 
 const ContentScan = () => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -61,7 +61,7 @@ const ContentScan = () => {
 
               setLoading(false); // Hide loading indicator
 
-              if (result === CONTENT_URL) {
+              if (result.startsWith(CONTENT_URL_PREFIX)) {
                 window.location.href = result; // Navigate to the URL
               } else {
                 toast.error('QR code tidak dikenali'); // Show toast notification
@@ -135,6 +135,7 @@ const ContentScan = () => {
           onDeny={denyCameraPermission}
         />
       )}
+      <Toaster richColors position="top-right" />
     </div>
   );
 };
