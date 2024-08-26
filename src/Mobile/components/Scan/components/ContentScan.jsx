@@ -2,23 +2,22 @@ import React, { useRef, useState, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import jsQR from 'jsqr';
 import PermissionModal from './PermissionModal';
-import { toast, Toaster } from 'sonner'; // Import Sonner toast
-
-const CONTENT_URL_PREFIX = 'https://web-invetaris.vercel.app/detail/'; // URL prefix to check for
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const ContentScan = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [scanResult, setScanResult] = useState(null);
-  const [loading, setLoading] = useState(false); // Add loading state
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
+    // Check if permission has already been granted
     const checkPermission = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        stream.getTracks().forEach(track => track.stop());
+        stream.getTracks().forEach(track => track.stop()); // Stop the stream
         setHasPermission(true);
       } catch (error) {
         setHasPermission(false);
@@ -58,15 +57,7 @@ const ContentScan = () => {
             if (code) {
               const result = code.data;
               setScanResult(result);
-
-              setLoading(false); // Hide loading indicator
-
-              if (result.startsWith(CONTENT_URL_PREFIX)) {
-                window.location.href = result; // Navigate to the URL
-              } else {
-                toast.error('QR code tidak dikenali'); // Show toast notification
-              }
-
+              window.location.href = code.data;
               return; // Stop detection after successful scan
             }
           } catch (error) {
@@ -75,13 +66,12 @@ const ContentScan = () => {
         }
       }
 
-      requestAnimationFrame(detectQR);
+      requestAnimationFrame(detectQR); // Continue detecting QR codes
     };
 
-    setLoading(true); // Show loading indicator
-    detectQR();
+    detectQR(); // Start detecting QR codes
 
-    return () => cancelAnimationFrame(detectQR);
+    return () => cancelAnimationFrame(detectQR); // Clean up
   }, [hasPermission]);
 
   const requestCameraPermission = async () => {
@@ -95,7 +85,7 @@ const ContentScan = () => {
 
   const denyCameraPermission = () => {
     setHasPermission(false);
-    setShowModal(false);
+    setShowModal(false); // Hide modal on denial
   };
 
   return (
@@ -108,7 +98,7 @@ const ContentScan = () => {
       ) : (
         <div className='relative'>
           <Webcam
-            className='rounded-xl shadow-lg h-full'
+          className='rouded-xl shadow-lg h-full'
             audio={false}
             ref={webcamRef}
             screenshotFormat='image/jpeg'
@@ -121,11 +111,7 @@ const ContentScan = () => {
             ref={canvasRef}
             style={{ display: 'none' }}
           />
-          {loading && (
-            <div className='absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50'>
-              <div className='text-white'>Loading...</div>
-            </div>
-          )}
+         
         </div>
       )}
 
@@ -135,7 +121,6 @@ const ContentScan = () => {
           onDeny={denyCameraPermission}
         />
       )}
-      <Toaster richColors position="top-right" />
     </div>
   );
 };
