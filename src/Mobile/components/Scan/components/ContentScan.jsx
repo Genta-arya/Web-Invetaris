@@ -9,6 +9,7 @@ const ContentScan = () => {
   const [showModal, setShowModal] = useState(false);
   const [scanResult, setScanResult] = useState(null);
   const [loading, setLoading] = useState(false); // Loading indicator
+  const [cameraActive, setCameraActive] = useState(true); // Camera active state
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -36,7 +37,7 @@ const ContentScan = () => {
   }, [hasPermission]);
 
   useEffect(() => {
-    if (!hasPermission) return;
+    if (!hasPermission || !cameraActive) return; // Skip detection if no permission or camera not active
 
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d');
@@ -61,13 +62,14 @@ const ContentScan = () => {
               // Check if result is a URL
               if (result.startsWith('http://') || result.startsWith('https://')) {
                 window.open(result, '_blank');
-                window.location.reload(); // Clear scan result after opening in a new tab
+                setCameraActive(false); // Deactivate camera
+                setScanResult(null); // Clear scan result after opening in a new tab
+                return; // Stop detection after successful scan
               } else {
                 // Show a toast if the result is not a URL
                 toast('QR Code tidak dikenali', { description: 'Hasil QR code bukan URL yang valid.' });
                 setScanResult(null); // Clear scan result
               }
-              return; // Stop detection after successful scan
             }
           } catch (error) {
             console.error('Error processing image data:', error);
@@ -81,7 +83,7 @@ const ContentScan = () => {
     detectQR(); // Start detecting QR codes
 
     return () => cancelAnimationFrame(detectQR); // Clean up
-  }, [hasPermission]);
+  }, [hasPermission, cameraActive]);
 
   const requestCameraPermission = async () => {
     try {
@@ -97,6 +99,11 @@ const ContentScan = () => {
     setShowModal(false); // Hide modal on denial
   };
 
+  const handleScanAgain = () => {
+    setCameraActive(true); // Reactivate camera
+    setScanResult(null); // Clear scan result
+  };
+
   return (
     <div className='relative p-4'>
       <h1 className='text-lg font-bold mb-4'>Scan Sekarang</h1>
@@ -104,10 +111,17 @@ const ContentScan = () => {
         <p className='text-gray-500 mt-12'>Meminta izin akses kamera...</p>
       ) : !hasPermission ? (
         <p className='text-red-500'>Izin akses kamera tidak diberikan. Harap izinkan akses kamera untuk menggunakan fitur ini.</p>
+      ) : !cameraActive ? (
+        <button
+          onClick={handleScanAgain}
+          className='bg-hijau w-full text-white p-2 rounded'
+        >
+          Scan Lagi
+        </button>
       ) : (
         <div className='relative'>
           <Webcam
-            className='rouded-xl shadow-lg h-full'
+            className='rounded-xl shadow-lg h-full'
             audio={false}
             ref={webcamRef}
             screenshotFormat='image/jpeg'
