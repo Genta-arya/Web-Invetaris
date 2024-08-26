@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import jsQR from 'jsqr';
 import PermissionModal from './PermissionModal';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const ContentScan = () => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -10,7 +9,6 @@ const ContentScan = () => {
   const [scanResult, setScanResult] = useState(null);
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
-  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     // Check if permission has already been granted
@@ -57,7 +55,12 @@ const ContentScan = () => {
             if (code) {
               const result = code.data;
               setScanResult(result);
-              window.location.href = code.data;
+
+              // Check if result is a valid URL
+              if (isValidUrl(result)) {
+                window.location.href = result; // Navigate to the URL
+              }
+
               return; // Stop detection after successful scan
             }
           } catch (error) {
@@ -73,6 +76,15 @@ const ContentScan = () => {
 
     return () => cancelAnimationFrame(detectQR); // Clean up
   }, [hasPermission]);
+
+  const isValidUrl = (string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
 
   const requestCameraPermission = async () => {
     try {
@@ -90,7 +102,7 @@ const ContentScan = () => {
 
   return (
     <div className='relative p-4'>
-      <h1 className='text-lg font-bold mb-4'>Scan Sekarang</h1>
+     
       {hasPermission === null ? (
         <p className='text-gray-500 mt-12'>Meminta izin akses kamera...</p>
       ) : !hasPermission ? (
@@ -98,7 +110,7 @@ const ContentScan = () => {
       ) : (
         <div className='relative'>
           <Webcam
-          className='rouded-xl shadow-lg h-full'
+            className='rounded-xl shadow-lg h-full'
             audio={false}
             ref={webcamRef}
             screenshotFormat='image/jpeg'
@@ -111,7 +123,14 @@ const ContentScan = () => {
             ref={canvasRef}
             style={{ display: 'none' }}
           />
-         
+          {scanResult && (
+            <div className='mt-4'>
+              <p className='text-md font-medium mb-2'>Scan Result:</p>
+              <p className='bg-gray-100 p-4 border border-gray-300 rounded' style={{ wordBreak: 'break-word' }}>
+                {scanResult}
+              </p>
+            </div>
+          )}
         </div>
       )}
 

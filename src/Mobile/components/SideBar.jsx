@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaHome, FaBoxOpen, FaUsers, FaCogs, FaArrowRight, FaCircle, FaStoreAlt, FaClipboardList, FaSignOutAlt, FaBookOpen, FaWarehouse } from 'react-icons/fa';
+import { FaHome, FaBoxOpen, FaUsers, FaCogs, FaArrowRight, FaCircle, FaStoreAlt, FaClipboardList, FaSignOutAlt, FaBookOpen, FaWarehouse, FaCamera } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import { FaBox, FaBoxArchive, FaCartFlatbed, FaClipboard, FaClipboardQuestion, FaSignHanging } from 'react-icons/fa6';
 
@@ -145,6 +145,10 @@ const SideBar = () => {
         <Link to={'/ruangan'} className={`flex items-center p-4 transition-colors cursor-pointer ${location.pathname === '/ruangan' ? 'border-t border-b' : 'hover:opacity-80'}`}>
           <FaStoreAlt className="mr-3" />
           <span>Kelola Ruangan</span>
+        </Link>
+        <Link to={'/scan'} className={`flex items-center p-4 transition-colors cursor-pointer ${location.pathname === '/scan' ? 'border-t border-b' : 'hover:opacity-80'}`}>
+          <FaCamera className="mr-3" />
+          <span>Scan Barang</span>
         </Link>
         <li className={`flex items-center p-4 transition-colors cursor-pointer ${location.pathname === '/users' ? 'border-t border-b' : 'hover:opacity-80'}`}>
           <FaUsers className="mr-3" />
