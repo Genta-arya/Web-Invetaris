@@ -2,15 +2,15 @@ import React, { useRef, useState, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import jsQR from 'jsqr';
 import PermissionModal from './PermissionModal';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { toast } from 'sonner'; // Import Sonner toast
 
 const ContentScan = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [scanResult, setScanResult] = useState(null);
+  const [loading, setLoading] = useState(false); // Loading indicator
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
-  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     // Check if permission has already been granted
@@ -57,7 +57,16 @@ const ContentScan = () => {
             if (code) {
               const result = code.data;
               setScanResult(result);
-              window.open(result, '_blank');
+
+              // Check if result is a URL
+              if (result.startsWith('http://') || result.startsWith('https://')) {
+                window.open(result, '_blank');
+                setScanResult(null); // Clear scan result after opening in a new tab
+              } else {
+                // Show a toast if the result is not a URL
+                toast('QR Code tidak dikenali', { description: 'Hasil QR code bukan URL yang valid.' });
+                setScanResult(null); // Clear scan result
+              }
               return; // Stop detection after successful scan
             }
           } catch (error) {
@@ -98,7 +107,7 @@ const ContentScan = () => {
       ) : (
         <div className='relative'>
           <Webcam
-          className='rouded-xl shadow-lg h-full'
+            className='rouded-xl shadow-lg h-full'
             audio={false}
             ref={webcamRef}
             screenshotFormat='image/jpeg'
@@ -111,7 +120,25 @@ const ContentScan = () => {
             ref={canvasRef}
             style={{ display: 'none' }}
           />
-         
+          {loading && (
+            <div className='absolute inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50'>
+              <div className='spinner-border animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full'></div>
+            </div>
+          )}
+          {scanResult && (
+            <div className='mt-4'>
+              <p className='text-md font-medium mb-2'>Scan Result:</p>
+              <a
+                href={scanResult}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='block text-blue-500 bg-gray-100 p-4 border border-gray-300 rounded hover:bg-gray-200'
+                style={{ wordBreak: 'break-word' }}
+              >
+                {scanResult}
+              </a>
+            </div>
+          )}
         </div>
       )}
 
