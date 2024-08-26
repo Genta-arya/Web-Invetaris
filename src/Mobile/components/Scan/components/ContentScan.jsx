@@ -68,8 +68,8 @@ const ContentScan = () => {
 
               // Check if result is a URL
               if (
-                result.startsWith("https://web-invetaris.vercel.app/detail/") ||
-                result.startsWith("https://web-invetaris.vercel.app/detail/")
+                result.startsWith("https://web-invetaris.vercel.app") 
+      
               ) {
                 window.open(result, "_blank");
                 setCameraActive(false); // Deactivate camera
