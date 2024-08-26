@@ -11,6 +11,7 @@ import ProtectedRoute from "./ProtectRoute/ProtectRoute.jsx";
 import PageDetail from "./Mobile/components/Detail/PageDetail.jsx";
 import PageDetailBarangRuangan from "./Mobile/components/Ruangan/Detail/PageDetailBarangRuangan.jsx";
 import PageBarangKeluar from "./Mobile/components/Barang/BarangKeluar/PageBarangKeluar.jsx";
+import PageScan from "./Mobile/components/Scan/PageScan.jsx";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <PageLogin />,
+  },
+  {
+    path: "/scan",
+    element: <PageScan />,
   },
   {
     path: "/inventory",
