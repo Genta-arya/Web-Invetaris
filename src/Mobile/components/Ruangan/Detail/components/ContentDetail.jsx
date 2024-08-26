@@ -5,6 +5,8 @@ import useLoadingStore from "../../../../../Utils/Zustand/useLoading";
 import ModalPreview from "../../../Barang/BarangMasuk/components/BarcodePreview";
 import { toast, Toaster } from "sonner";
 import { ReturBarang } from "../../../../../Service/API/Barang/Service_Barang";
+import LoadingGlobal from "../../../LoadingGlobal";
+import { formatDate } from "../../../../../Utils/Format";
 
 const ContentDetail = ({ setNamaRuangan }) => {
   const { id } = useParams();
@@ -46,10 +48,11 @@ const ContentDetail = ({ setNamaRuangan }) => {
 
     setLoading(true);
     try {
-      const response = await ReturBarang(selectedBarangId );
+      const response = await ReturBarang(selectedBarangId);
       if (response) {
         toast.success("Barang berhasil dikembalikan.");
         fetchData(); // Refresh data setelah pengembalian
+        setSelectedBarangId(null); // Reset selection setelah pengembalian
       }
     } catch (error) {
       console.error("Error returning barang:", error);
@@ -69,19 +72,28 @@ const ContentDetail = ({ setNamaRuangan }) => {
   }, [id]);
 
   if (loading) {
-    return <div className="text-center text-sm text-gray-600">Loading...</div>;
+    return <LoadingGlobal />;
   }
-
   if (!ruangan) {
-    return (
-      <div className="text-center text-sm text-gray-600">Data not found</div>
-    );
+    return null;
   }
 
-  const inventaris = ruangan.permintaan ? ruangan.permintaan : [];
-  const filteredInventaris = inventaris.filter((item) =>
-    item.barang.namaBarang.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Transform data into the required format
+  const permintaanByMonth = ruangan.permintaan.reduce((acc, permintaan) => {
+    permintaan.months.forEach((monthData) => {
+      if (!acc[monthData.month]) {
+        acc[monthData.month] = [];
+      }
+      acc[monthData.month] = acc[monthData.month].concat(monthData.permintaan);
+    });
+    return acc;
+  }, {});
+
+  const filteredPermintaan = Object.values(permintaanByMonth)
+    .flat()
+    .filter((item) =>
+      item.barang.namaBarang.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   return (
     <div className="p-4 mt-6 max-w-5xl mx-auto bg-white shadow-lg rounded-lg border border-gray-200">
@@ -96,45 +108,69 @@ const ContentDetail = ({ setNamaRuangan }) => {
           placeholder="Cari barang..."
           className="w-full px-3 py-2 outline-none text-xs mb-4 border border-hijau rounded-md"
         />
-        {filteredInventaris.length === 0 ? (
+        {filteredPermintaan.length === 0 ? (
           <p className="text-sm text-gray-500 text-center mt-12">
             Tidak ada barang di ruangan ini.
           </p>
         ) : (
           <div className="space-y-6">
-            {filteredInventaris.map((item) => {
+            {filteredPermintaan.map((item) => {
               const barang = item.barang || {};
 
               return (
-                <div key={item.id} className="bg-white shadow-md rounded-lg p-4">
+                <div
+                  key={item.id}
+                  className={`shadow-md rounded-lg p-4 border ${
+                    selectedBarangId === barang.id
+                      ? "border-hijau bg-red-50"
+                      : "border-gray-300 bg-white"
+                  }`}
+                >
                   <div className="flex items-center space-x-4">
                     <img
-                      src={barang.foto || '/path/to/default-image.jpg'}
-                      alt={barang.namaBarang || 'No image'}
+                      src={barang.foto || "/path/to/default-image.jpg"}
+                      alt={barang.namaBarang || "No image"}
                       className="w-16 h-16 object-cover rounded-md"
                     />
                     <div className="flex-1">
-                      <h2 className="text-sm font-semibold">{barang.namaBarang || 'Nama Barang Tidak Tersedia'}</h2>
-                      <p className="text-xs text-gray-600">Jumlah: {item.qty || 0}</p>
-                      <p className="text-xs text-gray-600">Tanggal: {new Date(item.createdAt).toLocaleDateString()}</p>
-                      <p className="text-xs text-gray-500">Sisa Stok: {barang.qty || 0}</p>
-                      <span className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${barang.jenis === "Habis Pakai" ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}`}>
-                        {barang.jenis || 'Jenis Tidak Tersedia'}
-                      </span>
-                      <button
-                        onClick={() => handleOpenModal(barang)}
-                        className="mt-2 text-xs text-blue-500 underline"
+                      <h2 className="text-sm font-semibold">
+                        {barang.namaBarang || "Nama Barang Tidak Tersedia"}
+                      </h2>
+                      <p className="text-xs text-gray-600">
+                        Jumlah: {item.qty || 0}
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        Tanggal: {formatDate(item.createdAt)}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Sisa Stok: {barang.qty || 0}
+                      </p>
+                      <span
+                        className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${
+                          barang.jenis === "Habis Pakai"
+                            ? "bg-blue-100 text-blue-800"
+                            : "bg-green-100 text-green-800"
+                        }`}
                       >
-                        Lihat Barcode
-                      </button>
-                      {barang.jenis === "Asset" && (
+                        {barang.jenis || "Jenis Tidak Tersedia"}
+                      </span>
+
+                      <div className="flex gap-2 mt-2">
                         <button
-                          onClick={() => handleSelectBarang(barang.id)}
-                          className="mt-2 text-xs text-red-500 underline"
+                          onClick={() => handleOpenModal(barang)}
+                          className="text-xs text-blue-500 underline"
                         >
-                          Pilih untuk Retur
+                          Lihat Barcode
                         </button>
-                      )}
+                        {barang.jenis === "Asset" && (
+                          <button
+                            onClick={() => handleSelectBarang(barang.id)}
+                            className="text-xs text-red-500 underline"
+                          >
+                            Kembalikan
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

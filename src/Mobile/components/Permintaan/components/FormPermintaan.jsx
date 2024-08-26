@@ -5,6 +5,9 @@ import { getAllRuangan } from "../../../../Service/API/Ruangan/Service_Ruangan";
 import LoadingGlobal from "../../LoadingGlobal";
 import handleError from "../../../../Utils/HandleError";
 import { addPermintaan } from "../../../../Service/API/Permintaan/service_Permintaan";
+import { toast, Toaster } from "sonner";
+
+import LoadingButton from "../../LoadingButton";
 
 const FormPermintaan = () => {
   const [requests, setRequests] = useState([{ namaBarang: "", jumlah: "" }]);
@@ -12,6 +15,7 @@ const FormPermintaan = () => {
   const [barangList, setBarangList] = useState([]);
   const [ruangList, setRuangList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -71,13 +75,20 @@ const FormPermintaan = () => {
       alert("Silakan pilih ruangan terlebih dahulu.");
       return;
     }
-    console.log("Permintaan:", { ruangan: selectedRuang, items: requests });
-    await addPermintaan({
-      ruangan: selectedRuang,
-      items: requests,
-    });
-    setRequests([{ namaBarang: "", jumlah: "" }]);
-    setSelectedRuang("");
+    setLoadingSubmit(true);
+    try {
+      await addPermintaan({
+        ruangan: selectedRuang,
+        items: requests,
+      });
+      toast.success("Permintaan Berhasil Diajukan");
+      setRequests([{ namaBarang: "", jumlah: "" }]);
+      setSelectedRuang("");
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoadingSubmit(false);
+    }
   };
 
   const filteredItems = (currentIndex) => {
@@ -200,11 +211,17 @@ const FormPermintaan = () => {
 
         <button
           type="submit"
+          disabled={loadingSubmit}
           className="bg-hijau hover:opacity-80 text-white w-full py-2 rounded-md text-sm font-semibold hover:bg-hijau-dark"
         >
-          Ajukan Permintaan
+          {loadingSubmit ? (
+            <LoadingButton text={"Menyimpan..."} />
+          ) : (
+            <p>Ajukan Permintaan</p>
+          )}
         </button>
       </form>
+      <Toaster position="top-right" richColors />
     </div>
   );
 };

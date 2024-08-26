@@ -72,10 +72,14 @@ const ListPermintaan = () => {
         (item) => formatTanggal(item.createdAt) === formatTanggal(date)
       );
     }
-
     if (status) {
-      const isApproved = status === "disetujui";
-      filteredData = filteredData.filter((item) => item.status === isApproved);
+      if (status === "disetujui") {
+        filteredData = filteredData.filter((item) => item.status === true);
+      } else if (status === "belum_disetujui") {
+        filteredData = filteredData.filter((item) => item.status === null);
+      } else if (status === "ditolak") {
+        filteredData = filteredData.filter((item) => item.status === false);
+      }
     }
 
     if (term) {
@@ -97,7 +101,7 @@ const ListPermintaan = () => {
 
   return (
     <div className="p-4">
-      <div className="mb-4 flex justify-between gap-4">
+      <div className="mb-4 flex gap-4">
         <div>
           <label className="block text-xs mb-2 font-bold text-gray-700">
             Tanggal
@@ -118,6 +122,7 @@ const ListPermintaan = () => {
           >
             <option value="">Semua Status</option>
             <option value="disetujui">Disetujui</option>
+            <option value="ditolak">Ditolak</option>
             <option value="belum_disetujui">Belum Disetujui</option>
           </select>
         </div>
@@ -220,8 +225,8 @@ const ListPermintaan = () => {
                     {item.status === true
                       ? "Disetujui"
                       : item.status === false
-                      ? "Belum Disetujui"
-                      : "Tidak ada status"}
+                      ? "Ditolak"
+                      : "Belum Disetujui"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap  text-gray-500">
                     {formatTanggal(item.createdAt)}
@@ -233,7 +238,13 @@ const ListPermintaan = () => {
         </div>
       )}
       {openEdit && (
-        <ModalEditStatus refresh={fetchData} onClose={() => setOpenEdit(false)} open={openEdit} setOpen={setOpenEdit} data={selectData} />
+        <ModalEditStatus
+          refresh={fetchData}
+          onClose={() => setOpenEdit(false)}
+          open={openEdit}
+          setOpen={setOpenEdit}
+          data={selectData}
+        />
       )}
     </div>
   );
