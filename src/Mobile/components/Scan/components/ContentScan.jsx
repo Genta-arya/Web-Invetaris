@@ -61,7 +61,7 @@ const ContentScan = () => {
               // Check if result is a URL
               if (result.startsWith('http://') || result.startsWith('https://')) {
                 window.open(result, '_blank');
-                setScanResult(null); // Clear scan result after opening in a new tab
+                window.location.reload(); // Clear scan result after opening in a new tab
               } else {
                 // Show a toast if the result is not a URL
                 toast('QR Code tidak dikenali', { description: 'Hasil QR code bukan URL yang valid.' });
