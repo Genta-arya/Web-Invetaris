@@ -6,7 +6,7 @@ import PermissionModal from './PermissionModal';
 const ContentScan = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [scanResult, setScanResult] = useState(null); // State to store the scan result
+  const [scanResult, setScanResult] = useState(null);
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -107,9 +107,16 @@ const ContentScan = () => {
             style={{ display: 'none' }} // Canvas is used internally, so hide it
           />
           {scanResult && (
-            <div>
+            <div className='mt-4'>
               <p className='text-md font-medium mb-2'>Scan Result:</p>
-              <pre className='bg-gray-100 p-4 border border-gray-300 rounded'>{scanResult}</pre>
+              <a
+                href={scanResult}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='block text-blue-500 truncate overflow-hidden bg-gray-100 p-4 border border-gray-300 rounded hover:bg-gray-200'
+              >
+                {scanResult}
+              </a>
             </div>
           )}
         </div>
