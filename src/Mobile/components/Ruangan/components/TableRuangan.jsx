@@ -65,6 +65,7 @@ const TableRuangan = () => {
     setLoading(true);
     try {
       await DeleteRuangan(id);
+      fetchData();
     } catch (error) {
       handleError(error);
     } finally {
