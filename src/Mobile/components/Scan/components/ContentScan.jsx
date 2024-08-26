@@ -111,20 +111,7 @@ const ContentScan = () => {
             ref={canvasRef}
             style={{ display: 'none' }}
           />
-          {scanResult && (
-            <div className='mt-4'>
-              <p className='text-md font-medium mb-2'>Scan Result:</p>
-              <a
-                href={scanResult}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='block text-blue-500 bg-gray-100 p-4 border border-gray-300 rounded hover:bg-gray-200'
-                style={{ wordBreak: 'break-word' }}
-              >
-                {scanResult}
-              </a>
-            </div>
-          )}
+         
         </div>
       )}
 
