@@ -57,7 +57,7 @@ const ContentScan = () => {
             if (code) {
               const result = code.data;
               setScanResult(result);
-              navigate(result); // Navigate to the result URL
+              window.location.href = code.data;
               return; // Stop detection after successful scan
             }
           } catch (error) {
@@ -72,7 +72,7 @@ const ContentScan = () => {
     detectQR(); // Start detecting QR codes
 
     return () => cancelAnimationFrame(detectQR); // Clean up
-  }, [hasPermission, navigate]);
+  }, [hasPermission]);
 
   const requestCameraPermission = async () => {
     try {
@@ -98,11 +98,12 @@ const ContentScan = () => {
       ) : (
         <div className='relative'>
           <Webcam
-          className='rouded-xl shadow-lg'
+          className='rouded-xl shadow-lg h-full'
             audio={false}
             ref={webcamRef}
             screenshotFormat='image/jpeg'
             width='100%'
+            height='100%'
             videoConstraints={{ facingMode: 'environment' }}
             style={{ border: '1px solid gray' }}
           />
