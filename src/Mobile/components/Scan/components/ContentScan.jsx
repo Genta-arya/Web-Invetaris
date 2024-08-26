@@ -80,6 +80,7 @@ const ContentScan = () => {
                 toast("QR Code tidak dikenali", {
                   description: "Hasil QR code bukan URL yang valid.",
                 });
+                setCameraActive(false);
                 setScanResult(null); // Clear scan result
               }
             }
