@@ -9,22 +9,21 @@ const PagePermintaan = () => {
   const location = useLocation();
   return (
     <main>
-      <div className="lg:hidden md:block block">
-        <nav className="">
-          <Navbar />
-        </nav>
-        {location.pathname === "/permintaan" ? (
-          <div>
-             <Header text={"Daftar Permintaan"} />
-             <ListPermintaan />
-          </div>
-        ) : (
-          <div>
-            <Header text={"Ajukan Permintaan"} />
-            <FormPermintaan />
-          </div>
-        )}
-      </div>
+      <div className="lg:hidden md:block block"></div>
+      <nav className="">
+        <Navbar />
+      </nav>
+      {location.pathname === "/permintaan" ? (
+        <div>
+          <Header text={"Daftar Permintaan"} />
+          <ListPermintaan />
+        </div>
+      ) : (
+        <div>
+          <Header text={"Ajukan Permintaan"} />
+          <FormPermintaan />
+        </div>
+      )}
 
       <div></div>
     </main>

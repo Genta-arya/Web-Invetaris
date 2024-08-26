@@ -8,16 +8,15 @@ import { Toaster } from "sonner";
 const PageBarangMasuk = () => {
   return (
     <main>
-      <div className="lg:hidden md:block block">
-        <nav className="">
-          <Navbar />
-        </nav>
+      <div className="lg:hidden md:block block"></div>
+      <nav className="">
+        <Navbar />
+      </nav>
 
-        <div>
-          <Header text={"Barang Masuk"} />
+      <div>
+        <Header text={"Barang Masuk"} />
 
-          <TableItem />
-        </div>
+        <TableItem />
       </div>
 
       <Toaster richColors position="top-right" />

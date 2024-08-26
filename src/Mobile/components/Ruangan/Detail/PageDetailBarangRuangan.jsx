@@ -4,19 +4,17 @@ import Header from "../../Header";
 import ContentDetail from "./components/ContentDetail";
 
 const PageDetailBarangRuangan = () => {
-
-    const [ruangan,setRuangan] = useState("")
+  const [ruangan, setRuangan] = useState("");
   return (
     <main>
-      <div className="lg:hidden md:block block">
-        <nav className="">
-          <Navbar />
-        </nav>
+      <div className="lg:hidden md:block block"></div>
+      <nav className="">
+        <Navbar />
+      </nav>
 
-        <div>
-          <Header text={ruangan} />
-          <ContentDetail setNamaRuangan={setRuangan} />
-        </div>
+      <div>
+        <Header text={ruangan} />
+        <ContentDetail setNamaRuangan={setRuangan} />
       </div>
     </main>
   );

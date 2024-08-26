@@ -6,15 +6,14 @@ import ContentBarangKeluar from "./components/ContentBarangKeluar";
 const PageBarangKeluar = () => {
   return (
     <main>
-      <div className="lg:hidden md:block block">
-        <nav className="">
-          <Navbar />
-        </nav>
+      <div className="lg:hidden md:block block"></div>
+      <nav className="">
+        <Navbar />
+      </nav>
 
-        <div>
-          <Header text={"Barang Keluar"} />
-          <ContentBarangKeluar />
-        </div>
+      <div>
+        <Header text={"Barang Keluar"} />
+        <ContentBarangKeluar />
       </div>
 
       <div></div>

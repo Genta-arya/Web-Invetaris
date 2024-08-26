@@ -8,15 +8,14 @@ import Header from "../Header";
 const PageRuangan = () => {
   return (
     <main>
-      <div className="lg:hidden md:block block">
-        <nav className="">
-          <Navbar />
-        </nav>
+      <div className="lg:hidden md:block block"></div>
+      <nav className="">
+        <Navbar />
+      </nav>
 
-        <div>
-          <Header text={"Kelola Ruangan"} />
-          <TableRuangan />
-        </div>
+      <div>
+        <Header text={"Kelola Ruangan"} />
+        <TableRuangan />
       </div>
     </main>
   );

@@ -6,7 +6,9 @@ import Header from "../Header";
 const PageBarang = () => {
   return (
     <main>
-      <div className="lg:hidden md:block block">
+      <div className="lg:hidden md:block block"></div>
+
+      <div>
         <nav className="">
           <Navbar />
         </nav>
@@ -15,10 +17,6 @@ const PageBarang = () => {
           <Header text={"Data Inventaris"} />
           <TableItem />
         </div>
-      </div>
-
-      <div>
-
       </div>
     </main>
   );

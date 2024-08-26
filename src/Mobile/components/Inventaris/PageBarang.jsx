@@ -7,19 +7,17 @@ const PageBarang = () => {
   return (
     <main>
       <div className="lg:hidden md:block block">
-        <nav className="">
-          <Navbar />
-        </nav>
-
+      </div>
         <div>
-          <Header text={"Data Inventaris"} />
-          <TableItem />
+          <nav className="">
+            <Navbar />
+          </nav>
+
+          <div>
+            <Header text={"Data Inventaris"} />
+            <TableItem />
+          </div>
         </div>
-      </div>
-
-      <div>
-
-      </div>
     </main>
   );
 };
