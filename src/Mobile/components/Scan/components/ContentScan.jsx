@@ -57,7 +57,7 @@ const ContentScan = () => {
             if (code) {
               const result = code.data;
               setScanResult(result);
-              window.location.href = code.data;
+              window.open(result, '_blank');
               return; // Stop detection after successful scan
             }
           } catch (error) {
