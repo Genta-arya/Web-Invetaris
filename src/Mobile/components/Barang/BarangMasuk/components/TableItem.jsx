@@ -44,10 +44,7 @@ const TableItem = () => {
     setSearchTerm(event.target.value || "");
   };
 
-  const handleAddItem = (newItem) => {
-    setData([...data, newItem]);
-    setIsModalOpen(false);
-  };
+
 
   const formatCurrency = (value) => {
     if (value === null || value === undefined) return "";
@@ -84,7 +81,7 @@ const TableItem = () => {
     );
 
   return (
-    <div className="p-4">
+    <div className="p-4 lg:px-12">
       <div className="mb-4 flex-col flex gap-4 justify-between">
         <input
           type="text"
@@ -127,27 +124,27 @@ const TableItem = () => {
         </div>
       ) : (
         <>
-          <div className="scroll-container overflow-x-auto">
+          <div className="scroll-container overflow-x-auto ">
             <table className="min-w-full bg-white border-2 border-gray-300">
               <thead>
                 <tr className="text-xs">
                   <th className="border-b py-2 px-4 text-center">Aksi</th>
-                  <th className="border-b py-2 px-4 text-left">Barcode</th>
-                  <th className="border-b-2 py-2 px-4 text-left">
+                  <th className="border-b py-2 px-4 text-center">Barcode</th>
+                  <th className="border-b-2 py-2 px-4 text-center">
                     Nama Barang
                   </th>
-                  <th className="border-b py-2 px-4 text-left">
+                  <th className="border-b py-2 px-4 text-center">
                     Nomor Register
                   </th>
-                  <th className="border-b py-2 px-4 text-left">Merk Type</th>
-                  <th className="border-b py-2 px-4 text-left">Jenis</th>
-                  <th className="border-b py-2 px-4 text-left">Ukuran</th>
-                  <th className="border-b py-2 px-4 text-left">Qty</th>
-                  <th className="border-b py-2 px-4 text-left">Harga Barang</th>
-                  <th className="border-b py-2 px-4 text-left">Foto</th>
+                  <th className="border-b py-2 px-4 text-center">Merk Type</th>
+                  <th className="border-b py-2 px-4 text-center">Jenis</th>
+                  <th className="border-b py-2 px-4 text-center">Ukuran</th>
+                  <th className="border-b py-2 px-4 text-center">Qty</th>
+                  <th className="border-b py-2 px-4 text-center">Harga Barang</th>
+                  <th className="border-b py-2 px-4 text-center">Foto</th>
                 </tr>
               </thead>
-              <tbody className="text-xs">
+              <tbody className="text-xs text-center">
                 {filteredData.map((item) => (
                   <tr key={item.id}>
                     <td className="border-b py-2 px-4">
@@ -185,7 +182,7 @@ const TableItem = () => {
                       {formatCurrency(item.hargaBarang)}
                     </td>
                     <td className="border-b py-2 px-4">
-                      <img src={item.foto} alt="Foto Barang" />
+                      <img src={item.foto} alt="Foto Barang" className="lg:w-52 border rounded-md lg:h-auto" />
                     </td>
                   </tr>
                 ))}

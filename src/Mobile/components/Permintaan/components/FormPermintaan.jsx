@@ -105,7 +105,7 @@ const FormPermintaan = () => {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 lg:px-12">
       <h2 className="text-base font-semibold mb-4">Permintaan Barang</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">

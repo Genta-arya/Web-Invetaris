@@ -118,7 +118,7 @@ const ContentScan = () => {
   };
 
   return (
-    <div className="relative p-4">
+    <div className="relative p-4 lg:px-12">
       {hasPermission === null ? (
         <p className="text-gray-500 mt-12">Meminta izin akses kamera...</p>
       ) : !hasPermission ? (

@@ -96,7 +96,7 @@ const ContentDetail = ({ setNamaRuangan }) => {
     );
 
   return (
-    <div className="p-4 mt-6 max-w-5xl mx-auto bg-white shadow-lg rounded-lg border border-gray-200">
+    <div className="p-4 mt-6 max-w-5xl mx-auto bg-white shadow-lg rounded-lg border border-gray-200 lg:px-12">
       <div className="mb-8">
         <h2 className="text-sm font-semibold mb-4 text-gray-700">
           Penggunaan Barang

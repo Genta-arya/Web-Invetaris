@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="bg-hijau px-4 py-4 text-white font-bold flex justify-between items-center">
+      <div className="bg-hijau px-4 py-4 text-white font-bold flex justify-between items-center lg:px-12">
         <div className="flex flex-col">
           <p>SI-ASKA</p>
           <span className="text-xs">SMKN 2 KETAPANG</span>

@@ -3,7 +3,7 @@ import handleError from "../../../../Utils/HandleError";
 import { getAllInventaris } from "../../../../Service/API/Inventaris/Service_Inventaris";
 import ModalPreview from "../../Barang/BarangMasuk/components/BarcodePreview";
 import ModalImagePreview from "./ModalImagePreview";
-import { FaPrint } from "react-icons/fa";
+import { FaPrint, FaSearch } from "react-icons/fa";
 
 const TableItem = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -82,12 +82,12 @@ const TableItem = () => {
   };
 
   return (
-    <div className="p-4">
-      <div className="mb-4 flex flex-wrap gap-4">
+    <div className="p-4 lg:px-12">
+      <div className="mb-4 flex flex-wrap gap-4 relative">
         <input
           type="text"
           placeholder="Cari Nama Barang..."
-          className="px-4 py-2 w-full text-xs border-gray-300 rounded border-2 focus:outline-none focus:ring-2 focus:ring-hijau"
+          className="px-4 py-2 w-full text-xs border-gray-300 rounded-lg border-2 focus:outline-none focus:ring-2 focus:ring-hijau"
           value={searchTerm}
           onChange={handleSearch}
         />

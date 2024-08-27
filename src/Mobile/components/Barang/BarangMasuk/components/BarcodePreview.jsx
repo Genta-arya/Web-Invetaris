@@ -23,18 +23,21 @@ const ModalPreview = ({ isOpen, onClose, imageSrc ,id }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-4 rounded shadow-lg relative">
+      <div className="bg-white p-4 rounded shadow-lg relative lg:w-[50%]">
         <button
           onClick={onClose}
           className="absolute top-2 left-3 text-gray-600 hover:text-gray-900"
         >
           &times;
         </button>
+        <div className="flex justify-center">
+
         <img
           src={imageSrc}
           alt="Barcode Preview"
-          className="max-w-xs max-h-80"
+          className="max-w-xs max-h-80 lg:max-w-full"
         />
+        </div>
         <button
           onClick={handlePrint}
           className="mt-4 px-4 py-2 w-full text-xs bg-hijau text-white rounded hover:opacity-80"

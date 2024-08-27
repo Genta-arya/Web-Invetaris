@@ -76,7 +76,7 @@ const TableRuangan = () => {
   if (loading) return <LoadingGlobal />;
 
   return (
-    <div className="p-4">
+    <div className="p-4 lg:px-12">
       <div className="mb-4 flex gap-4">
         <input
           type="text"

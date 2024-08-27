@@ -33,7 +33,7 @@ const SideBar = () => {
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
     >
       <div className="text-center text-lg font-bold py-6 border-b border-white flex flex-col">
-        <span className="text-white">Inventaris</span>
+        <span className="text-white">SI-ASKA</span>
         <span className='text-sm'>SMKN 2 KETAPANG</span>
         <span className='text-sm'>v.1.0</span>
       </div>
