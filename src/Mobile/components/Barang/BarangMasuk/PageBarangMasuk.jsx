@@ -13,7 +13,7 @@ const PageBarangMasuk = () => {
         <Navbar />
       </nav>
 
-      <div>
+      <div className="">
         <Header text={"Barang Masuk"} />
 
         <TableItem />

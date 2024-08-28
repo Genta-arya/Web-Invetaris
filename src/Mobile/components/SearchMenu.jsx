@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-
 import { FaCartFlatbedSuitcase, FaSignHanging } from "react-icons/fa6";
-import { FaBoxOpen, FaClipboardList, FaHome, FaSearch, FaSignOutAlt, FaStoreAlt } from "react-icons/fa";
+import { FaBoxOpen, FaClipboardList, FaHome, FaSearch, FaSignOutAlt, FaStoreAlt, FaChevronRight } from "react-icons/fa";
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");
@@ -12,14 +11,14 @@ const SearchBar = () => {
 
   // Daftar rute yang ingin dicari beserta ikonnya
   const routes = [
-    { path: "/", name: "Dashboard", icon: <FaHome /> },
-    { path: "/scan", name: "Scan Barang", icon: <FaBoxOpen /> },
-    { path: "/inventory", name: "Inventaris Barang", icon: <FaClipboardList /> },
-    { path: "/ruangan", name: "Kelola Ruangan", icon: <FaStoreAlt /> },
-    { path: "/permintaan", name: "Kelola Permintaan", icon: <FaClipboardList /> },
-    { path: "/inventory/barang-masuk", name: "Barang Masuk", icon: <FaSignOutAlt /> },
-    { path: "/inventory/barang-keluar", name: "Barang Keluar", icon: <FaSignHanging /> },
-    { path: "/pengajuan/permintaan", name: "Ajukan Permintaan", icon: <FaCartFlatbedSuitcase /> },
+    { path: "/", name: "Dashboard", icon: <FaHome className="text-hijau"/> },
+    { path: "/scan", name: "Scan Barang", icon: <FaBoxOpen className="text-hijau" /> },
+    { path: "/inventory", name: "Inventaris Barang", icon: <FaClipboardList className="text-hijau"/> },
+    { path: "/ruangan", name: "Kelola Ruangan", icon: <FaStoreAlt className="text-hijau" /> },
+    { path: "/permintaan", name: "Kelola Permintaan", icon: <FaClipboardList  className="text-hijau" /> },
+    { path: "/inventory/barang-masuk", name: "Barang Masuk", icon: <FaSignOutAlt className="text-hijau" /> },
+    { path: "/inventory/barang-keluar", name: "Barang Keluar", icon: <FaSignHanging className="text-hijau" /> },
+    { path: "/pengajuan/permintaan", name: "Ajukan Permintaan", icon: <FaCartFlatbedSuitcase className="text-hijau" /> },
   ];
 
   // Fungsi untuk menangani perubahan input dan menampilkan saran
@@ -67,7 +66,10 @@ const SearchBar = () => {
               className={`flex items-center px-4 py-2 cursor-pointer ${suggestion.path === location.pathname ? 'bg-gray-200 cursor-default' : 'hover:bg-gray-200'}`}
             >
               <span className="mr-3">{suggestion.icon}</span>
-              {suggestion.name}
+              <span className="flex-grow">{suggestion.name}</span>
+              {suggestion.path !== location.pathname && (
+                <FaChevronRight className="text-gray-500" />
+              )}
             </li>
           ))}
         </ul>

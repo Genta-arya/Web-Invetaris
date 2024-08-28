@@ -36,3 +36,7 @@
 .scroll-container::-webkit-scrollbar-thumb:hover {
   background: #016a6a; 
 }
+
+.scroll-container::-webkit-scrollbar {
+  display: none; /* Sembunyikan scrollbar */
+}
