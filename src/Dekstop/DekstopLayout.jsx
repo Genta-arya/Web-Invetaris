@@ -1,11 +1,15 @@
-import React from 'react'
+import React from "react";
+import SideBar from "./components/SideBar";
+import Content from "./components/Content";
+
 
 const DekstopLayout = () => {
   return (
-    <main>
-      <h1>Dekstop Layout</h1>
+    <main className="flex h-screen">
+      <SideBar />
+      <Content />
     </main>
-  )
-}
+  );
+};
 
-export default DekstopLayout
+export default DekstopLayout;

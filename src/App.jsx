@@ -5,13 +5,7 @@ import DekstopLayout from "./Dekstop/DekstopLayout";
 const App = () => {
   return (
     <main>
-      {/* <div className="hidden lg:block md:hidden">
-        <DekstopLayout />
-      </div> */}
-
-      <div className="lg:hidden md:block block">
-      </div>
-        <MobileLayout />
+      <MobileLayout />
     </main>
   );
 };
