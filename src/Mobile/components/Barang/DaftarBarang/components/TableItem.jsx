@@ -78,7 +78,7 @@ const TableItem = () => {
   };
 
   const isBarangMasukPage =
-    window.location.pathname === "/inventory/barang-masuk";
+    window.location.pathname === "/inventory/daftar-barang";
 
   if (loading)
     return (
