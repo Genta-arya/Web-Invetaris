@@ -86,7 +86,7 @@ const ModalInput = ({ isOpen, onClose, refresh }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed z-10 inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded shadow-lg md:w-[80%] w-[95%] relative"

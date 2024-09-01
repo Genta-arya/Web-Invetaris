@@ -97,7 +97,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded shadow-lg md:w-[80%] w-[95%] relative"
