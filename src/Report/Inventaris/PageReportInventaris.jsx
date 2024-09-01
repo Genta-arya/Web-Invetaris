@@ -4,22 +4,27 @@ import { useReactToPrint } from "react-to-print";
 import { getReport } from "../../Service/API/Inventaris/Service_Inventaris";
 import Navbar from "../../Mobile/components/Navbar";
 import ModalDate from "../../Mobile/components/Inventaris/components/ModalDate";
-import { FaPrint, FaFilter } from 'react-icons/fa'; // Import ikon yang diperlukan
+import { FaPrint, FaFilter } from "react-icons/fa"; // Import ikon yang diperlukan
 import Header from "../../Mobile/components/Header";
+import useLoadingStore from "../../Utils/Zustand/useLoading";
+import LoadingGlobal from "../../Mobile/components/LoadingGlobal";
 
 const PageReportInventaris = () => {
   const componentRef = useRef();
   const [dataInventaris, setDataInventaris] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedYear, setSelectedYear] = useState(new Date()); // Set default to current year
-
+  const { loading, setLoading } = useLoadingStore();
   const fetchData = async () => {
     try {
+      setLoading(true);
       const year = selectedYear.getFullYear();
       const report = await getReport(year);
       setDataInventaris(report);
     } catch (error) {
       console.error("Error fetching data: ", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -60,7 +65,7 @@ const PageReportInventaris = () => {
       currency: "IDR",
     }).format(value);
   };
-
+  if (loading) return <LoadingGlobal />;
   return (
     <>
       <Navbar />
@@ -76,7 +81,9 @@ const PageReportInventaris = () => {
           <button
             onClick={handlePrint}
             disabled={dataInventaris.length === 0} // Disable if no data
-            className={`bg-hijau text-xs text-white px-4 py-2 rounded flex items-center gap-2 ${dataInventaris.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`bg-hijau text-xs text-white px-4 py-2 rounded flex items-center gap-2 ${
+              dataInventaris.length === 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
             <FaPrint className="w-5 h-5" /> Cetak Laporan
           </button>
@@ -92,15 +99,23 @@ const PageReportInventaris = () => {
                 <table className="w-[90%] border-collapse border border-gray-300 text-xs mt-4">
                   <thead>
                     <tr className="bg-gray-200">
-                      <th className="border border-gray-300 p-2">Kode Barang</th>
-                      <th className="border border-gray-300 p-2">Nama Barang</th>
-                      <th className="border border-gray-300 p-2">Nomor Register</th>
+                      <th className="border border-gray-300 p-2">
+                        Kode Barang
+                      </th>
+                      <th className="border border-gray-300 p-2">
+                        Nama Barang
+                      </th>
+                      <th className="border border-gray-300 p-2">
+                        Nomor Register
+                      </th>
                       <th className="border border-gray-300 p-2">Merk/Type</th>
                       <th className="border border-gray-300 p-2">Ukuran</th>
                       <th className="border border-gray-300 p-2">Qty</th>
                       <th className="border border-gray-300 p-2">Tahun</th>
                       <th className="border border-gray-300 p-2">Harga</th>
-                      <th className="border border-gray-300 p-2">Asal Perolehan</th>
+                      <th className="border border-gray-300 p-2">
+                        Asal Perolehan
+                      </th>
                       <th className="border border-gray-300 p-2">Kondisi</th>
                       <th className="border border-gray-300 p-2">Ruangan</th>
                     </tr>
@@ -108,17 +123,39 @@ const PageReportInventaris = () => {
                   <tbody>
                     {dataInventaris.map((item) => (
                       <tr key={item.id}>
-                        <td className="border border-gray-300 p-2">{item.barang.kodeBarang}</td>
-                        <td className="border border-gray-300 p-2">{item.barang.namaBarang}</td>
-                        <td className="border border-gray-300 p-2">{item.barang.nomorRegister}</td>
-                        <td className="border border-gray-300 p-2">{item.barang.merkType}</td>
-                        <td className="border border-gray-300 p-2">{item.barang.ukuran}</td>
-                        <td className="border border-gray-300 p-2">{item.qty}</td>
-                        <td className="border border-gray-300 p-2">{item.barang.tahun}</td>
-                        <td className="border border-gray-300 p-2">{formatRupiah(item.barang.hargaBarang)}</td>
-                        <td className="border border-gray-300 p-2">{item.barang.perolehan}</td>
-                        <td className="border border-gray-300 p-2">{item.barang.kondisi}</td>
-                        <td className="border border-gray-300 p-2">{item.ruangan.nama}</td>
+                        <td className="border border-gray-300 p-2">
+                          {item.barang.kodeBarang}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {item.barang.namaBarang}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {item.barang.nomorRegister}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {item.barang.merkType}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {item.barang.ukuran}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {item.qty}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {item.barang.tahun}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {formatRupiah(item.barang.hargaBarang)}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {item.barang.perolehan}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {item.barang.kondisi}
+                        </td>
+                        <td className="border border-gray-300 p-2">
+                          {item.ruangan.nama}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
