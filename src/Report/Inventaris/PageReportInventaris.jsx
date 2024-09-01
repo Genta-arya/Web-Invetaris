@@ -83,7 +83,7 @@ const PageReportInventaris = () => {
         </div>
         <div className="flex justify-center">
           <div
-            className="md:w-[220mm] scroll-container lg:w-[240mm] w-[90%] min-h-[297mm] border border-gray-300 rounded-lg mt-4 mb-12 p-8 overflow-auto"
+            className="md:w-[210mm] scroll-container md:mt-12 lg:mt-12 lg:w-[240mm]  w-[95%] min-h-[297mm] border border-gray-300 rounded-lg mt-4 mb-12 p-8 lg:p-0 overflow-auto"
             style={{ boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)" }}
           >
             <div ref={componentRef} className="p-4">
