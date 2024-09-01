@@ -8,6 +8,7 @@ import { FaPrint, FaFilter } from "react-icons/fa"; // Import ikon yang diperluk
 import Header from "../../Mobile/components/Header";
 import useLoadingStore from "../../Utils/Zustand/useLoading";
 import LoadingGlobal from "../../Mobile/components/LoadingGlobal";
+import TablePreview from "./components/TablePreview";
 
 const PageReportInventaris = () => {
   const componentRef = useRef();
@@ -55,7 +56,7 @@ const PageReportInventaris = () => {
   };
 
   const handleSaveDate = (date) => {
-    setSelectedYear(date); // Set the selected date
+    setSelectedYear(date); 
     setModalOpen(false);
   };
 
@@ -69,9 +70,9 @@ const PageReportInventaris = () => {
   return (
     <>
       <Navbar />
-      <Header text="Laporan Inventaris" />
-      <div className="bg-white">
-        <div className="flex justify-start mt-4 gap-4 lg:px-16 px-4">
+      <Header text={`Laporan Inventaris ${selectedYear.getFullYear()}`}/>
+      <div className="bg-white ">
+        <div className="flex justify-start mt-4 gap-4 lg:px-16 px-4 border-b-2  pb-4">
           <button
             onClick={handleOpenModal}
             className="bg-hijau text-xs text-white px-4 py-2 rounded flex items-center gap-2"
@@ -80,7 +81,7 @@ const PageReportInventaris = () => {
           </button>
           <button
             onClick={handlePrint}
-            disabled={dataInventaris.length === 0} // Disable if no data
+            disabled={dataInventaris.length === 0} 
             className={`bg-hijau text-xs text-white px-4 py-2 rounded flex items-center gap-2 ${
               dataInventaris.length === 0 ? "opacity-50 cursor-not-allowed" : ""
             }`}
@@ -89,80 +90,7 @@ const PageReportInventaris = () => {
           </button>
         </div>
         <div className="flex justify-center">
-          <div
-            className="md:w-[210mm] scroll-container md:mt-12 lg:mt-12 lg:w-[240mm]  w-[95%] min-h-[297mm] border border-gray-300 rounded-lg mt-4 mb-12 p-8 lg:p-0 overflow-auto"
-            style={{ boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)" }}
-          >
-            <div ref={componentRef} className="p-4">
-              <div className="flex justify-center flex-col gap-4 items-center">
-                <img src={KOP} alt="KOP Surat" className="w-full bg-white" />
-                <table className="w-[90%] border-collapse border border-gray-300 text-xs mt-4">
-                  <thead>
-                    <tr className="bg-gray-200">
-                      <th className="border border-gray-300 p-2">
-                        Kode Barang
-                      </th>
-                      <th className="border border-gray-300 p-2">
-                        Nama Barang
-                      </th>
-                      <th className="border border-gray-300 p-2">
-                        Nomor Register
-                      </th>
-                      <th className="border border-gray-300 p-2">Merk/Type</th>
-                      <th className="border border-gray-300 p-2">Ukuran</th>
-                      <th className="border border-gray-300 p-2">Qty</th>
-                      <th className="border border-gray-300 p-2">Tahun</th>
-                      <th className="border border-gray-300 p-2">Harga</th>
-                      <th className="border border-gray-300 p-2">
-                        Asal Perolehan
-                      </th>
-                      <th className="border border-gray-300 p-2">Kondisi</th>
-                      <th className="border border-gray-300 p-2">Ruangan</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {dataInventaris.map((item) => (
-                      <tr key={item.id}>
-                        <td className="border border-gray-300 p-2">
-                          {item.barang.kodeBarang}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {item.barang.namaBarang}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {item.barang.nomorRegister}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {item.barang.merkType}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {item.barang.ukuran}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {item.qty}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {item.barang.tahun}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {formatRupiah(item.barang.hargaBarang)}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {item.barang.perolehan}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {item.barang.kondisi}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {item.ruangan.nama}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+          <TablePreview KOP={KOP} componentRef={componentRef} dataInventaris={dataInventaris} formatRupiah={formatRupiah} />
         </div>
       </div>
       {modalOpen && (

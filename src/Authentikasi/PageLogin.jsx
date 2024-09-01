@@ -22,7 +22,7 @@ const PageLogin = () => {
       const response = await HandleLogin(username, password);
 
       toast.success("Login Berhasil");
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("token", response.data.user.token);
       setTimeout(() => {
 
         

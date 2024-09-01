@@ -11,9 +11,9 @@ export const addPermintaan = async (data) => {
   }
 };
 
-export const getPermintaan = async () => {
+export const getPermintaan = async (date) => {
   try {
-    const response = await AxiosInstance.get("/permintaan");
+    const response = await AxiosInstance.post("/filter/permintaan", { date });
     return response.data;
   } catch (error) {
     throw error;

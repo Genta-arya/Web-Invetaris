@@ -5,6 +5,8 @@ import LoadingGlobal from "../../LoadingGlobal";
 import { formatTanggal } from "../../../../Utils/Format";
 import CustomDatePicker from "./CustomeDateFilter";
 import ModalEditStatus from "./ModalEditStatus";
+import ItemNotFound from "../../../ItemNotFound";
+import useAuth from "../../../../Utils/Zustand/useAuth";
 
 const ListPermintaan = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -17,17 +19,13 @@ const ListPermintaan = () => {
   const [searchBy, setSearchBy] = useState("barang");
   const [openEdit, setOpenEdit] = useState(false);
   const [selectData, setSelectData] = useState([]);
-
+  const { user } = useAuth();
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await getPermintaan();
+      const response = await getPermintaan(filterTanggal);
       setPermintaan(response.data);
-      setFilteredPermintaan(
-        response.data.filter(
-          (item) => formatTanggal(item.createdAt) === formatTanggal(today)
-        )
-      );
+      setFilteredPermintaan(response.data);
     } catch (error) {
       handleError(error);
     } finally {
@@ -67,11 +65,6 @@ const ListPermintaan = () => {
   const applyFilters = (date, status, term, searchBy) => {
     let filteredData = permintaan;
 
-    if (date) {
-      filteredData = filteredData.filter(
-        (item) => formatTanggal(item.createdAt) === formatTanggal(date)
-      );
-    }
     if (status) {
       if (status === "disetujui") {
         filteredData = filteredData.filter((item) => item.status === true);
@@ -95,7 +88,7 @@ const ListPermintaan = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [filterTanggal]);
 
   if (loading) return <LoadingGlobal />;
 
@@ -169,7 +162,7 @@ const ListPermintaan = () => {
 
       {filteredPermintaan.length === 0 ? (
         <p className="text-center text-gray-500 text-sm mt-10 font-bold">
-          Tidak ada permintaan
+          <ItemNotFound text="Tidak ada permintaan Hari ini" />
         </p>
       ) : (
         <div className="overflow-x-auto scroll-container">
@@ -212,8 +205,7 @@ const ListPermintaan = () => {
                     {item.ruangan.nama}
                   </td>
                   <td
-                    onClick={() => handleEdit(item)}
-                    className={`px-6 py-4 whitespace-nowrap hover:cursor-pointer hover:underline hover:font-bold 
+                    className={`px-6 py-4 whitespace-nowrap  hover:font-bold 
     ${
       item.status === true
         ? "text-green-500"
@@ -222,11 +214,16 @@ const ListPermintaan = () => {
         : "text-gray-500"
     }`}
                   >
-                    {item.status === true
-                      ? "Disetujui"
-                      : item.status === false
-                      ? "Ditolak"
-                      : "Belum Disetujui"}
+                    <button
+                      onClick={() => handleEdit(item)}
+                      disabled={user.role !== "admin"}
+                    >
+                      {item.status === true
+                        ? "Disetujui"
+                        : item.status === false
+                        ? "Ditolak"
+                        : "Belum Disetujui"}
+                    </button>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap  text-gray-500">
                     {formatTanggal(item.createdAt)}

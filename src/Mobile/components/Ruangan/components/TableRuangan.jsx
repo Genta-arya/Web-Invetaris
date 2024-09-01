@@ -11,6 +11,7 @@ import LoadingGlobal from "./../../LoadingGlobal";
 import ModalEditRuangan from "./ModalEditRuangan";
 import { toast, Toaster } from "sonner";
 import { Link, Navigate } from "react-router-dom";
+import useAuth from "../../../../Utils/Zustand/useAuth";
 
 const TableRuangan = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,7 +20,7 @@ const TableRuangan = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [ruanganList, setRuanganList] = useState([]);
   const { loading, setLoading } = useLoadingStore();
-
+  const { user } = useAuth();
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -85,12 +86,14 @@ const TableRuangan = () => {
           value={searchTerm}
           onChange={handleSearch}
         />
-        <button
-          className="border-hijau text-gray-800 font-bold border-2 text-xs px-2 py-1 rounded"
-          onClick={() => setOpenAdd(true)}
-        >
-          Tambah Ruangan
-        </button>
+        {user.role === "admin" && (
+          <button
+            className="border-hijau text-gray-800 font-bold border-2 text-xs px-2 py-1 rounded"
+            onClick={() => setOpenAdd(true)}
+          >
+            Tambah Ruangan
+          </button>
+        )}
       </div>
 
       <div className="scroll-container overflow-x-auto">
@@ -117,18 +120,22 @@ const TableRuangan = () => {
                     >
                       Detail
                     </Link>
-                    <button
-                      onClick={() => HandleEdit(ruangan)}
-                      className="border-hijau text-gray-800 font-bold border-2 w-14 px-2 py-1 rounded"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(ruangan.id)}
-                      className="border-hijau text-gray-800 font-bold border-2 w-14 px-2 py-1 rounded"
-                    >
-                      Hapus
-                    </button>
+                    {user.role === "admin" && (
+                      <>
+                        <button
+                          onClick={() => HandleEdit(ruangan)}
+                          className="border-hijau text-gray-800 font-bold border-2 w-14 px-2 py-1 rounded"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(ruangan.id)}
+                          className="border-hijau text-gray-800 font-bold border-2 w-14 px-2 py-1 rounded"
+                        >
+                          Hapus
+                        </button>
+                      </>
+                    )}
                   </div>
                 </td>
               </tr>

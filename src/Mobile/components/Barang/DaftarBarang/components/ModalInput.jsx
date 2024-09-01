@@ -13,7 +13,7 @@ const ModalInput = ({ isOpen, onClose, refresh }) => {
   const [nomorRegister, setNomorRegister] = useState("");
   const [merkType, setMerkType] = useState("");
   const [ukuran, setUkuran] = useState("");
-  const [qty, setQty] = useState("");
+
   const [hargaBarang, setHargaBarang] = useState("");
   const [kondisi, setKondisi] = useState("");
   const [foto, setFoto] = useState(null);
@@ -52,7 +52,7 @@ const ModalInput = ({ isOpen, onClose, refresh }) => {
       formData.append("nomorRegister", nomorRegister);
       formData.append("merkType", merkType);
       formData.append("ukuran", ukuran);
-      formData.append("qty", qty);
+
       formData.append("tahun", new Date().getFullYear());
       formData.append("hargaBarang", hargaBarang);
       formData.append("kondisi", kondisi);
@@ -70,7 +70,7 @@ const ModalInput = ({ isOpen, onClose, refresh }) => {
       setNomorRegister("");
       setMerkType("");
       setUkuran("");
-      setQty("");
+
       setHargaBarang("");
       setKondisi("");
       setFoto(null);
@@ -197,20 +197,6 @@ const ModalInput = ({ isOpen, onClose, refresh }) => {
               value={ukuran}
               required
               onChange={handleInputChange(setUkuran)}
-              className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-hijau"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            <label htmlFor="kodeBarang">
-              <strong className="text-sm">Stok</strong>
-            </label>
-
-            <input
-              type="number"
-              placeholder="Jumlah Stok"
-              value={qty}
-              onChange={handleInputChange(setQty)}
               className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-hijau"
             />
           </div>

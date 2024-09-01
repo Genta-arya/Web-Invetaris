@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaCartFlatbedSuitcase, FaSignHanging } from "react-icons/fa6";
-import { FaBoxOpen, FaClipboardList, FaHome, FaSearch, FaSignOutAlt, FaStoreAlt, FaChevronRight } from "react-icons/fa";
+import { FaBoxOpen, FaClipboardList, FaHome, FaSearch, FaSignOutAlt, FaStoreAlt, FaChevronRight, FaUserAlt } from "react-icons/fa";
+import useAuth from "../../Utils/Zustand/useAuth";
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
   const location = useLocation(); // Mengambil lokasi saat ini
+  const { user } = useAuth();
 
   // Daftar rute yang ingin dicari beserta ikonnya
   const routes = [
@@ -19,6 +21,7 @@ const SearchBar = () => {
     { path: "/inventory/daftar-barang", name: "Daftar Barang", icon: <FaBoxOpen className="text-hijau" /> },
     { path: "/inventory/barang-masuk", name: "Barang Masuk", icon: <FaSignOutAlt className="text-hijau" /> },
     { path: "/inventory/barang-keluar", name: "Barang Keluar", icon: <FaSignHanging className="text-hijau" /> },
+    ...(user.role === 'admin' ? [{ path: "/karyawan", name: "Kelola Pegawai", icon: <FaUserAlt className="text-hijau" /> }] : []),
     { path: "/pengajuan/permintaan", name: "Ajukan Permintaan", icon: <FaCartFlatbedSuitcase className="text-hijau" /> },
   ];
 

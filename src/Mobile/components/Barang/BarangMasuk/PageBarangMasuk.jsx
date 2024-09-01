@@ -4,6 +4,7 @@ import Navbar from "../../Navbar";
 import Header from "../../Header";
 
 import { Toaster } from "sonner";
+import TableBarangMasuk from "./components/TableBarangMasuk";
 
 const PageBarangMasuk = () => {
   return (
@@ -16,7 +17,7 @@ const PageBarangMasuk = () => {
       <div className="">
         <Header text={"Barang Masuk"} />
 
-       
+        <TableBarangMasuk />
       </div>
 
       <Toaster richColors position="top-right" />

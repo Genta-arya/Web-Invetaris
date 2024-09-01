@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import ItemNotFound from "../../../../ItemNotFound";
 import ModalEdit from "./ModalEdit";
+import ModalPenerimaanStok from "./ModalPenerimaanStok";
+import useAuth from "../../../../../Utils/Zustand/useAuth";
 
 // Modal Preview Component
 
@@ -26,6 +28,8 @@ const TableItem = () => {
   const [selectId, setSelectedId] = useState(null);
   const [selectData, setSelectData] = useState(null);
   const [isOpenEdit, setOpenEdit] = useState(false);
+  const [isOpenStok, setOpenStok] = useState(false);
+  const { user } = useAuth();
   const navigate = useNavigate();
   const fetchData = async () => {
     setLoading(true);
@@ -61,7 +65,7 @@ const TableItem = () => {
   const handleDelete = async (id) => {
     setLoading(true);
     try {
-      const response = await DeleteBarang(id);
+      await DeleteBarang(id);
       toast.success("Barang Berhasil dihapus");
       fetchData();
     } catch (error) {
@@ -99,7 +103,7 @@ const TableItem = () => {
         />
 
         <div className="flex gap-4 flex-row ">
-          {isBarangMasukPage && (
+          {isBarangMasukPage && user.role === "admin" && (
             <>
               <div className="flex gap-4">
                 <button
@@ -111,7 +115,10 @@ const TableItem = () => {
                     <p>Tambah Barang</p>
                   </div>
                 </button>
-                <button className="bg-hijau text-white px-4 py-2 rounded text-xs">
+                <button
+                  className="bg-hijau text-white px-4 py-2 rounded text-xs"
+                  onClick={() => setOpenStok(true)}
+                >
                   <div className="flex items-center gap-2">
                     <FaPlus />
                     <p>Penerimaan Stok</p>
@@ -132,7 +139,9 @@ const TableItem = () => {
             <table className="min-w-full bg-white border-2 border-gray-300">
               <thead>
                 <tr className="text-xs">
-                  <th className="border-b py-2 px-4 text-center">Aksi</th>
+                  {user.role === "admin" && (
+                    <th className="border-b py-2 px-4 text-center">Aksi</th>
+                  )}
                   <th className="border-b py-2 px-4 text-center">Barcode</th>
                   <th className="border-b-2 py-2 px-4 text-center">
                     Nama Barang
@@ -153,19 +162,24 @@ const TableItem = () => {
               <tbody className="text-xs text-center">
                 {filteredData.map((item) => (
                   <tr key={item.id}>
-                    <td className="border-b py-2 px-4">
-                      <div className="flex gap-2 items-center">
-                        <button onClick={() => handleEdit(item)} className="bg-white text-black border border-hijau font-bold px-2 py-1 rounded w-14">
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDelete(item.id)}
-                          className="bg-white text-black border border-hijau font-bold px-2 py-1 rounded w-14"
-                        >
-                          Hapus
-                        </button>
-                      </div>
-                    </td>
+                    {user.role === "admin" && (
+                      <td className="border-b py-2 px-4">
+                        <div className="flex gap-2 items-center">
+                          <button
+                            onClick={() => handleEdit(item)}
+                            className="bg-white text-black border border-hijau font-bold px-2 py-1 rounded w-14"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDelete(item.id)}
+                            className="bg-white text-black border border-hijau font-bold px-2 py-1 rounded w-14"
+                          >
+                            Hapus
+                          </button>
+                        </div>
+                      </td>
+                    )}
                     <td className="border-b py-2 px-4">
                       <img
                         src={item.imageBarcode}
@@ -208,12 +222,11 @@ const TableItem = () => {
         refresh={fetchData}
       />
 
-      <ModalEdit 
-      isOpen={isOpenEdit}
-      onClose={() => setOpenEdit(false)}
-      refresh={fetchData}
-      data={selectData}
-
+      <ModalEdit
+        isOpen={isOpenEdit}
+        onClose={() => setOpenEdit(false)}
+        refresh={fetchData}
+        data={selectData}
       />
 
       {/* Modal Preview */}
@@ -223,6 +236,12 @@ const TableItem = () => {
         imageSrc={previewImage}
         id={selectId}
       />
+      {isOpenStok && (
+        <ModalPenerimaanStok
+          refresh={fetchData}
+          onClose={() => setOpenStok(false)}
+        />
+      )}
     </div>
   );
 };

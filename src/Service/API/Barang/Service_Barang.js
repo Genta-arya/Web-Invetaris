@@ -52,9 +52,9 @@ export const ReturBarang = async (id) => {
   }
 };
 
-export const getBarangKeluar = async () => {
+export const getBarangKeluar = async (date) => {
   try {
-    const response = await AxiosInstance.get("/barang/keluar");
+    const response = await AxiosInstance.post("/barang/keluar", { date });
     return response.data;
   } catch (error) {
     throw error;
@@ -64,6 +64,24 @@ export const getBarangKeluar = async () => {
 export const EditBarang = async (data) => {
   try {
     const response = await AxiosInstance.put(`/barang/${data.id}`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateBarangMasuk = async (data) => {
+  try {
+    const response = await AxiosInstance.post(`/barang/masuk`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getBarangMasuk = async (date) => {
+  try {
+    const response = await AxiosInstance.post("/filter/barang/masuk", { date });
     return response.data;
   } catch (error) {
     throw error;

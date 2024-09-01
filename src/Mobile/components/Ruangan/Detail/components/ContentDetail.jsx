@@ -8,6 +8,7 @@ import { ReturBarang } from "../../../../../Service/API/Barang/Service_Barang";
 import LoadingGlobal from "../../../LoadingGlobal";
 import { formatDate } from "../../../../../Utils/Format";
 import ModalPreview from "../../../Barang/DaftarBarang/components/BarcodePreview";
+import useAuth from "../../../../../Utils/Zustand/useAuth";
 
 const ContentDetail = ({ setNamaRuangan }) => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const ContentDetail = ({ setNamaRuangan }) => {
   const { loading, setLoading } = useLoadingStore();
   const [selectImage, setSelectImage] = useState(null);
   const [openModal, setOpenModal] = useState(false);
-
+  const { user } = useAuth();
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -163,7 +164,7 @@ const ContentDetail = ({ setNamaRuangan }) => {
                         >
                           Lihat Barcode
                         </button>
-                        {barang.jenis === "Asset" && (
+                        {barang.jenis === "Asset" && user.role === "admin" && (
                           <button
                             onClick={() => handleSelectBarang(barang.id)}
                             className="text-xs text-red-500 underline"
