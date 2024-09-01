@@ -8,3 +8,14 @@ export const getAllInventaris = async () => {
     throw error;
   }
 };
+
+export const getReport = async (data) => {
+  try {
+    const response = await AxiosInstance.post("/report/inventaris", {
+      date:data,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

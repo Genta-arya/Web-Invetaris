@@ -1,26 +1,29 @@
 import React, { useRef, useEffect, useState } from "react";
 import KOP from "../../assets/KOP.png";
 import { useReactToPrint } from "react-to-print";
-import { getAllInventaris } from "../../Service/API/Inventaris/Service_Inventaris";
+import { getReport } from "../../Service/API/Inventaris/Service_Inventaris";
 import Navbar from "../../Mobile/components/Navbar";
-
+import ModalDate from "../../Mobile/components/Inventaris/components/ModalDate";
+import { FaPrint, FaFilter } from 'react-icons/fa'; // Import ikon yang diperlukan
+import Header from "../../Mobile/components/Header";
 
 const PageReportInventaris = () => {
   const componentRef = useRef();
   const [dataInventaris, setDataInventaris] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(new Date()); // Set default to current year
+
+  const fetchData = async () => {
+    try {
+      const year = selectedYear.getFullYear();
+      const report = await getReport(year);
+      setDataInventaris(report);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getAllInventaris();
-        const originalData = response.data;
-        const multipliedData = Array(5).fill(originalData).flat(); // Menggandakan data sebanyak 5 kali
-        setDataInventaris(multipliedData);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -29,7 +32,7 @@ const PageReportInventaris = () => {
     pageStyle: `
       @media print {
         @page {
-          size:  landscape;
+          size: landscape;
           margin: 20mm;
         }
         .page-break { page-break-before: always; }
@@ -37,6 +40,19 @@ const PageReportInventaris = () => {
       }
     `,
   });
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleSaveDate = (date) => {
+    setSelectedYear(date); // Set the selected date
+    setModalOpen(false);
+  };
 
   const formatRupiah = (value) => {
     return new Intl.NumberFormat("id-ID", {
@@ -48,28 +64,31 @@ const PageReportInventaris = () => {
   return (
     <>
       <Navbar />
-      <div className="bg-white ">
-        <div className="flex justify-center mt-4">
+      <Header text="Laporan Inventaris" />
+      <div className="bg-white">
+        <div className="flex justify-start mt-4 gap-4 lg:px-16 px-4">
+          <button
+            onClick={handleOpenModal}
+            className="bg-hijau text-xs text-white px-4 py-2 rounded flex items-center gap-2"
+          >
+            <FaFilter className="w-5 h-5" /> Filter Tahun
+          </button>
           <button
             onClick={handlePrint}
-            className="bg-hijau text-white px-4 py-2 rounded"
+            disabled={dataInventaris.length === 0} // Disable if no data
+            className={`bg-hijau text-xs text-white px-4 py-2 rounded flex items-center gap-2 ${dataInventaris.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            Cetak Laporan
+            <FaPrint className="w-5 h-5" /> Cetak Laporan
           </button>
         </div>
-        <div className="flex justify-center ">
+        <div className="flex justify-center">
           <div
-            className="md:w-[220mm] lg:w-[240mm] min-h-[297mm] border border-gray-300 rounded-lg mt-4 mb-12 p-8"
+            className="md:w-[220mm] scroll-container lg:w-[240mm] w-[90%] min-h-[297mm] border border-gray-300 rounded-lg mt-4 mb-12 p-8 overflow-auto"
             style={{ boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)" }}
           >
             <div ref={componentRef} className="p-4">
-              {/* Bagian ini adalah konten yang akan dicetak */}
               <div className="flex justify-center flex-col gap-4 items-center">
-                <img
-                  src={KOP}
-                  alt="KOP Surat"
-                  className="w-full bg-white"
-                />
+                <img src={KOP} alt="KOP Surat" className="w-full bg-white" />
                 <table className="w-[90%] border-collapse border border-gray-300 text-xs mt-4">
                   <thead>
                     <tr className="bg-gray-200">
@@ -87,8 +106,8 @@ const PageReportInventaris = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {dataInventaris.map((item, index) => (
-                      <tr key={`${item.id}-${index}`} >
+                    {dataInventaris.map((item) => (
+                      <tr key={item.id}>
                         <td className="border border-gray-300 p-2">{item.barang.kodeBarang}</td>
                         <td className="border border-gray-300 p-2">{item.barang.namaBarang}</td>
                         <td className="border border-gray-300 p-2">{item.barang.nomorRegister}</td>
@@ -104,12 +123,20 @@ const PageReportInventaris = () => {
                     ))}
                   </tbody>
                 </table>
-  
               </div>
             </div>
           </div>
         </div>
       </div>
+      {modalOpen && (
+        <ModalDate
+          refresh={fetchData}
+          onClose={handleCloseModal}
+          selectedDate={selectedYear}
+          setSelectedDate={setSelectedYear}
+          onSave={handleSaveDate}
+        />
+      )}
     </>
   );
 };

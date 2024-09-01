@@ -1,11 +1,10 @@
 import React from "react";
 import Navbar from "../../Navbar";
-
 import Header from "../../Header";
-
 import { Toaster } from "sonner";
+import TableItem from "./components/TableItem";
 
-const PageBarangMasuk = () => {
+const PageDaftarBarang = () => {
   return (
     <main>
       <div className="lg:hidden md:block block"></div>
@@ -14,9 +13,9 @@ const PageBarangMasuk = () => {
       </nav>
 
       <div className="">
-        <Header text={"Barang Masuk"} />
+        <Header text={"Daftar Barang"} />
 
-       
+        <TableItem />
       </div>
 
       <Toaster richColors position="top-right" />
@@ -24,4 +23,4 @@ const PageBarangMasuk = () => {
   );
 };
 
-export default PageBarangMasuk;
+export default PageDaftarBarang;

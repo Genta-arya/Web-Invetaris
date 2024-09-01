@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getSingleRuangan } from "../../../../../Service/API/Ruangan/Service_Ruangan";
 import useLoadingStore from "../../../../../Utils/Zustand/useLoading";
-import ModalPreview from "../../../Barang/BarangMasuk/components/BarcodePreview";
+
 import { toast, Toaster } from "sonner";
 import { ReturBarang } from "../../../../../Service/API/Barang/Service_Barang";
 import LoadingGlobal from "../../../LoadingGlobal";
 import { formatDate } from "../../../../../Utils/Format";
+import ModalPreview from "../../../Barang/DaftarBarang/components/BarcodePreview";
 
 const ContentDetail = ({ setNamaRuangan }) => {
   const { id } = useParams();

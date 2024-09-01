@@ -74,7 +74,7 @@ const SideBar = () => {
             onClick={toggleSubMenu1}
           >
             <FaBoxOpen className="mr-3" />
-            <span>Kelola Stok</span>
+            <span>Kelola Barang</span>
             <FaArrowRight className={`ml-auto transition-transform ${isSubMenuOpen1 ? 'rotate-90' : ''}`} />
           </div>
           <motion.ul
@@ -84,7 +84,12 @@ const SideBar = () => {
             variants={submenuVariants}
             transition={{ duration: 0.3 }}
           >
-            
+              <li>
+              <Link to={'/inventory/daftar-barang'} className={`${isSubMenuOpen1 ? "visible" : " hidden "} flex items-center p-4 transition-colors cursor-pointer ${location.pathname === '/inventory/daftar-barnag' ? 'underline' : 'hover:opacity-80'}`}>
+                <FaBoxOpen  className="mr-3" />
+                <span>Daftar Barang</span>
+              </Link>
+            </li>
             <li>
               <Link to={'/inventory/barang-masuk'} className={`${isSubMenuOpen1 ? "visible" : " hidden "} flex items-center p-4 transition-colors cursor-pointer ${location.pathname === '/inventory/barang-masuk' ? 'underline' : 'hover:opacity-80'}`}>
                 <FaSignOutAlt  className="mr-3" />

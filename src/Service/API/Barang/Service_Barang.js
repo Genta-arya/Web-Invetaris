@@ -52,7 +52,6 @@ export const ReturBarang = async (id) => {
   }
 };
 
-
 export const getBarangKeluar = async () => {
   try {
     const response = await AxiosInstance.get("/barang/keluar");
@@ -60,4 +59,13 @@ export const getBarangKeluar = async () => {
   } catch (error) {
     throw error;
   }
-}
+};
+
+export const EditBarang = async (data) => {
+  try {
+    const response = await AxiosInstance.put(`/barang/${data.id}`, data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

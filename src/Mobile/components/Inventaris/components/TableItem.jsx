@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import handleError from "../../../../Utils/HandleError";
 import { getAllInventaris } from "../../../../Service/API/Inventaris/Service_Inventaris";
-import ModalPreview from "../../Barang/BarangMasuk/components/BarcodePreview";
+
 import ModalImagePreview from "./ModalImagePreview";
+
 import { FaPrint, FaSearch } from "react-icons/fa";
+import ModalDate from "./ModalDate";
+import { useNavigate } from "react-router-dom";
 
 const TableItem = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -11,14 +14,14 @@ const TableItem = () => {
   const [selectImage, setSelectImage] = useState(null);
   const [openImage, setOpenImage] = useState(false);
   const [data, setData] = useState([]);
-
+ const navigate = useNavigate();
   useEffect(() => {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = async (year = null) => {
     try {
-      const response = await getAllInventaris();
+      const response = await getAllInventaris(year);
       setData(response.data);
     } catch (error) {
       handleError(error);
@@ -32,11 +35,13 @@ const TableItem = () => {
   const handleRoomFilter = (event) => {
     setSelectedRoom(event.target.value);
   };
+
   const handleOpenImage = (data) => {
     setOpenImage(true);
     setSelectImage(data);
   };
 
+ 
   const aggregateData = () => {
     const aggregated = {};
 
@@ -57,6 +62,10 @@ const TableItem = () => {
     return Object.values(aggregated);
   };
 
+  const handleReport = () => {
+    navigate("/report/inventaris");
+  };
+
   const aggregatedData = aggregateData();
 
   const filteredData = aggregatedData
@@ -75,10 +84,6 @@ const TableItem = () => {
       style: "currency",
       currency: "IDR",
     }).format(value);
-  };
-
-  const handlePrint = () => {
-    window.print();
   };
 
   return (
@@ -104,7 +109,10 @@ const TableItem = () => {
             </option>
           ))}
         </select>
-        <button className="px-4 py-1  text-xs bg-hijau text-white rounded hover:opacity-80">
+        <button
+          className="px-4 py-1 text-xs bg-hijau text-white rounded hover:opacity-80"
+          onClick={() => handleReport()} // Buka modal tanggal
+        >
           <div className="flex items-center gap-2">
             <FaPrint />
             <p>Rekap Tahunan</p>
@@ -182,6 +190,7 @@ const TableItem = () => {
           }}
         />
       )}
+    
     </div>
   );
 };
