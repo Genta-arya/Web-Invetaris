@@ -12,6 +12,7 @@ import ModalPreview from "./BarcodePreview";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import ItemNotFound from "../../../../ItemNotFound";
+import ModalEdit from "./ModalEdit";
 
 // Modal Preview Component
 
@@ -23,6 +24,8 @@ const TableItem = () => {
   const [previewImage, setPreviewImage] = useState("");
   const { loading, setLoading } = useLoadingStore();
   const [selectId, setSelectedId] = useState(null);
+  const [selectData, setSelectData] = useState(null);
+  const [isOpenEdit, setOpenEdit] = useState(false);
   const navigate = useNavigate();
   const fetchData = async () => {
     setLoading(true);
@@ -43,8 +46,6 @@ const TableItem = () => {
   const handleSearch = (event) => {
     setSearchTerm(event.target.value || "");
   };
-
-
 
   const formatCurrency = (value) => {
     if (value === null || value === undefined) return "";
@@ -68,6 +69,12 @@ const TableItem = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleEdit = (data) => {
+    setOpenEdit(true);
+
+    setSelectData(data);
   };
 
   const isBarangMasukPage =
@@ -104,10 +111,7 @@ const TableItem = () => {
                     <p>Tambah Barang</p>
                   </div>
                 </button>
-                <button
-                
-                  className="bg-hijau text-white px-4 py-2 rounded text-xs"
-                >
+                <button className="bg-hijau text-white px-4 py-2 rounded text-xs">
                   <div className="flex items-center gap-2">
                     <FaPlus />
                     <p>Penerimaan Stok</p>
@@ -140,7 +144,9 @@ const TableItem = () => {
                   <th className="border-b py-2 px-4 text-center">Jenis</th>
                   <th className="border-b py-2 px-4 text-center">Ukuran</th>
                   <th className="border-b py-2 px-4 text-center">Qty</th>
-                  <th className="border-b py-2 px-4 text-center">Harga Barang</th>
+                  <th className="border-b py-2 px-4 text-center">
+                    Harga Barang
+                  </th>
                   <th className="border-b py-2 px-4 text-center">Foto</th>
                 </tr>
               </thead>
@@ -149,7 +155,7 @@ const TableItem = () => {
                   <tr key={item.id}>
                     <td className="border-b py-2 px-4">
                       <div className="flex gap-2 items-center">
-                        <button className="bg-white text-black border border-hijau font-bold px-2 py-1 rounded w-14">
+                        <button onClick={() => handleEdit(item)} className="bg-white text-black border border-hijau font-bold px-2 py-1 rounded w-14">
                           Edit
                         </button>
                         <button
@@ -182,7 +188,11 @@ const TableItem = () => {
                       {formatCurrency(item.hargaBarang)}
                     </td>
                     <td className="border-b py-2 px-4">
-                      <img src={item.foto} alt="Foto Barang" className="lg:w-52 border rounded-md lg:h-auto" />
+                      <img
+                        src={item.foto}
+                        alt="Foto Barang"
+                        className="lg:w-52 border rounded-md lg:h-auto"
+                      />
                     </td>
                   </tr>
                 ))}
@@ -196,6 +206,14 @@ const TableItem = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         refresh={fetchData}
+      />
+
+      <ModalEdit 
+      isOpen={isOpenEdit}
+      onClose={() => setOpenEdit(false)}
+      refresh={fetchData}
+      data={selectData}
+
       />
 
       {/* Modal Preview */}

@@ -25,7 +25,7 @@ const SideBar = () => {
   const toggleSubMenu2 = () => setIsSubMenuOpen2(!isSubMenuOpen2);
   return (
     <motion.div
-      className="w-64 bg-hijau h-full  fixed top-0 left-0 z-50 text-white shadow-lg  overflow-x-auto pb-12"
+      className="w-64 bg-hijau h-full sidebar-scrollable  fixed top-0 left-0 z-50 text-white shadow-lg  pb-12"
       initial="hidden"
       animate="visible"
       exit="hidden"
@@ -64,18 +64,7 @@ const SideBar = () => {
                 <span>Inventaris Barang</span>
               </Link>
             </li>
-            {/* <li>
-              <Link to={'/inventory/barang-masuk'} className={`${isSubMenuOpen ? "visible" : " hidden "} flex items-center p-4 transition-colors cursor-pointer ${location.pathname === '/inventory/barang-masuk' ? 'underline' : 'hover:opacity-80'}`}>
-                <FaSignOutAlt  className="mr-3" />
-                <span>Barang Masuk</span>
-              </Link>
-            </li>
-            <li>
-              <Link to={'/inventory/barang-keluar'} className={`${isSubMenuOpen ? "visible" : " hidden "} flex items-center p-4 transition-colors cursor-pointer ${location.pathname === '/inventory/barang-keluar' ? 'border-t border-b' : 'hover:opacity-80'}`}>
-                <FaSignHanging className="mr-3" />
-                <span>Barang Keluar</span>
-              </Link>
-            </li> */}
+           
           </motion.ul>
         </li>
 

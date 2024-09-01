@@ -4,6 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import SideBar from "./SideBar";
 import { useLocation } from "react-router-dom";
 
+
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -14,6 +15,7 @@ const Navbar = () => {
 
   return (
     <>
+  
       <div className="bg-hijau px-4 py-4 text-white font-bold flex justify-between items-center lg:px-12">
         <div className="flex flex-col">
           <p>SI-ASKA</p>

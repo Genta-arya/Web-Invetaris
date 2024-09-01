@@ -3,6 +3,7 @@ import Navbar from "../Navbar";
 import TableItem from "./components/TableItem";
 import Header from "../Header";
 
+
 const PageBarang = () => {
   return (
     <main>
@@ -12,7 +13,7 @@ const PageBarang = () => {
           <nav className="">
             <Navbar />
           </nav>
-
+      
           <div>
             <Header text={"Data Inventaris"} />
             <TableItem />

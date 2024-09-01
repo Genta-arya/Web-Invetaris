@@ -37,6 +37,25 @@
   background: #016a6a; 
 }
 
-.scroll-container::-webkit-scrollbar {
-  display: none; /* Sembunyikan scrollbar */
+
+::-webkit-scrollbar-track {
+  background: #918f8f;
 }
+
+
+
+
+.sidebar-scrollable {
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #058686 #575757;
+
+}
+
+
+
+
+
+
+
+
