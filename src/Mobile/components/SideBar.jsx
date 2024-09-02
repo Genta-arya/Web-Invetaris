@@ -38,6 +38,7 @@ const submenuVariants = {
 };
 
 const SideBar = ({ role, user }) => {
+  console.log(role)
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const [isSubMenuOpen1, setIsSubMenuOpen1] = useState(false);
   const [isSubMenuOpen2, setIsSubMenuOpen2] = useState(false);

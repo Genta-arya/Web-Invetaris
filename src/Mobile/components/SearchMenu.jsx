@@ -10,7 +10,7 @@ const SearchBar = () => {
   const navigate = useNavigate();
   const location = useLocation(); // Mengambil lokasi saat ini
   const { user } = useAuth();
-
+ const role = user?.role || "user"
   // Daftar rute yang ingin dicari beserta ikonnya
   const routes = [
     { path: "/", name: "Dashboard", icon: <FaHome className="text-hijau"/> },
@@ -21,7 +21,7 @@ const SearchBar = () => {
     { path: "/inventory/daftar-barang", name: "Daftar Barang", icon: <FaBoxOpen className="text-hijau" /> },
     { path: "/inventory/barang-masuk", name: "Barang Masuk", icon: <FaSignOutAlt className="text-hijau" /> },
     { path: "/inventory/barang-keluar", name: "Barang Keluar", icon: <FaSignHanging className="text-hijau" /> },
-    ...(user.role === 'admin' ? [{ path: "/karyawan", name: "Kelola Pegawai", icon: <FaUserAlt className="text-hijau" /> }] : []),
+    ...(role === 'admin' ? [{ path: "/karyawan", name: "Kelola Pegawai", icon: <FaUserAlt className="text-hijau" /> }] : []),
     { path: "/pengajuan/permintaan", name: "Ajukan Permintaan", icon: <FaCartFlatbedSuitcase className="text-hijau" /> },
   ];
 

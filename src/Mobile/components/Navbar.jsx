@@ -9,7 +9,7 @@ const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user } = useAuth();
 
-  const role = user?.role;
+  const role = user?.role || "user";
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
