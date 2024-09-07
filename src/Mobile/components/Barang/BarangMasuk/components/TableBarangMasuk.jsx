@@ -76,7 +76,7 @@ const TableBarangMasuk = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto scroll-container">
+      <div className="scroll-container">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr className="text-xs">
@@ -94,7 +94,7 @@ const TableBarangMasuk = () => {
                   <ItemNotFound text={"Data Tidak Ditemukan untuk tanggal ini"} />
                 </td>
               </tr>
-            ) : filteredBarangMasuk.length === 0 ? (
+            ) : filteredBarangMasuk.length === 0 && searchTerm.length > 0 ? (
               <tr>
                 <td colSpan="5" className="px-6 py-4 text-gray-500">
                   <ItemNotFound text={"Barang Tidak Ditemukan, dengan kata kunci pencarian ini"} />

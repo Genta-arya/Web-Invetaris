@@ -14,14 +14,16 @@ const PageReportInventaris = () => {
   const componentRef = useRef();
   const [dataInventaris, setDataInventaris] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedYear, setSelectedYear] = useState(new Date()); // Set default to current year
+  const [selectedYear, setSelectedYear] = useState(new Date());
   const { loading, setLoading } = useLoadingStore();
   const fetchData = async () => {
     try {
       setLoading(true);
       const year = selectedYear.getFullYear();
       const report = await getReport(year);
+      // const multipliedReport = Array(5).fill(report).flat();
       setDataInventaris(report);
+      // setDataInventaris(multipliedReport);
     } catch (error) {
       console.error("Error fetching data: ", error);
     } finally {
@@ -32,14 +34,19 @@ const PageReportInventaris = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
     pageStyle: `
       @media print {
         @page {
-          size: landscape;
+          size: ${dataInventaris.length >= 6 ? "landscape" : " portrait"};
           margin: 20mm;
+        }
+        body {
+          transform: ${
+            dataInventaris.length >= 6 ? "scale(1); " : "scale(0.86)"
+          }
+    
         }
         .page-break { page-break-before: always; }
         .page-break-margin { margin-top: 10mm; }
@@ -56,7 +63,7 @@ const PageReportInventaris = () => {
   };
 
   const handleSaveDate = (date) => {
-    setSelectedYear(date); 
+    setSelectedYear(date);
     setModalOpen(false);
   };
 
@@ -70,7 +77,7 @@ const PageReportInventaris = () => {
   return (
     <>
       <Navbar />
-      <Header text={`Laporan Inventaris ${selectedYear.getFullYear()}`}/>
+      <Header text={`Laporan Inventaris ${selectedYear.getFullYear()}`} />
       <div className="bg-white ">
         <div className="flex justify-start mt-4 gap-4 lg:px-16 px-4 border-b-2  pb-4">
           <button
@@ -81,7 +88,7 @@ const PageReportInventaris = () => {
           </button>
           <button
             onClick={handlePrint}
-            disabled={dataInventaris.length === 0} 
+            disabled={dataInventaris.length === 0}
             className={`bg-hijau text-xs text-white px-4 py-2 rounded flex items-center gap-2 ${
               dataInventaris.length === 0 ? "opacity-50 cursor-not-allowed" : ""
             }`}
@@ -89,8 +96,26 @@ const PageReportInventaris = () => {
             <FaPrint className="w-5 h-5" /> Cetak Laporan
           </button>
         </div>
-        <div className="flex justify-center">
-          <TablePreview KOP={KOP} componentRef={componentRef} dataInventaris={dataInventaris} formatRupiah={formatRupiah} />
+        <div className="px-4">
+          <div className="flex flex-col  mt-2 items-center font-bold">
+            <p>Preview Laporan Inventaris</p>
+            <p className=" ">
+              Tahun {selectedYear.getFullYear()}
+            </p>
+          </div>
+          <p className="md:hidden lg:hidden block  text-xs -mb-1 text-red-500">
+            * Preview Lebih baik dilihat menggunakan tampilan landscape /
+            Dekstop
+          </p>
+        </div>
+        <div className="flex justify-center flex-col items-center">
+          <TablePreview
+            KOP={KOP}
+            length={dataInventaris.length}
+            componentRef={componentRef}
+            dataInventaris={dataInventaris}
+            formatRupiah={formatRupiah}
+          />
         </div>
       </div>
       {modalOpen && (

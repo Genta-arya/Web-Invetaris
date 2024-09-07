@@ -5,28 +5,26 @@ import { FaTimes } from "react-icons/fa";
 import { toast, Toaster } from "sonner";
 import handleError from "./../../../../Utils/HandleError";
 import { useNavigate } from "react-router-dom";
-import {
-
-  updateNamaRuangan,
-} from "../../../../Service/API/Ruangan/Service_Ruangan";
+import { updateNamaRuangan } from "../../../../Service/API/Ruangan/Service_Ruangan";
 
 const ModalEditRuangan = ({ onClose, refresh, data }) => {
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState(data.nama);
+  const [kodeRuang, setKodeRuang] = useState(data.kodeRuang);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await updateNamaRuangan(data.id, name);
+      await updateNamaRuangan(data.id, name, kodeRuang);
 
       toast.success("Ruangan Berhasil Diganti", {
         onAutoClose: () => {
           onClose();
           refresh();
         },
-      } );
+      });
     } catch (error) {
       handleError(error, navigate);
     } finally {
@@ -61,9 +59,30 @@ const ModalEditRuangan = ({ onClose, refresh, data }) => {
                 placeholder="Masukkan Nama Ruangan"
                 name="name"
                 value={name}
+                maxLength={25}
                 onChange={(e) => setName(e.target.value)}
                 required
                 id="name"
+                className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-hijau"
+              />
+            </div>
+
+            <label
+              htmlFor="kode"
+              className="block text-xs font-medium text-gray-700"
+            >
+              Kode Ruangan
+            </label>
+            <div className="mt-1">
+              <input
+                type="text"
+                placeholder="Masukkan Kode Ruangan"
+                name="kodeRuang"
+                value={kodeRuang}
+                maxLength={15}
+                onChange={(e) => setKodeRuang(e.target.value)}
+                required
+                id="kodeRuang"
                 className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-hijau"
               />
             </div>

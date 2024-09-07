@@ -15,6 +15,7 @@ import PageScan from "./Mobile/components/Scan/PageScan.jsx";
 import PageReportInventaris from "./Report/Inventaris/PageReportInventaris.jsx";
 import PageDaftarBarang from "./Mobile/components/Barang/DaftarBarang/PageDaftarBarang.jsx";
 import PageUser from "./Mobile/components/User/PageUser.jsx";
+import PageReportKIR from './Report/RuangBarang/PageReportKIR';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/report/Inventaris",
     element: <ProtectedRoute element={<PageReportInventaris />} />,
+  },
+  {
+    path: "/report/KIR/:id",
+    element: <ProtectedRoute element={<PageReportKIR />} />,
   },
   {
     path: "/karyawan",

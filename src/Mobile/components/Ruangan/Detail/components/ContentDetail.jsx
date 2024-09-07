@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getSingleRuangan } from "../../../../../Service/API/Ruangan/Service_Ruangan";
 import useLoadingStore from "../../../../../Utils/Zustand/useLoading";
 
@@ -9,6 +9,7 @@ import LoadingGlobal from "../../../LoadingGlobal";
 import { formatDate } from "../../../../../Utils/Format";
 import ModalPreview from "../../../Barang/DaftarBarang/components/BarcodePreview";
 import useAuth from "../../../../../Utils/Zustand/useAuth";
+import { FaPrint } from "react-icons/fa";
 
 const ContentDetail = ({ setNamaRuangan }) => {
   const { id } = useParams();
@@ -19,6 +20,7 @@ const ContentDetail = ({ setNamaRuangan }) => {
   const [selectImage, setSelectImage] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const { user } = useAuth();
+  const navigate = useNavigate();
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -53,8 +55,8 @@ const ContentDetail = ({ setNamaRuangan }) => {
       const response = await ReturBarang(selectedBarangId);
       if (response) {
         toast.success("Barang berhasil dikembalikan.");
-        fetchData(); // Refresh data setelah pengembalian
-        setSelectedBarangId(null); // Reset selection setelah pengembalian
+        fetchData();
+        setSelectedBarangId(null);
       }
     } catch (error) {
       console.error("Error returning barang:", error);
@@ -80,7 +82,6 @@ const ContentDetail = ({ setNamaRuangan }) => {
     return null;
   }
 
-  // Transform data into the required format
   const permintaanByMonth = ruangan.permintaan.reduce((acc, permintaan) => {
     permintaan.months.forEach((monthData) => {
       if (!acc[monthData.month]) {
@@ -90,6 +91,10 @@ const ContentDetail = ({ setNamaRuangan }) => {
     });
     return acc;
   }, {});
+  const handleReport = () => {
+    navigate("/report/KIR");
+
+  };
 
   const filteredPermintaan = Object.values(permintaanByMonth)
     .flat()
@@ -100,16 +105,32 @@ const ContentDetail = ({ setNamaRuangan }) => {
   return (
     <div className="p-4 mt-6 max-w-5xl mx-auto bg-white shadow-lg rounded-lg border border-gray-200 lg:px-12">
       <div className="mb-8">
-        <h2 className="text-sm font-semibold mb-4 text-gray-700">
-          Penggunaan Barang
-        </h2>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          placeholder="Cari barang..."
-          className="w-full px-3 py-2 outline-none text-xs mb-4 border border-hijau rounded-md"
-        />
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-sm font-semibold  text-gray-700">
+            Ruang {ruangan?.nama}
+          </h2>
+          <p className=" text-xs font-semibold  text-gray-700 border px-2 py-1 border-hijau rounded-md">
+            # {ruangan?.kodeRuang}
+          </p>
+        </div>
+        <div className="flex items-center gap-2  mb-4">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            placeholder="Cari barang..."
+            className="w-full px-3 py-1.5 placeholder:text-xs outline-none text-xs  border border-hijau rounded-md"
+          />
+          <button
+            className="px-4 py-1.5 text-xs bg-hijau text-white rounded hover:opacity-80"
+            onClick={() => handleReport()}
+          >
+            <div className="flex items-center gap-2 TEXT-XS">
+              <FaPrint />
+              <p>KIR</p>
+            </div>
+          </button>
+        </div>
         {filteredPermintaan.length === 0 ? (
           <p className="text-sm text-gray-500 text-center mt-12">
             Tidak ada barang di ruangan ini.

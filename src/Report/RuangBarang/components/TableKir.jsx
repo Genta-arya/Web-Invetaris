@@ -1,9 +1,9 @@
 import React from "react";
-import TTDLayout from "./TTDLayout";
-import HeaderReportInventaris from "./HeaderReportInventaris";
-import KOPsurat from "./KOPsurat";
+import TTDLayout from "../../Inventaris/components/TTDLayout";
 
-const TablePreview = ({
+
+
+const TablePreviewKir = ({
   componentRef,
   KOP,
   dataInventaris,
@@ -16,8 +16,7 @@ const TablePreview = ({
       style={{ boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)" }}
     >
       <div ref={componentRef} className="p-4 print:-mt-16">
-        <KOPsurat />
-        <HeaderReportInventaris length={length} />
+   
 
         <div className="flex justify-center flex-col gap-4 items-center">
           <table className="w-[90%] border-collapse border border-gray-300 text-xs mt-4">
@@ -81,4 +80,4 @@ const TablePreview = ({
   );
 };
 
-export default TablePreview;
+export default TablePreviewKir;

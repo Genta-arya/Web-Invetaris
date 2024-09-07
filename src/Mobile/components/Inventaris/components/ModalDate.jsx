@@ -10,7 +10,7 @@ const ModalDate = ({
   refresh,
 }) => {
   const handleSave = () => {
-    onSave(selectedDate.getFullYear());
+   
 
     if (typeof refresh === "function") {
       refresh();

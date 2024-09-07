@@ -12,6 +12,7 @@ import ModalEditRuangan from "./ModalEditRuangan";
 import { toast, Toaster } from "sonner";
 import { Link, Navigate } from "react-router-dom";
 import useAuth from "../../../../Utils/Zustand/useAuth";
+import { FaPlus } from "react-icons/fa";
 
 const TableRuangan = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -52,10 +53,11 @@ const TableRuangan = () => {
 
   const handleDelete = async (id) => {
     const message = `
+        Peringatan
         Menghapus ruangan ini akan menghapus:
         - Data Permintaan terkait
         - Data Inventaris terkait
-        Tetapi akan mengembalikan semua stok barang
+        Tetapi akan mengembalikan semua stok barang (Hanya Inventaris)
         Apakah Anda yakin ingin melanjutkan penghapusan ruangan ini?
     `;
 
@@ -91,7 +93,10 @@ const TableRuangan = () => {
             className="border-hijau text-gray-800 font-bold border-2 text-xs px-2 py-1 rounded"
             onClick={() => setOpenAdd(true)}
           >
-            Tambah Ruangan
+            <div className="flex gap-2 items-center">
+              <FaPlus />
+              Ruangan
+            </div>
           </button>
         )}
       </div>

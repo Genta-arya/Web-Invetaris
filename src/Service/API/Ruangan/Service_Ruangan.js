@@ -1,9 +1,10 @@
 import { AxiosInstance } from "../../axiosConfig";
 
-export const addRuangan = async (nama) => {
+export const addRuangan = async (nama, kodeRuang) => {
   try {
     const response = await AxiosInstance.post("/ruangan", {
       namaRuangan: nama,
+      kode: kodeRuang,
     });
     return response.data;
   } catch (error) {
@@ -20,10 +21,12 @@ export const getAllRuangan = async () => {
   }
 };
 
-export const updateNamaRuangan = async (id, data) => {
+export const updateNamaRuangan = async (id, nama, kode) => {
+ 
   try {
     const response = await AxiosInstance.put(`/ruangan/${id}`, {
-      nama: data,
+      nama: nama,
+      kode: kode,
     });
     return response.data;
   } catch (error) {
@@ -40,7 +43,6 @@ export const DeleteRuangan = async (id) => {
   }
 };
 
-
 export const getSingleRuangan = async (id) => {
   try {
     const response = await AxiosInstance.get(`/ruangan/${id}`);
@@ -48,4 +50,4 @@ export const getSingleRuangan = async (id) => {
   } catch (error) {
     throw error;
   }
-}
+};
