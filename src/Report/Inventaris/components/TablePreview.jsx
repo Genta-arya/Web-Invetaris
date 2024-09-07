@@ -16,29 +16,36 @@ const TablePreview = ({
       style={{ boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)" }}
     >
       <div ref={componentRef} className="p-4 print:-mt-16">
-        <KOPsurat />
+        <KOPsurat length={length} tipe={"inventaris"} />
         <HeaderReportInventaris length={length} />
 
         <div className="flex justify-center flex-col gap-4 items-center">
-          <table className="w-[90%] border-collapse border border-gray-300 text-xs mt-4">
+          <table
+            className={` ${
+              length >= 8 ? "w-full" : "print:w-[90%]"
+            } w-[90%] border-collapse border border-gray-300 text-xs mt-4`}
+          >
             <thead>
               <tr className="text-center">
+                <th className="border border-gray-300 p-2">No. Urut</th>
                 <th className="border border-gray-300 p-2">Kode Barang</th>
-                <th className="border border-gray-300 p-2">Nama Barang</th>
+                <th className="border border-gray-300 p-2">
+                  Nama Barang / Jenis Barang
+                </th>
                 <th className="border border-gray-300 p-2">Nomor Register</th>
                 <th className="border border-gray-300 p-2">Merk/Type</th>
-                <th className="border border-gray-300 p-2">Ukuran</th>
-                <th className="border border-gray-300 p-2">Qty</th>
-                <th className="border border-gray-300 p-2">Tahun</th>
+                <th className="border border-gray-300 p-2">Ukuran / CC</th>
+                <th className="border border-gray-300 p-2">Jumlah Barang</th>
+                <th className="border border-gray-300 p-2">Tahun Pembelian</th>
                 <th className="border border-gray-300 p-2">Harga</th>
-                <th className="border border-gray-300 p-2">Asal Perolehan</th>
-                <th className="border border-gray-300 p-2">Kondisi</th>
-                <th className="border border-gray-300 p-2">Ruangan</th>
+                <th className="border border-gray-300 p-2">Asal usul cara perolehan</th>
+                <th className="border border-gray-300 p-2">Ruangan Penempatan</th>
               </tr>
             </thead>
             <tbody>
-              {dataInventaris.map((item) => (
+              {dataInventaris.map((item, index) => (
                 <tr key={item.id} className="text-center">
+                  <td className="border border-gray-300 p-2">{index + 1}</td>
                   <td className="border border-gray-300 p-2">
                     {item.barang.kodeBarang}
                   </td>
@@ -65,16 +72,18 @@ const TablePreview = ({
                     {item.barang.perolehan}
                   </td>
                   <td className="border border-gray-300 p-2">
-                    {item.barang.kondisi}
-                  </td>
-                  <td className="border border-gray-300 p-2">
                     {item.ruangan.nama}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <TTDLayout length={length} />
+          <TTDLayout
+            length={length}
+            name={"HERMAN SYAHADI"}
+            nip={"19860822 201407 1001"}
+            bidang={"Pengurus Barang"}
+          />
         </div>
       </div>
     </div>

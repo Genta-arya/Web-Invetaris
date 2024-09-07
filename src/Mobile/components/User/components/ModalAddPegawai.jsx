@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { HandleRegister } from "../../../../Service/API/Authentikasi/Service_Authentikasi";
 import { toast, Toaster } from "sonner";
 import handleError from "../../../../Utils/HandleError";
+import LoadingButton from "../../LoadingButton";
 
 const AddUserModal = ({ isOpen, onClose, refresh }) => {
   const [newUser, setNewUser] = useState({
@@ -9,6 +10,7 @@ const AddUserModal = ({ isOpen, onClose, refresh }) => {
     role: "pegawai",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -17,13 +19,18 @@ const AddUserModal = ({ isOpen, onClose, refresh }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       await HandleRegister(newUser);
       toast.success("Pegawai Berhasil Ditambahkan");
-      onclose();
+      onClose();
+      refresh();
       setNewUser({ username: "", role: "pegawai", password: "" });
     } catch (error) {
+      console.log(error);
       handleError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,9 +107,10 @@ const AddUserModal = ({ isOpen, onClose, refresh }) => {
             </button>
             <button
               type="submit"
+              disabled={loading}
               className="bg-hijau text-white px-4 py-2 rounded-md shadow-md hover:bg-opacity-80"
             >
-              Registrasi
+              <LoadingButton loading={loading} text={"Registrasi"} />
             </button>
           </div>
         </form>

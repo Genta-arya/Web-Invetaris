@@ -22,7 +22,6 @@ export const getAllRuangan = async () => {
 };
 
 export const updateNamaRuangan = async (id, nama, kode) => {
- 
   try {
     const response = await AxiosInstance.put(`/ruangan/${id}`, {
       nama: nama,
@@ -46,6 +45,15 @@ export const DeleteRuangan = async (id) => {
 export const getSingleRuangan = async (id) => {
   try {
     const response = await AxiosInstance.get(`/ruangan/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getReportKir = async (id) => {
+  try {
+    const response = await AxiosInstance.get(`/report/kir/${id}`);
     return response.data;
   } catch (error) {
     throw error;

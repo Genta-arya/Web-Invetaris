@@ -16,6 +16,10 @@ import PageReportInventaris from "./Report/Inventaris/PageReportInventaris.jsx";
 import PageDaftarBarang from "./Mobile/components/Barang/DaftarBarang/PageDaftarBarang.jsx";
 import PageUser from "./Mobile/components/User/PageUser.jsx";
 import PageReportKIR from './Report/RuangBarang/PageReportKIR';
+import PageUsulan from "./Mobile/components/Usulan/PageUsulan.jsx";
+import PageReportUsulan from "./Report/Usulan/PageReportUsulan.jsx";
+
+
 
 const router = createBrowserRouter([
   {
@@ -43,8 +47,12 @@ const router = createBrowserRouter([
     element: <ProtectedRoute element={<PageReportInventaris />} />,
   },
   {
-    path: "/report/KIR/:id",
+    path: "/report/kir/:id",
     element: <ProtectedRoute element={<PageReportKIR />} />,
+  },
+  {
+    path: "/report/usulan/:id",
+    element: <ProtectedRoute element={<PageReportUsulan />} />,
   },
   {
     path: "/karyawan",
@@ -53,6 +61,12 @@ const router = createBrowserRouter([
   {
     path: "/ruangan",
     element: <ProtectedRoute element={<PageRuangan />} />,
+  },
+
+
+  {
+    path: "/usulan",
+    element: <ProtectedRoute element={<PageUsulan />} />,
   },
   {
     path: "/barang/ruangan/:id",

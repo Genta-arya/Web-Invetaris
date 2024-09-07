@@ -8,7 +8,7 @@ const HeaderReportInventaris = ({length}) => {
         <p>Peralatan dan mesin</p>
       </div>
 
-      <div className={`flex flex-col items-start font-bold text-sm mt-8 w-full ${length >= 6 ? "print:pl-12" : "print:-ml-28"} `}>
+      <div className={`flex flex-col items-start font-bold text-sm mt-8 w-full ${length >= 8 ? "print:pl-1" : "print:-ml-16"} `}>
         <div className="flex gap-4  w-full">
           <p>SATUAN PENDIDIKAN:</p>
           <p>SMK 2 KETAPANG</p>

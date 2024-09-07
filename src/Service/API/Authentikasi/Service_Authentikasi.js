@@ -51,3 +51,12 @@ export const Logout = async (token) => {
     throw error;
   }
 };
+
+export const DeleteUser = async (id) => {
+  try {
+    const response = await AxiosInstance.delete(`/user/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

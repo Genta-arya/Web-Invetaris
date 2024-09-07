@@ -1,6 +1,6 @@
 import React from "react";
 
-const TTDLayout = ({ length , name ,nip , bidang }) => {
+const TTDUsulan= ({ length , name ,nip , bidang }) => {
   const getFormattedDate = () => {
     const date = new Date();
     const options = { day: "numeric", month: "long", year: "numeric" };
@@ -10,12 +10,12 @@ const TTDLayout = ({ length , name ,nip , bidang }) => {
   return (
     <div
       className={`w-full mt-7 print:mt-4 text-sm flex justify-between ${
-        length >= 8 ? "px-24" : "print:"
+        length >= 14 ? "print:pl-10 print:pr-14" : "pr-16 pl-12 print:pl-10 print:pr-14"
       } `}
     >
-      <div className="text-center font-bold ">
-        <p className=" mb-4  uppercase">Mengetahui</p>
-        <p className=" uppercase">Kepala Sekolah</p>
+      <div className="text-center font-bold">
+        <p className="mb-4  uppercase">Mengetahui</p>
+        <p className="  uppercase">Kepala Sekolah</p>
         <br />
         <br />
         <br />
@@ -37,4 +37,4 @@ const TTDLayout = ({ length , name ,nip , bidang }) => {
   );
 };
 
-export default TTDLayout;
+export default TTDUsulan;

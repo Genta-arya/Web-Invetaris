@@ -1,15 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../../Mobile/components/Navbar";
 import Header from "../../Mobile/components/Header";
-import TablePreviewKir from "./components/TableKir";
+
 import { FaPrint } from "react-icons/fa";
 import { useReactToPrint } from "react-to-print";
 import { useParams } from "react-router-dom";
-import { getReportKir } from "../../Service/API/Ruangan/Service_Ruangan";
-import handleError from "../../Utils/HandleError";
-import LoadingGlobal from "../../Mobile/components/LoadingGlobal";
 
-const PageReportKIR = () => {
+import LoadingGlobal from "../../Mobile/components/LoadingGlobal";
+import { getReportUsulan } from "../../Service/API/Usulan/Service_Usulan";
+import TablePreviewUsulan from "./components/TableUsulan";
+
+const PageReportUsulan = () => {
   const [data, setData] = useState([]);
   const [length, setLength] = useState(0);
   const componentRef = useRef();
@@ -18,42 +19,15 @@ const PageReportKIR = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await getReportKir(id);
+      const response = await getReportUsulan(id);
       setData(response.data);
-      setLength(response.data.inventaris.length);
+      setLength(response.data.length);
     } catch (error) {
       handleError(error);
     } finally {
       setLoading(false);
     }
   };
-
-  // const fetchData = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const response = await getReportKir(id);
-
-  //     if (response.data && response.data.inventaris) {
-  //       // Menggandakan data inventaris 5 kali menggunakan loop
-  //       const multipliedInventaris = [];
-  //       for (let i = 0; i < 8; i++) {
-  //         multipliedInventaris.push(...response.data.inventaris);
-  //       }
-
-  //       const duplicatedData = {
-  //         ...response.data,
-  //         inventaris: multipliedInventaris,
-  //       };
-
-  //       setData(duplicatedData);
-  //       setLength(duplicatedData.inventaris.length);
-  //     }
-  //   } catch (error) {
-  //     handleError(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   useEffect(() => {
     fetchData();
@@ -83,7 +57,7 @@ const PageReportKIR = () => {
     <div>
       {" "}
       <Navbar />
-      <Header text={`Laporan KIR`} />
+      <Header text={`Laporan Usulan`} />
       <div className="flex justify-start mt-4 gap-4 lg:px-16 px-4 border-b-2  pb-4">
         <button
           onClick={handlePrint}
@@ -97,21 +71,17 @@ const PageReportKIR = () => {
       </div>
       <div className="px-4">
         <div className="flex flex-col  mt-4 -mb-2 items-center font-bold">
-          <p>Preview Laporan Kartu Inventaris Ruang</p>
+          <p>Preview Laporan Pengadaan Barang</p>
         </div>
         <p className="md:hidden lg:hidden block  text-xs -mb-1 mt-2 text-red-500">
           * Preview Lebih baik dilihat menggunakan tampilan landscape / Dekstop
         </p>
       </div>
       <div className="bg-white flex justify-center flex-col items-center ">
-        <TablePreviewKir
-          data={data}
-          componentRef={componentRef}
-          length={length}
-        />
+        <TablePreviewUsulan componentRef={componentRef} data={data} length={length} />
       </div>
     </div>
   );
 };
 
-export default PageReportKIR;
+export default PageReportUsulan;

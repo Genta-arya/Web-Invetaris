@@ -111,7 +111,7 @@ const TableItem = () => {
         </select>
         <button
           className="px-4 py-1 text-xs bg-hijau text-white rounded hover:opacity-80"
-          onClick={() => handleReport()} // Buka modal tanggal
+          onClick={() => handleReport()} 
         >
           <div className="flex items-center gap-2">
             <FaPrint />

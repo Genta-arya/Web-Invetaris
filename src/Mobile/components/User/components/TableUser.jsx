@@ -1,26 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { getUser } from "../../../../Service/API/Authentikasi/Service_Authentikasi";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import {
+  DeleteUser,
+  getUser,
+} from "../../../../Service/API/Authentikasi/Service_Authentikasi";
+import { FaEdit, FaTrash, FaTrashAlt } from "react-icons/fa";
 import AddUserModal from "./ModalAddPegawai";
 import { FaPlus } from "react-icons/fa6";
+import handleError from "../../../../Utils/HandleError";
+import LoadingGlobal from "../../LoadingGlobal";
+import { useNavigate } from "react-router-dom";
 
 const TableUser = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const response = await getUser();
+      setUsers(response.data);
+      setFilteredUsers(response.data);
+    } catch (error) {
+      handleError(error);
+     
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await getUser();
-        setUsers(response.data);
-        setFilteredUsers(response.data);
-      } catch (error) {
-        console.error("Failed to fetch users:", error);
-      }
-    };
-
     fetchUsers();
   }, []);
 
@@ -36,14 +46,17 @@ const TableUser = () => {
     setSearchTerm(e.target.value);
   };
 
-  const handleEdit = (userId) => {
-    // Implement edit functionality here
-    console.log("Edit user with ID:", userId);
-  };
+  const handleDelete = async (userId) => {
+    setLoading(true);
+    try {
+      await DeleteUser(userId);
 
-  const handleDelete = (userId) => {
-    // Implement delete functionality here
-    console.log("Delete user with ID:", userId);
+      fetchUsers();
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleAddUser = () => {
@@ -53,7 +66,7 @@ const TableUser = () => {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
-
+  if (loading) return <LoadingGlobal />;
   return (
     <div className="p-6 bg-white ">
       <div className="flex items-center justify-between mb-6">
@@ -117,16 +130,10 @@ const TableUser = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-gray-700">
                     <button
-                      onClick={() => handleEdit(user.id)}
-                      className="text-blue-600 hover:text-blue-800 mr-2 transition duration-300"
-                    >
-                      <FaEdit />
-                    </button>
-                    <button
                       onClick={() => handleDelete(user.id)}
-                      className="text-red-600 hover:text-red-800 transition duration-300"
+                      className="text-red-500 hover:opacity-80 mr-2 transition duration-300"
                     >
-                      <FaTrashAlt />
+                      <FaTrash />
                     </button>
                   </td>
                 </tr>
@@ -136,7 +143,7 @@ const TableUser = () => {
         </table>
       </div>
 
-      <AddUserModal isOpen={isModalOpen} onClose={handleModalClose} />
+      <AddUserModal isOpen={isModalOpen} refresh={fetchUsers} onClose={handleModalClose} />
     </div>
   );
 };

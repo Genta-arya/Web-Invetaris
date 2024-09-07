@@ -12,6 +12,7 @@ import LoadingButton from "../../LoadingButton";
 const FormPermintaan = () => {
   const [requests, setRequests] = useState([{ namaBarang: "", jumlah: "" }]);
   const [selectedRuang, setSelectedRuang] = useState("");
+  const [nama, setNama] = useState("");
   const [barangList, setBarangList] = useState([]);
   const [ruangList, setRuangList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -78,6 +79,7 @@ const FormPermintaan = () => {
     setLoadingSubmit(true);
     try {
       await addPermintaan({
+        nama,
         ruangan: selectedRuang,
         items: requests,
       });
@@ -110,6 +112,25 @@ const FormPermintaan = () => {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
+          <label
+            htmlFor="name"
+            className="block text-xs font-medium text-gray-700"
+          >
+            Nama Peminta
+          </label>
+          <div className="mt-1 mb-4">
+            <input
+              type="text"
+              placeholder="Nama Peminta"
+              name="name"
+              value={nama}
+              maxLength={35}
+              onChange={(e) => setNama(e.target.value)}
+              required
+              id="nama"
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-hijau"
+            />
+          </div>
           <label
             htmlFor="ruangan"
             className="block text-xs font-medium text-gray-700"

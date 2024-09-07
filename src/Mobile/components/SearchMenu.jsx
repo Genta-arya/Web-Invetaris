@@ -1,31 +1,84 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaCartFlatbedSuitcase, FaSignHanging } from "react-icons/fa6";
-import { FaBoxOpen, FaClipboardList, FaHome, FaSearch, FaSignOutAlt, FaStoreAlt, FaChevronRight, FaUserAlt } from "react-icons/fa";
+import {
+  FaBoxOpen,
+  FaClipboardList,
+  FaHome,
+  FaSearch,
+  FaSignOutAlt,
+  FaStoreAlt,
+  FaChevronRight,
+  FaUserAlt,
+} from "react-icons/fa";
 import useAuth from "../../Utils/Zustand/useAuth";
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
-  const location = useLocation(); // Mengambil lokasi saat ini
+  const location = useLocation();
   const { user } = useAuth();
- const role = user?.role || "user"
-  // Daftar rute yang ingin dicari beserta ikonnya
+  const role = user?.role || "user";
+
   const routes = [
-    { path: "/", name: "Dashboard", icon: <FaHome className="text-hijau"/> },
-    { path: "/scan", name: "Scan Barang", icon: <FaBoxOpen className="text-hijau" /> },
-    { path: "/inventory", name: "Inventaris Barang", icon: <FaClipboardList className="text-hijau"/> },
-    { path: "/ruangan", name: "Daftar Ruangan", icon: <FaStoreAlt className="text-hijau" /> },
-    { path: "/permintaan", name: "Daftar Permintaan", icon: <FaClipboardList  className="text-hijau" /> },
-    { path: "/inventory/daftar-barang", name: "Daftar Barang", icon: <FaBoxOpen className="text-hijau" /> },
-    { path: "/inventory/barang-masuk", name: "Barang Masuk", icon: <FaSignOutAlt className="text-hijau" /> },
-    { path: "/inventory/barang-keluar", name: "Barang Keluar", icon: <FaSignHanging className="text-hijau" /> },
-    ...(role === 'admin' ? [{ path: "/karyawan", name: "Kelola Pegawai", icon: <FaUserAlt className="text-hijau" /> }] : []),
-    { path: "/pengajuan/permintaan", name: "Ajukan Permintaan", icon: <FaCartFlatbedSuitcase className="text-hijau" /> },
+    { path: "/", name: "Dashboard", icon: <FaHome className="text-hijau" /> },
+    {
+      path: "/scan",
+      name: "Scan Barang",
+      icon: <FaBoxOpen className="text-hijau" />,
+    },
+    {
+      path: "/inventory",
+      name: "Inventaris Barang",
+      icon: <FaClipboardList className="text-hijau" />,
+    },
+    {
+      path: "/ruangan",
+      name: "Daftar Ruangan",
+      icon: <FaStoreAlt className="text-hijau" />,
+    },
+    {
+      path: "/permintaan",
+      name: "Daftar Permintaan",
+      icon: <FaClipboardList className="text-hijau" />,
+    },
+    {
+      path: "/inventory/daftar-barang",
+      name: "Daftar Barang",
+      icon: <FaBoxOpen className="text-hijau" />,
+    },
+    {
+      path: "/inventory/barang-masuk",
+      name: "Barang Masuk",
+      icon: <FaSignOutAlt className="text-hijau" />,
+    },
+    {
+      path: "/inventory/barang-keluar",
+      name: "Barang Keluar",
+      icon: <FaSignHanging className="text-hijau" />,
+    },
+    ...(role === "admin"
+      ? [
+          {
+            path: "/karyawan",
+            name: "Kelola Pegawai",
+            icon: <FaUserAlt className="text-hijau" />,
+          },
+        ]
+      : []),
+    {
+      path: "/pengajuan/permintaan",
+      name: "Ajukan Permintaan",
+      icon: <FaCartFlatbedSuitcase className="text-hijau" />,
+    },
+    {
+      path: "/usulan",
+      name: "Daftar Usulan",
+      icon: <FaClipboardList className="text-hijau" />,
+    },
   ];
 
-  // Fungsi untuk menangani perubahan input dan menampilkan saran
   const handleInputChange = (e) => {
     const value = e.target.value.toLowerCase();
     setQuery(value);
@@ -40,7 +93,6 @@ const SearchBar = () => {
     }
   };
 
-  // Fungsi untuk menangani klik pada saran dan menavigasi ke rute yang dipilih
   const handleSuggestionClick = (path) => {
     if (path !== location.pathname) {
       navigate(path);
@@ -67,10 +119,16 @@ const SearchBar = () => {
             <li
               key={suggestion.path}
               onClick={() => handleSuggestionClick(suggestion.path)}
-              className={`flex items-center px-4 py-2 cursor-pointer ${suggestion.path === location.pathname ? 'bg-gray-200 cursor-default' : 'hover:bg-gray-200'}`}
+              className={`flex items-center px-4 py-2 cursor-pointer ${
+                suggestion.path === location.pathname
+                  ? "bg-gray-200 cursor-default"
+                  : "hover:bg-gray-200"
+              }`}
             >
               <span className="mr-3">{suggestion.icon}</span>
-              <span className="flex-grow text-xs font-semibold text-gray-600">{suggestion.name}</span>
+              <span className="flex-grow text-xs font-semibold text-gray-600">
+                {suggestion.name}
+              </span>
               {suggestion.path !== location.pathname && (
                 <FaChevronRight className="text-gray-500" />
               )}

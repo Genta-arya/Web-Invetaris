@@ -173,6 +173,9 @@ const ListPermintaan = () => {
                   No
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Nama Peminta
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Nama Barang
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -194,6 +197,9 @@ const ListPermintaan = () => {
                 <tr key={item.id} className="text-xs">
                   <td className="px-6 py-4 whitespace-nowrap  text-gray-500">
                     {index + 1}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap  text-gray-500">
+                    {item.nama}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap  text-gray-500">
                     {item.barang.namaBarang}

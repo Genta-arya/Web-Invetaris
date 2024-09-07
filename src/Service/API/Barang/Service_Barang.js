@@ -41,10 +41,11 @@ export const GetSingleBarang = async (id) => {
   }
 };
 
-export const ReturBarang = async (id) => {
+export const ReturBarang = async (id, idx) => {
   try {
     const response = await AxiosInstance.post(`/retur/barang`, {
       barangId: id,
+      ruangId: idx,
     });
     return response.data;
   } catch (error) {

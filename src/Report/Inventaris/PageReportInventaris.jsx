@@ -21,7 +21,7 @@ const PageReportInventaris = () => {
       setLoading(true);
       const year = selectedYear.getFullYear();
       const report = await getReport(year);
-      // const multipliedReport = Array(5).fill(report).flat();
+      // const multipliedReport = Array(4).fill(report).flat();
       setDataInventaris(report);
       // setDataInventaris(multipliedReport);
     } catch (error) {
@@ -39,12 +39,13 @@ const PageReportInventaris = () => {
     pageStyle: `
       @media print {
         @page {
-          size: ${dataInventaris.length >= 6 ? "landscape" : " portrait"};
-          margin: 20mm;
+          size: ${dataInventaris.length >= 8 ? "landscape" : " portrait"};
+          margin: ${dataInventaris.length >= 8 ? "25mm" : "10mm"};
+          margin-top: 20mm;
         }
         body {
           transform: ${
-            dataInventaris.length >= 6 ? "scale(1); " : "scale(0.86)"
+            dataInventaris.length >= 8 ? "scale(1); " : "scale(0.86)"
           }
     
         }

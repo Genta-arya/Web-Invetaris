@@ -52,7 +52,7 @@ const ContentDetail = ({ setNamaRuangan }) => {
 
     setLoading(true);
     try {
-      const response = await ReturBarang(selectedBarangId);
+      const response = await ReturBarang(selectedBarangId , id);
       if (response) {
         toast.success("Barang berhasil dikembalikan.");
         fetchData();
@@ -91,8 +91,8 @@ const ContentDetail = ({ setNamaRuangan }) => {
     });
     return acc;
   }, {});
-  const handleReport = () => {
-    navigate("/report/KIR");
+  const handleReport = (id) => {
+    navigate(`/report/kir/${id}`);
 
   };
 
@@ -123,7 +123,7 @@ const ContentDetail = ({ setNamaRuangan }) => {
           />
           <button
             className="px-4 py-1.5 text-xs bg-hijau text-white rounded hover:opacity-80"
-            onClick={() => handleReport()}
+            onClick={() => handleReport(ruangan.id)}
           >
             <div className="flex items-center gap-2 TEXT-XS">
               <FaPrint />
