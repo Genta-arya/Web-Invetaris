@@ -19,7 +19,9 @@ const SearchBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
-  const role = user?.role || "user";
+  const role = user?.role;
+
+  
 
   const routes = [
     { path: "/", name: "Dashboard", icon: <FaHome className="text-hijau" /> },
@@ -102,41 +104,45 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="relative">
-      <div className="relative flex items-center">
-        <FaSearch className="absolute left-3 text-gray-500" />
-        <input
-          type="text"
-          value={query}
-          onChange={handleInputChange}
-          placeholder="Cari menu / Pindah ke menu..."
-          className="px-10 py-1.5 placeholder:text-xs w-full border rounded-lg border-gray-400 focus:outline-none"
-        />
-      </div>
-      {suggestions.length > 0 && (
-        <ul className="absolute top-full left-0 w-full shadow-2xl border-gray-300 bg-white border rounded mt-1 z-10">
-          {suggestions.map((suggestion) => (
-            <li
-              key={suggestion.path}
-              onClick={() => handleSuggestionClick(suggestion.path)}
-              className={`flex items-center px-4 py-2 cursor-pointer ${
-                suggestion.path === location.pathname
-                  ? "bg-gray-200 cursor-default"
-                  : "hover:bg-gray-200"
-              }`}
-            >
-              <span className="mr-3">{suggestion.icon}</span>
-              <span className="flex-grow text-xs font-semibold text-gray-600">
-                {suggestion.name}
-              </span>
-              {suggestion.path !== location.pathname && (
-                <FaChevronRight className="text-gray-500" />
-              )}
-            </li>
-          ))}
-        </ul>
+    <>
+      {(role === "admin" || role === "pegawai") && (
+        <div className="relative">
+          <div className="relative flex items-center">
+            <FaSearch className="absolute left-3 text-gray-500" />
+            <input
+              type="text"
+              value={query}
+              onChange={handleInputChange}
+              placeholder="Cari menu / Pindah ke menu..."
+              className="px-10 py-1.5 placeholder:text-xs w-full border rounded-lg border-gray-400 focus:outline-none"
+            />
+          </div>
+          {suggestions.length > 0 && (
+            <ul className="absolute top-full left-0 w-full shadow-2xl border-gray-300 bg-white border rounded mt-1 z-10">
+              {suggestions.map((suggestion) => (
+                <li
+                  key={suggestion.path}
+                  onClick={() => handleSuggestionClick(suggestion.path)}
+                  className={`flex items-center px-4 py-2 cursor-pointer ${
+                    suggestion.path === location.pathname
+                      ? "bg-gray-200 cursor-default"
+                      : "hover:bg-gray-200"
+                  }`}
+                >
+                  <span className="mr-3">{suggestion.icon}</span>
+                  <span className="flex-grow text-xs font-semibold text-gray-600 truncate">
+                    {suggestion.name}
+                  </span>
+                  {suggestion.path !== location.pathname && (
+                    <FaChevronRight className="text-gray-500" />
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -8,12 +8,14 @@ import useAuth from "../../Utils/Zustand/useAuth";
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user } = useAuth();
-
-  const role = user?.role || "user";
+  const username = user?.username;
+  const token = user?.token;
+  const role = user?.role; // Tidak menetapkan default "user" di sini
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
   const location = useLocation();
 
   return (
@@ -23,20 +25,20 @@ const Navbar = () => {
           <p>SI-ASKA</p>
           <span className="text-xs">SMKN 2 KETAPANG</span>
         </div>
-        {!location.pathname.startsWith("/detail") && (
+        {!location.pathname.startsWith("/detail") &&  role !== undefined && (
           <button onClick={toggleSidebar} className="text-white">
             {isSidebarOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
         )}
       </div>
       <AnimatePresence>
-        {isSidebarOpen && (
+        {isSidebarOpen && role !== undefined && (
           <>
             <div
               className="fixed inset-0 bg-black opacity-50 z-40"
               onClick={toggleSidebar}
             ></div>
-            <SideBar role={role} user={user} />
+            <SideBar role={role} user={username} token={token} />
           </>
         )}
       </AnimatePresence>

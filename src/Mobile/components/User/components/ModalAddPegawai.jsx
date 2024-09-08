@@ -27,7 +27,7 @@ const AddUserModal = ({ isOpen, onClose, refresh }) => {
       refresh();
       setNewUser({ username: "", role: "pegawai", password: "" });
     } catch (error) {
-      console.log(error);
+   
       handleError(error);
     } finally {
       setLoading(false);
@@ -54,6 +54,7 @@ const AddUserModal = ({ isOpen, onClose, refresh }) => {
               name="username"
               value={newUser.username}
               onChange={handleInputChange}
+              maxLength={20}
               required
               placeholder="Masukkan username"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-hijau"

@@ -12,7 +12,7 @@ const ModalEditStatus = ({ data, onClose, refresh }) => {
   const [qty, setQty] = useState(data.qty);
   const [ruangan, setRuangan] = useState(data.ruangan.nama);
   const [loading, setLoading] = useState(false);
-  console.log(data);
+
   const handleSave = async () => {
     if (qty > data.barang.qty) {
       toast.error("Stok tidak mencukupi, silakan masukkan jumlah yang sesuai.");

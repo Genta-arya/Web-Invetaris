@@ -19,7 +19,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
   const [qty, setQty] = useState("");
   const [hargaBarang, setHargaBarang] = useState("");
   const [kondisi, setKondisi] = useState("");
-  console.log(data);
+ 
   const [perolehan, setPerolehan] = useState("");
   const [jenisBarang, setJenisBarang] = useState("Habis Pakai"); // New state for item type
   const { loading, setLoading } = useLoadingStore();
@@ -65,7 +65,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
         nomorRegister,
         merkType,
         ukuran,
-        qty,
+
         hargaBarang,
         kondisi,
         perolehan,
@@ -126,7 +126,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
           </div>
           <div className="grid grid-cols-2 gap-2">
             <label htmlFor="kodeBarang">
-            <strong className="text-sm">No Register</strong>
+              <strong className="text-sm">No Register</strong>
             </label>
 
             <input
@@ -141,7 +141,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
 
           <div className="grid grid-cols-2 gap-2">
             <label htmlFor="kodeBarang">
-            <strong className="text-sm">Asal Perolehan</strong>
+              <strong className="text-sm">Asal Perolehan</strong>
             </label>
 
             <input
@@ -155,7 +155,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
           </div>
           <div className="grid grid-cols-2 gap-2">
             <label htmlFor="kodeBarang">
-            <strong className="text-sm">Nama Barang</strong>
+              <strong className="text-sm">Nama Barang</strong>
             </label>
 
             <input
@@ -170,7 +170,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
 
           <div className="grid grid-cols-2 gap-2">
             <label htmlFor="kodeBarang">
-            <strong className="text-sm">Merk / Type</strong>
+              <strong className="text-sm">Merk / Type</strong>
             </label>
 
             <input
@@ -185,7 +185,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
 
           <div className="grid grid-cols-2 gap-2">
             <label htmlFor="kodeBarang">
-            <strong className="text-sm">Kondisi</strong>
+              <strong className="text-sm">Kondisi</strong>
             </label>
 
             <input
@@ -200,7 +200,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
 
           <div className="grid grid-cols-2 gap-2">
             <label htmlFor="kodeBarang">
-            <strong className="text-sm">Ukuran</strong>
+              <strong className="text-sm">Ukuran</strong>
             </label>
             <input
               type="text"
@@ -214,21 +214,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
 
           <div className="grid grid-cols-2 gap-2">
             <label htmlFor="kodeBarang">
-            <strong className="text-sm">Stok</strong>
-            </label>
-
-            <input
-              type="number"
-              placeholder="Jumlah Stok"
-              value={qty}
-              onChange={handleInputChange(setQty)}
-              className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-hijau"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            <label htmlFor="kodeBarang">
-            <strong className="text-sm">Harga Barang</strong>
+              <strong className="text-sm">Harga Barang</strong>
             </label>
             <input
               type="text"
@@ -242,7 +228,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
 
           <div className="grid grid-cols-2 gap-2">
             <label htmlFor="kodeBarang">
-            <strong className="text-sm">Jenis Barang</strong>
+              <strong className="text-sm">Jenis Barang</strong>
             </label>
 
             <select

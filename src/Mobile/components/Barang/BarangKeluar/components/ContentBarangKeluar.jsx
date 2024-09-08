@@ -6,10 +6,12 @@ import LoadingGlobal from "../../../LoadingGlobal";
 import { useNavigate } from "react-router-dom";
 import TableBarangKeluar from "./TableBarangKeluar";
 import ItemNotFound from "../../../../ItemNotFound";
+
 const jenisStyles = {
   "Habis Pakai": "bg-blue-100 text-blue-800",
   Asset: "bg-green-100 text-green-800",
 };
+
 const ContentBarangKeluar = () => {
   const [barangKeluar, setBarangKeluar] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,12 +25,12 @@ const ContentBarangKeluar = () => {
   const [jenisBarangOptions] = useState(["Habis Pakai", "Asset"]);
 
   const navigate = useNavigate();
+
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await getBarangKeluar(filterTanggal);
       const data = response.data;
-
       setBarangKeluar(data);
     } catch (error) {
       handleError(error);
@@ -44,10 +46,9 @@ const ContentBarangKeluar = () => {
   useEffect(() => {
     const dataToDisplay = barangKeluar.filter((item) => {
       const matchesRuangan =
-        filterRuangan === "" ||
-        item.barang.permintaan.some((p) => p.ruangan?.nama === filterRuangan);
+        filterRuangan === "" || item.ruanganNama === filterRuangan;
 
-      const matchesNamaBarang = item.barang.namaBarang
+      const matchesNamaBarang = item.barangNama
         .toLowerCase()
         .includes(searchNamaBarang.toLowerCase());
 
@@ -56,7 +57,7 @@ const ContentBarangKeluar = () => {
         formatTanggal(item.tanggal) === formatTanggal(filterTanggal);
 
       const matchesJenisBarang =
-        filterJenisBarang === "" || item.barang.jenis === filterJenisBarang;
+        filterJenisBarang === "" || item.barangJenis === filterJenisBarang;
 
       return (
         matchesRuangan &&
@@ -147,8 +148,7 @@ const ContentBarangKeluar = () => {
 
       {filteredBarangKeluar.length === 0 ? (
         <p className="text-sm text-center mt-24">
-          <ItemNotFound  text={"Tidak ada barang keluar hari ini"}/>
-  
+          <ItemNotFound text={"Tidak ada barang keluar pada tanggal tersebut"} />
         </p>
       ) : (
         <TableBarangKeluar

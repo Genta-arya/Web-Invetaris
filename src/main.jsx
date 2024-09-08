@@ -15,11 +15,13 @@ import PageScan from "./Mobile/components/Scan/PageScan.jsx";
 import PageReportInventaris from "./Report/Inventaris/PageReportInventaris.jsx";
 import PageDaftarBarang from "./Mobile/components/Barang/DaftarBarang/PageDaftarBarang.jsx";
 import PageUser from "./Mobile/components/User/PageUser.jsx";
-import PageReportKIR from './Report/RuangBarang/PageReportKIR';
+import PageReportKIR from "./Report/RuangBarang/PageReportKIR";
 import PageUsulan from "./Mobile/components/Usulan/PageUsulan.jsx";
 import PageReportUsulan from "./Report/Usulan/PageReportUsulan.jsx";
-
-
+import PagePeminjaman from "./Mobile/components/Peminjaman/PagePeminjaman.jsx";
+import PagePengajuanPinjaman from "./Mobile/components/Peminjaman/components/Form/PagePengajuanPinjaman.jsx";
+import PrintQr from "./Mobile/components/Barang/DaftarBarang/components/PrintQr.jsx";
+import PageNotFound from "./Mobile/PageNotFound.jsx";
 
 const router = createBrowserRouter([
   {
@@ -63,7 +65,6 @@ const router = createBrowserRouter([
     element: <ProtectedRoute element={<PageRuangan />} />,
   },
 
-
   {
     path: "/usulan",
     element: <ProtectedRoute element={<PageUsulan />} />,
@@ -91,6 +92,23 @@ const router = createBrowserRouter([
   {
     path: "/inventory/barang-masuk",
     element: <ProtectedRoute element={<PageBarangMasuk />} />,
+  },
+
+  {
+    path: "/peminjaman",
+    element: <ProtectedRoute element={<PagePeminjaman />} />,
+  },
+  {
+    path: "/pengajuan/peminjaman",
+    element: <ProtectedRoute element={<PagePengajuanPinjaman />} />,
+  },
+  {
+    path: "/qrcode/barang",
+    element: <PrintQr />,
+  },
+  {
+    path: "*",
+    element: <PageNotFound />,
   },
 ]);
 

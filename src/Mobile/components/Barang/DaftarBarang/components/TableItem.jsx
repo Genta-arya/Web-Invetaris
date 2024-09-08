@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaPrint } from "react-icons/fa";
 import ModalInput from "./ModalInput";
 import handleError from "../../../../../Utils/HandleError";
 import {
@@ -15,8 +15,8 @@ import ItemNotFound from "../../../../ItemNotFound";
 import ModalEdit from "./ModalEdit";
 import ModalPenerimaanStok from "./ModalPenerimaanStok";
 import useAuth from "../../../../../Utils/Zustand/useAuth";
-
-// Modal Preview Component
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.css";
 
 const TableItem = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -81,6 +81,10 @@ const TableItem = () => {
     setSelectData(data);
   };
 
+  const print = () => {
+    navigate("/qrcode/barang");
+  };
+
   const isBarangMasukPage =
     window.location.pathname === "/inventory/daftar-barang";
 
@@ -105,26 +109,63 @@ const TableItem = () => {
         <div className="flex gap-4 flex-row ">
           {isBarangMasukPage && user.role === "admin" && (
             <>
-              <div className="flex gap-4">
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="bg-hijau text-white px-4 py-2 rounded text-xs"
-                >
-                  <div className="flex items-center gap-2">
-                    <FaPlus />
-                    <p>Tambah Barang</p>
-                  </div>
-                </button>
-                <button
-                  className="bg-hijau text-white px-4 py-2 rounded text-xs"
-                  onClick={() => setOpenStok(true)}
-                >
-                  <div className="flex items-center gap-2">
-                    <FaPlus />
-                    <p>Penerimaan Stok</p>
-                  </div>
-                </button>
-              </div>
+              <Swiper
+                freeMode
+                breakpoints={{
+                  320: {
+                    slidesPerView: 2,
+                  },
+                  480: {
+                    slidesPerView: 2.8,
+                  },
+                  420: {
+                    slidesPerView: 2.4,
+                  },
+                
+                  640: {
+                    slidesPerView: 2.5,
+                  },
+                  768: {
+                    slidesPerView: 4.5,
+                  },
+                  1024: {
+                    slidesPerView: 8.5,
+                  },
+                }}
+                slidesPerView={2.5}
+                className="mySwiper"
+              >
+                <SwiperSlide>
+                  <button
+                    onClick={() => setIsModalOpen(true)}
+                    className="bg-hijau text-white px-4 py-2 rounded text-xs"
+                  >
+                    <div className="flex items-center gap-2">
+                      <FaPlus />
+                      <p>Tambah Barang</p>
+                    </div>
+                  </button>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <button
+                    className="bg-hijau text-white px-4 py-2 rounded text-xs"
+                    onClick={() => setOpenStok(true)}
+                  >
+                    <div className="flex items-center gap-2">
+                      <FaPlus />
+                      <p>Penerimaan Stok</p>
+                    </div>
+                  </button>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <button onClick={print} className="bg-hijau text-white px-4 py-2 rounded text-xs">
+                    <div className="flex items-center gap-2">
+                      <FaPrint />
+                      <p>Cetak QrCode</p>
+                    </div>
+                  </button>
+                </SwiperSlide>
+              </Swiper>
             </>
           )}
         </div>

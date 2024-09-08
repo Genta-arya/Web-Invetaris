@@ -1,3 +1,4 @@
+import handleError from "../../../Utils/HandleError";
 import { AxiosInstance } from "../../axiosConfig";
 
 export const PostBarang = async (data) => {
@@ -41,11 +42,12 @@ export const GetSingleBarang = async (id) => {
   }
 };
 
-export const ReturBarang = async (id, idx) => {
+export const ReturBarang = async (id, idx, qty) => {
   try {
     const response = await AxiosInstance.post(`/retur/barang`, {
       barangId: id,
       ruangId: idx,
+      qty: qty,
     });
     return response.data;
   } catch (error) {
@@ -86,5 +88,14 @@ export const getBarangMasuk = async (date) => {
     return response.data;
   } catch (error) {
     throw error;
+  }
+};
+
+export const getPrintQrCode = async () => {
+  try {
+    const respose = await AxiosInstance.get("/report/barang/qrcode");
+    return respose.data;
+  } catch (error) {
+    handleError(error);
   }
 };

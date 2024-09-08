@@ -57,5 +57,18 @@
 
 
 
+.mySwiper {
+  width: 100%;
+  overflow: hidden;
+}
 
 
+.mySwiper .swiper-slide {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.mySwiper .swiper-slide button {
+  flex-shrink: 0; /* Menghindari tombol menyusut */
+}

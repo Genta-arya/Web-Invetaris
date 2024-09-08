@@ -19,6 +19,8 @@ const ContentDetail = ({ setNamaRuangan }) => {
   const { loading, setLoading } = useLoadingStore();
   const [selectImage, setSelectImage] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [qty, setQty] = useState(1);
+  const [maxQty, setMaxQty] = useState(1);
   const { user } = useAuth();
   const navigate = useNavigate();
   const fetchData = async () => {
@@ -40,8 +42,10 @@ const ContentDetail = ({ setNamaRuangan }) => {
     setSearchQuery(e.target.value);
   };
 
-  const handleSelectBarang = (barangId) => {
+  const handleSelectBarang = (barangId, qty) => {
     setSelectedBarangId(barangId);
+    setQty(qty);
+    setMaxQty(qty);
   };
 
   const handleReturnBarang = async () => {
@@ -49,10 +53,14 @@ const ContentDetail = ({ setNamaRuangan }) => {
       toast.info("Pilih barang yang ingin dikembalikan.");
       return;
     }
+    if (qty <= 0 || qty > maxQty) {
+      toast.info(`Jumlah barang ini hanya ${maxQty}.`);
+      return;
+    }
 
     setLoading(true);
     try {
-      const response = await ReturBarang(selectedBarangId , id);
+      const response = await ReturBarang(selectedBarangId, id, qty);
       if (response) {
         toast.success("Barang berhasil dikembalikan.");
         fetchData();
@@ -65,6 +73,8 @@ const ContentDetail = ({ setNamaRuangan }) => {
       setLoading(false);
     }
   };
+
+  console.log(qty);
 
   const handleOpenModal = (data) => {
     setSelectImage(data);
@@ -93,7 +103,6 @@ const ContentDetail = ({ setNamaRuangan }) => {
   }, {});
   const handleReport = (id) => {
     navigate(`/report/kir/${id}`);
-
   };
 
   const filteredPermintaan = Object.values(permintaanByMonth)
@@ -187,7 +196,9 @@ const ContentDetail = ({ setNamaRuangan }) => {
                         </button>
                         {barang.jenis === "Asset" && user.role === "admin" && (
                           <button
-                            onClick={() => handleSelectBarang(barang.id)}
+                            onClick={() =>
+                              handleSelectBarang(barang.id, item.qty)
+                            }
                             className="text-xs text-red-500 underline"
                           >
                             Kembalikan
@@ -203,10 +214,27 @@ const ContentDetail = ({ setNamaRuangan }) => {
         )}
       </div>
       {selectedBarangId && (
-        <div className="flex justify-center w-full">
+        <div className="flex flex-col justify-center w-full">
+          {/* Form Input untuk Qty */}
+          <div className="flex flex-col mb-4">
+            <label htmlFor="qty" className="text-xs font-semibold mb-2">
+              Jumlah Barang yang Dikembalikan:
+            </label>
+            <input
+              type="number"
+              id="qty"
+             max={maxQty}
+              value={qty}
+              onChange={(e) => setQty(e.target.value)}
+              min="1"
+              className="w-full px-3 py-1.5 text-xs border border-gray-300 rounded-md outline-none"
+            />
+          </div>
+
+          {/* Tombol Kembalikan Barang */}
           <button
             onClick={handleReturnBarang}
-            className="mt-4 w-full px-4 py-2 text-xs bg-hijau text-white rounded-md hover:bg-opacity-80"
+            className="mt-2 w-full px-4 py-2 text-xs bg-hijau text-white rounded-md hover:bg-opacity-80"
           >
             Kembalikan Barang
           </button>

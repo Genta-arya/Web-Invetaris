@@ -25,7 +25,6 @@ import {
 } from "react-icons/fa6";
 import handleError from "../../Utils/HandleError";
 import { Logout } from "../../Service/API/Authentikasi/Service_Authentikasi";
-import { toast } from "sonner";
 
 const sidebarVariants = {
   hidden: { x: "-100%" },
@@ -37,20 +36,20 @@ const submenuVariants = {
   visible: { opacity: 1, height: "auto" },
 };
 
-const SideBar = ({ role, user }) => {
-  console.log(role)
+const SideBar = ({ role, user, token }) => {
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const [isSubMenuOpen1, setIsSubMenuOpen1] = useState(false);
   const [isSubMenuOpen2, setIsSubMenuOpen2] = useState(false);
   const [isSubMenuOpen3, setIsSubMenuOpen3] = useState(false);
+  const [isSubMenuOpen4, setIsSubMenuOpen4] = useState(false);
   const location = useLocation();
 
   const toggleSubMenu = () => setIsSubMenuOpen(!isSubMenuOpen);
   const toggleSubMenu1 = () => setIsSubMenuOpen1(!isSubMenuOpen1);
   const toggleSubMenu2 = () => setIsSubMenuOpen2(!isSubMenuOpen2);
   const toggleSubMenu3 = () => setIsSubMenuOpen3(!isSubMenuOpen3);
+  const toggleSubMenu4 = () => setIsSubMenuOpen4(!isSubMenuOpen4);
   const handleLogout = async () => {
-    const token = user?.token;
     try {
       await Logout(token);
       localStorage.removeItem("token");
@@ -68,11 +67,13 @@ const SideBar = ({ role, user }) => {
       variants={sidebarVariants}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <div className="text-center text-lg font-bold py-6 border-b border-white flex flex-col">
+      <div className="text-center text-lg font-bold py-6 flex flex-col">
         <span className="text-white">SI-ASKA</span>
         <span className="text-sm">SMKN 2 KETAPANG</span>
         <span className="text-sm">v.1.0</span>
       </div>
+      <p className="text-center border rounded-md">{user}</p>
+      <div></div>
       <ul className="mt-4 space-y-1 text-sm">
         <Link
           to={"/"}
@@ -259,9 +260,7 @@ const SideBar = ({ role, user }) => {
 
         <li
           className={`flex flex-col ${
-            location.pathname.startsWith("/usulan")
-              ? "border-t border-b"
-              : ""
+            location.pathname.startsWith("/usulan") ? "border-t border-b" : ""
           }`}
         >
           <div
@@ -298,7 +297,65 @@ const SideBar = ({ role, user }) => {
                 <span>Daftar Usulan</span>
               </Link>
             </li>
-          
+          </motion.ul>
+        </li>
+
+        <li
+          className={`flex flex-col ${
+            location.pathname.startsWith("/peminjaman")
+              ? "border-t border-b"
+              : ""
+          }`}
+        >
+          <div
+            className="flex items-center p-4 cursor-pointer transition-colors hover:opacity-80"
+            onClick={toggleSubMenu4}
+          >
+            <FaClipboardList className="mr-3" />
+            <span>Kelola Peminjaman</span>
+            <FaArrowRight
+              className={`ml-auto transition-transform ${
+                isSubMenuOpen4 ? "rotate-90" : ""
+              }`}
+            />
+          </div>
+          <motion.ul
+            className="pl-6 space-y-0"
+            initial="hidden"
+            animate={isSubMenuOpen4 ? "visible" : "hidden"}
+            variants={submenuVariants}
+            transition={{ duration: 0.3 }}
+          >
+            <li>
+              <Link
+                to={"/peminjaman"}
+                className={`${
+                  isSubMenuOpen4 ? "visible" : " hidden "
+                } flex items-center p-4 transition-colors cursor-pointer ${
+                  location.pathname === "/peminjaman"
+                    ? "underline"
+                    : "hover:opacity-80"
+                }`}
+              >
+                <FaSignOutAlt className="mr-3" />
+                <span>Daftar Peminjaman</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={"/pengajuan/peminjaman"}
+                className={`${
+                  isSubMenuOpen4 ? "visible" : " hidden "
+                } flex items-center p-4 transition-colors cursor-pointer ${
+                  location.pathname === "/pengajuan/peminjaman"
+                    ? "underline"
+                    : "hover:opacity-80"
+                }`}
+              >
+                <FaSignOutAlt className="mr-3" />
+                <span>Ajukan Peminjaman</span>
+              </Link>
+            </li>
           </motion.ul>
         </li>
 
@@ -338,7 +395,6 @@ const SideBar = ({ role, user }) => {
             <span>Kelola Pegawai</span>
           </Link>
         )}
-       
 
         <li
           className={`flex items-center p-4 transition-colors cursor-pointer ${

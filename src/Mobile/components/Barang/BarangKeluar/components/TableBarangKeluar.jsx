@@ -8,7 +8,7 @@ const TableBarangKeluar = ({
 }) => {
   return (
     <div className="overflow-x-auto scroll-container">
-      <table className="min-w-full bg-white shadow-lg rounded-lg ">
+      <table className="min-w-full bg-white shadow-lg rounded-lg">
         <thead>
           <tr>
             <th className="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">
@@ -29,48 +29,47 @@ const TableBarangKeluar = ({
             <th className="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">
               Jenis Barang
             </th>
+            <th className="px-4 py-2 border-b text-left text-sm font-semibold text-gray-700">
+              Keterangan
+            </th>
           </tr>
         </thead>
         <tbody>
-          {filteredBarangKeluar.map((item, index) => {
-            const barang = item.barang || {};
-            const permintaan = item.barang?.permintaan?.[0] || {};
-
-            return (
-              <tr
-                key={index}
-                className="hover:bg-gray-200 hover:transition-colors cursor-pointer"
-                onClick={() =>
-                  handleNavigate(permintaan.barangId, item.barang.jenis)
-                }
-              >
-                <td className="px-4 py-2 border-b text-sm text-gray-700">
-                  {barang.namaBarang || "Nama Barang Tidak Tersedia"}
-                </td>
-                <td className="px-4 py-2 border-b text-sm text-gray-700">
-                  {permintaan.ruangan?.nama || "N/A"}
-                </td>
-                <td className="px-4 py-2 border-b text-sm text-gray-700">
-                  {formatTanggal(item.tanggal)}
-                </td>
-                <td className="px-4 py-2 border-b text-sm text-gray-700 text-center">
-                  {item.qty || 0}
-                </td>
-                <td className="px-4 py-2 border-b text-sm text-gray-700 text-center">
-                  {barang.qty || 0}
-                </td>
-                <td className="px-4 py-2 border-b text-sm text-gray-700">
-                  <span
-                    className={`inline-block px-3 py-1 text-xs font-bold rounded-full ${
-                      jenisStyles[barang.jenis] || "bg-gray-200 text-gray-800"
-                    }`}
-                  >
-                    {barang.jenis || "Jenis Tidak Tersedia"}
-                  </span>
-                </td>
-              </tr>
-            );
-          })}
+          {filteredBarangKeluar.map((item, index) => (
+            <tr
+              key={index}
+              className="hover:bg-gray-200 hover:transition-colors cursor-pointer"
+              onClick={() => handleNavigate(item.barangId)}
+            >
+              <td className="px-4 py-2 border-b text-sm text-gray-700">
+                {item.barangNama || "Nama Barang Tidak Tersedia"}
+              </td>
+              <td className="px-4 py-2 border-b text-sm text-gray-700">
+                {item.ruanganNama || "N/A"}
+              </td>
+              <td className="px-4 py-2 border-b text-sm text-gray-700">
+                {formatTanggal(item.tanggal)}
+              </td>
+              <td className="px-4 py-2 border-b text-sm text-gray-700 text-center">
+                {item._sum.qty || 0}
+              </td>
+              <td className="px-4 py-2 border-b text-sm text-gray-700 text-center">
+                {item.sisaStok || 0}
+              </td>
+              <td className="px-4 py-2 border-b text-sm text-gray-700">
+                <span
+                  className={`inline-block px-3 py-1 text-xs font-bold rounded-full ${
+                    jenisStyles[item.barangJenis] || "bg-gray-200 text-gray-800"
+                  }`}
+                >
+                  {item.barangJenis || "Jenis Tidak Tersedia"}
+                </span>
+              </td>
+              <td className="px-4 py-2 border-b text-sm text-gray-700 text-center">
+                {item.ket}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
