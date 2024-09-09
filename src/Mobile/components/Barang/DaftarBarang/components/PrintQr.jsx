@@ -17,12 +17,11 @@ const PrintQr = () => {
         const response = await getPrintQrCode();
         const data = response.data; // Sesuaikan dengan struktur data yang dikembalikan
 
-        // Membuat array dengan 50 item
         // const repeatedData = [];
-        // while (repeatedData.length < 50) {
-        //   repeatedData.push(...data.slice(0, 50 - repeatedData.length));
+        // while (repeatedData.length < 20) {
+        //   repeatedData.push(...data.slice(0, 20 - repeatedData.length));
         // }
-
+        // setQrCodeData(repeatedData);
         setQrCodeData(data);
       } catch (error) {
         console.error("Error fetching QR code data", error);
@@ -38,11 +37,12 @@ const PrintQr = () => {
     pageStyle: `
           @media print {
             @page {
-              size: landscape;
+              size: portrait;
              
             }
             body {
-            margin-top: 40mm;
+            margin-top: 10mm;
+            scale: 0.85;
             
             
             }
