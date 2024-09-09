@@ -28,7 +28,7 @@ const ContentPrint = ({ componentRef, qrCodeData }) => {
                       <span className="font-bold text-lg uppercase">{qrCode.namaBarang}</span>
                     </p>
                     <p className="text-sm text-gray-600  border-b border-black ">
-                      <span className="font-normal">
+                      <span className="font-semibold">
                         {qrCode.kodeBarang || "-"}
                       </span>
                     </p>
