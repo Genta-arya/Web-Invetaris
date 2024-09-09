@@ -61,7 +61,7 @@ const SideBar = ({ role, user, token }) => {
   };
   return (
     <motion.div
-      className="w-64 bg-hijau h-full overflow-y-auto  fixed top-0 left-0 z-50 text-white shadow-lg  pb-12"
+      className="w-64 bg-hijau h-full sidebar-scrollable  fixed top-0 left-0 z-50 text-white shadow-lg  pb-12"
       initial="hidden"
       animate="visible"
       exit="hidden"

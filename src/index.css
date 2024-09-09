@@ -47,7 +47,8 @@
 
 .sidebar-scrollable {
   overflow: auto;
-  scrollbar-width: thin;
+  scrollbar-width: none; /* Firefox */
+
   scrollbar-color: #058686 #575757;
 
 }
