@@ -60,3 +60,17 @@ export const DeleteUser = async (id) => {
     throw error;
   }
 };
+
+
+export const ChangeImage = async (data , id) => {
+  try {
+    const response = await AxiosInstance.post(`/user/avatar/${id}`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  } 
+}

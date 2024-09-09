@@ -25,6 +25,7 @@ import {
 } from "react-icons/fa6";
 import handleError from "../../Utils/HandleError";
 import { Logout } from "../../Service/API/Authentikasi/Service_Authentikasi";
+import Profil from "./Profil";
 
 const sidebarVariants = {
   hidden: { x: "-100%" },
@@ -67,13 +68,7 @@ const SideBar = ({ role, user, token }) => {
       variants={sidebarVariants}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <div className="text-center text-lg font-bold py-6 flex flex-col">
-        <span className="text-white">SI-ASKA</span>
-        <span className="text-sm">SMKN 2 KETAPANG</span>
-        <span className="text-sm">v.1.0</span>
-      </div>
-      <p className="text-center border rounded-md">{user}</p>
-      <div></div>
+      <Profil />
       <ul className="mt-4 space-y-1 text-sm">
         <Link
           to={"/"}

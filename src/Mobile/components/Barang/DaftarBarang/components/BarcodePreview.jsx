@@ -22,7 +22,7 @@ const ModalPreview = ({ isOpen, onClose, imageSrc ,id }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
       <div className="bg-white p-4 rounded shadow-lg relative lg:w-[50%]">
         <button
           onClick={onClose}
