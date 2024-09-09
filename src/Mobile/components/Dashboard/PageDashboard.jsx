@@ -16,7 +16,7 @@ const PageDashboard = () => {
       <Header text={"Dashboard"} />
       <ContentDashboard  />
 
-      <Chart />
+      
 
    
     </main>
