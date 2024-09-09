@@ -149,6 +149,8 @@ const TabelDataUsulan = () => {
           <thead>
             <tr className="bg-gray-100 text-gray-700 text-center">
               <th className="border border-gray-300 p-2">No</th>
+              <th className="border border-gray-300 p-2">Nama</th>
+              <th className="border border-gray-300 p-2">Unit Kerja</th>
               <th className="border border-gray-300 p-2">Nama Barang</th>
               <th className="border border-gray-300 p-2">Status</th>
               <th className="border border-gray-300 p-2">Tanggal</th>
@@ -162,6 +164,8 @@ const TabelDataUsulan = () => {
               data.map((item, index) => (
                 <tr key={index} className="text-center">
                   <td className="border border-gray-300 p-2">{index + 1}</td>
+                  <td className="border border-gray-300 p-2">{item.nama}</td>
+                  <td className="border border-gray-300 p-2"> {item.unit}</td>
                   <td
                     className="border border-gray-300 p-2"
                     title="Klik 2x untuk edit"
@@ -202,7 +206,7 @@ const TabelDataUsulan = () => {
                   </td>
                   <td className="border border-gray-300 p-2">
                     <select
-                      className="border border-gray-300 p-2 w-full"
+                      className="border border-gray-300 p-2"
                       value={item.status === "belum" ? "" : item.status}
                       onChange={(e) =>
                         handleStatusChange(item.id, e.target.value)
@@ -215,10 +219,10 @@ const TabelDataUsulan = () => {
                           ? "Ditolak"
                           : "Disetujui"}
                       </option>
-                      {item.status === "tolak" && user.role === "admin" && (
+                      {(item.status === "belum" || item.status === "tolak" ) && user.role === "admin" && (
                         <option value="true">Disetujui</option>
                       )}
-                      {item.status === "setuju" && user.role === "admin" && (
+                      { (item.status === "belum" || item.status === "setuju" ) && user.role === "admin" && (
                         <option value="false">Ditolak</option>
                       )}
                     </select>

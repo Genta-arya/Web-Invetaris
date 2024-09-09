@@ -7,9 +7,6 @@ import HeaderUsulan from "./HeaderUsulan";
 const TablePreviewUsulan = ({ componentRef, data, length }) => {
   console.log(length);
 
-  
-  
-
   return (
     <div
       className="md:w-[220mm] scroll-container md:mt-8 lg:mt-12 lg:w-[240mm] w-[95%] min-h-[297mm] border border-gray-300 rounded-lg mt-4 mb-12 p-8 lg:p-0 md:p-8 overflow-auto"
@@ -24,6 +21,8 @@ const TablePreviewUsulan = ({ componentRef, data, length }) => {
         >
           <KOPsurat length={length} tipe={"kir"} />
           <HeaderUsulan
+            nama={data.nama || "Tidak ada nama ruang"}
+            unit={data.unit || "Tidak ada unit"}
             tahun={data.createdAt || "Tidak ada tahun"}
             kodeLokasi={data.kodeRuang || "Tidak ada kode lokasi"}
             length={length}

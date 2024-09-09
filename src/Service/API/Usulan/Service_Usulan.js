@@ -3,7 +3,7 @@ import { AxiosInstance } from "../../axiosConfig";
 export const AddUsulan = async (data) => {
   try {
     const response = await AxiosInstance.post("/usulan", {
-      namaBarang: data,
+      data
     });
     return response.data;
   } catch (error) {

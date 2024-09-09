@@ -64,6 +64,22 @@ const TablePeminjaman = () => {
       setLoading(false);
     }
   };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+
+    date.setHours(date.getHours() - 7);
+
+    return `${date.toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    })}, ${date.toLocaleTimeString("id-ID", {
+      hour: "2-digit",
+      minute: "2-digit",
+
+      hour12: false,
+    })}`;
+  };
 
   if (loading) return <LoadingGlobal />;
 
@@ -98,6 +114,7 @@ const TablePeminjaman = () => {
                 <th className="py-2 px-4 border-b">Jumlah</th>
                 <th className="py-2 px-4 border-b">Status Verifikasi</th>
                 <th className="py-2 px-4 border-b">Tanggal Peminjaman</th>
+                <th className="py-2 px-4 border-b">Tanggal Dikembalikan</th>
                 <th className="py-2 px-4 border-b">Status Pinjam</th>
               </tr>
             </thead>
@@ -127,11 +144,14 @@ const TablePeminjaman = () => {
                     </select>
                   </td>
                   <td className="py-2 px-4 border-b">
-                    {new Date(item.createdAt).toLocaleDateString("id-ID", {
-                      day: "2-digit",
-                      month: "long",
-                      year: "numeric",
-                    })}
+                    {formatDate(item.createdAt)}
+                  </td>
+                  <td className="py-2 px-4 border-b">
+                    {item.status_kembali === "kembali" ? (
+                      <>{formatDate(item.updatedAt)}</>
+                    ) : (
+                      <>-</>
+                    )}
                   </td>
                   <td className="py-2 px-4 border-b">
                     {item.status === "setuju" && (

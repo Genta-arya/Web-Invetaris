@@ -1,20 +1,24 @@
 import React, { useState } from "react";
+import Select from "react-select"; // Import react-select
 import LoadingButton from "../../LoadingButton";
 import { Toaster, toast } from "sonner";
 import { FaTimes } from "react-icons/fa";
 import handleError from "../../../../Utils/HandleError";
 import { AddUsulan } from "../../../../Service/API/Usulan/Service_Usulan";
+import { DataUnit } from "../../../../Service/DataUnit/DataUnitKerja";
 
-const ModalUsulan = ({ onClose , refresh }) => {
+const ModalUsulan = ({ onClose, refresh }) => {
   const [namaBarang, setNamaBarang] = useState("");
+  const [namaOrang, setNamaOrang] = useState(""); // State for person's name
+  const [selectedUnit, setSelectedUnit] = useState(null); // State for selected unit
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await AddUsulan(namaBarang);
-      toast.success("Pengajuan Usulan Barang Berhasil diajukan" , {
+      const response = await AddUsulan({ namaBarang, nama: namaOrang, unit: selectedUnit.label });
+      toast.success("Pengajuan Usulan Barang Berhasil diajukan", {
         onAutoClose: () => {
           refresh();
           onClose();
@@ -24,6 +28,12 @@ const ModalUsulan = ({ onClose , refresh }) => {
       handleError(error);
     }
   };
+
+  // Format DataUnit for react-select
+  const options = DataUnit.map((unit) => ({
+    value: unit.id,
+    label: unit.name
+  }));
 
   return (
     <div>
@@ -39,7 +49,7 @@ const ModalUsulan = ({ onClose , refresh }) => {
           >
             <FaTimes />
           </button>
-          <h2 className="text-base mb-4 font-semibold">Pengajuan Barang</h2>
+          <h2 className="text-base mb-4 font-semibold">Pengusulan Barang</h2>
           <div className="space-y-4">
             <label
               htmlFor="namaBarang"
@@ -58,6 +68,45 @@ const ModalUsulan = ({ onClose , refresh }) => {
                 required
                 id="namaBarang"
                 className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-hijau"
+              />
+            </div>
+
+            <label
+              htmlFor="namaOrang"
+              className="block text-xs font-medium text-gray-700"
+            >
+              Nama Pengusul
+            </label>
+            <div className="mt-1">
+              <input
+                type="text"
+                placeholder="Ketikkan Nama Pengusul"
+                name="namaOrang"
+                maxLength={15}
+                value={namaOrang}
+                onChange={(e) => setNamaOrang(e.target.value)}
+                required
+                id="namaOrang"
+                className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-hijau"
+              />
+            </div>
+
+            <label
+              htmlFor="unit"
+              className="block text-xs font-medium text-gray-700"
+            >
+              Unit Kerja
+            </label>
+            <div className="mt-1">
+              <Select
+                id="unit"
+                options={options}
+                value={selectedUnit}
+                onChange={setSelectedUnit}
+                placeholder="Pilih Unit Kerja"
+                className="basic-single text-xs"
+                classNamePrefix="select"
+                isClearable
               />
             </div>
           </div>
