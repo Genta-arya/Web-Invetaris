@@ -21,8 +21,6 @@ const SearchBar = () => {
   const { user } = useAuth();
   const role = user?.role;
 
-  
-
   const routes = [
     { path: "/", name: "Dashboard", icon: <FaHome className="text-hijau" /> },
     {
@@ -77,6 +75,16 @@ const SearchBar = () => {
     {
       path: "/usulan",
       name: "Daftar Usulan",
+      icon: <FaClipboardList className="text-hijau" />,
+    },
+    {
+      path: "/pengajuan/peminjaman",
+      name: "Ajukan Peminjaman",
+      icon: <FaClipboardList className="text-hijau" />,
+    },
+    {
+      path: "/peminjaman",
+      name: "Daftar Peminjaman",
       icon: <FaClipboardList className="text-hijau" />,
     },
   ];
