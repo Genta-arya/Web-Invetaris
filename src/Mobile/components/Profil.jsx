@@ -111,7 +111,7 @@ const Profil = () => {
                 Batal
               </button>
               <button
-                disabled={loading}
+                disabled={loading || !selectedFile}
                 className="px-4 py-2 bg-hijau text-xs text-white rounded-md"
                 onClick={handleSaveClick}
               >
