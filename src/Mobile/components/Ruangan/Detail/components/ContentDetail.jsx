@@ -107,8 +107,11 @@ const ContentDetail = ({ setNamaRuangan }) => {
 
   const filteredPermintaan = Object.values(permintaanByMonth)
     .flat()
-    .filter((item) =>
-      item.barang.namaBarang.toLowerCase().includes(searchQuery.toLowerCase())
+    .filter(
+      (item) =>
+        item.barang.namaBarang
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) && item.barang.jenis === "Asset"
     );
 
   return (
@@ -223,7 +226,7 @@ const ContentDetail = ({ setNamaRuangan }) => {
             <input
               type="number"
               id="qty"
-             max={maxQty}
+              max={maxQty}
               value={qty}
               onChange={(e) => setQty(e.target.value)}
               min="1"
