@@ -79,7 +79,7 @@ const Profil = () => {
 
      
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white md:w-96 lg:w-96 p-6 rounded-md">
             <h2 className="text-sm mb-4 text-black font-bold">
               Ganti Foto Profil
