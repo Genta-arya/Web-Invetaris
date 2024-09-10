@@ -28,6 +28,8 @@ const ModalDate = ({
             selected={selectedDate}
             onChange={(date) => setSelectedDate(date)}
             showYearPicker
+            maxDate={new Date()}
+            minDate={new Date(2010, 0, 1)}
             dateFormat="yyyy"
             className="w-full p-2 border text-center text-sm rounded-md"
           />

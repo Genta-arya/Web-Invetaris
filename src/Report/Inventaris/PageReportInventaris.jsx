@@ -21,9 +21,9 @@ const PageReportInventaris = () => {
       setLoading(true);
       const year = selectedYear.getFullYear();
       const report = await getReport(year);
-      // const multipliedReport = Array(4).fill(report).flat();
-      setDataInventaris(report);
-      // setDataInventaris(multipliedReport);
+      const multipliedReport = Array(2).fill(report).flat();
+      // setDataInventaris(report);
+      setDataInventaris(multipliedReport);
     } catch (error) {
       console.error("Error fetching data: ", error);
     } finally {
@@ -40,8 +40,8 @@ const PageReportInventaris = () => {
       @media print {
         @page {
           size: ${dataInventaris.length >= 8 ? "landscape" : " portrait"};
-          margin: ${dataInventaris.length >= 8 ? "25mm" : "10mm"};
-          margin-top: 20mm;
+          margin: ${dataInventaris.length >= 8 ? "25mm" : "0mm"};
+          
         }
         body {
           transform: ${

@@ -11,7 +11,7 @@ const TablePreviewKir = ({ componentRef, data, length }) => {
       style={{ boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)" }}
     >
       {data ? (
-        <div className={`p-4  ${length >= 14 ? "print:p-8" : "print:p-0"} print:-mt-7 w-full`} ref={componentRef}>
+        <div className={`p-4  ${length >= 14 ? "print:p-8" : "print:p-0"}  w-full`} ref={componentRef}>
           <KOPsurat length={length} tipe={"kir"} />
           <HeaderKir
             kodeLokasi={data.kodeRuang || "Tidak ada kode lokasi"}

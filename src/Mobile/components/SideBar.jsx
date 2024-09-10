@@ -13,6 +13,8 @@ import {
   FaBookOpen,
   FaWarehouse,
   FaCamera,
+  FaClipboardCheck,
+  FaPrint,
 } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -43,6 +45,7 @@ const SideBar = ({ role, user, token }) => {
   const [isSubMenuOpen2, setIsSubMenuOpen2] = useState(false);
   const [isSubMenuOpen3, setIsSubMenuOpen3] = useState(false);
   const [isSubMenuOpen4, setIsSubMenuOpen4] = useState(false);
+  const [isSubMenuOpen5, setIsSubMenuOpen5] = useState(false);
   const location = useLocation();
 
   const toggleSubMenu = () => setIsSubMenuOpen(!isSubMenuOpen);
@@ -50,6 +53,7 @@ const SideBar = ({ role, user, token }) => {
   const toggleSubMenu2 = () => setIsSubMenuOpen2(!isSubMenuOpen2);
   const toggleSubMenu3 = () => setIsSubMenuOpen3(!isSubMenuOpen3);
   const toggleSubMenu4 = () => setIsSubMenuOpen4(!isSubMenuOpen4);
+  const toggleSubMenu5 = () => setIsSubMenuOpen5(!isSubMenuOpen5);
   const handleLogout = async () => {
     try {
       await Logout(token);
@@ -347,8 +351,81 @@ const SideBar = ({ role, user, token }) => {
                     : "hover:opacity-80"
                 }`}
               >
-                <FaSignOutAlt className="mr-3" />
+                <FaCartFlatbed className="mr-3" />
                 <span>Ajukan Peminjaman</span>
+              </Link>
+            </li>
+          </motion.ul>
+        </li>
+
+        <li
+          className={`flex flex-col ${
+            location.pathname.startsWith("/report") ? "border-t border-b" : ""
+          }`}
+        >
+          <div
+            className="flex items-center p-4 cursor-pointer transition-colors hover:opacity-80"
+            onClick={toggleSubMenu5}
+          >
+            <FaPrint className="mr-3" />
+            <span>Cetak Laporan</span>
+            <FaArrowRight
+              className={`ml-auto transition-transform ${
+                isSubMenuOpen5 ? "rotate-90" : ""
+              }`}
+            />
+          </div>
+          <motion.ul
+            className="pl-6 space-y-0"
+            initial="hidden"
+            animate={isSubMenuOpen5 ? "visible" : "hidden"}
+            variants={submenuVariants}
+            transition={{ duration: 0.3 }}
+          >
+            <li>
+              <Link
+                to={"/report/inventaris"}
+                className={`${
+                  isSubMenuOpen5 ? "visible" : " hidden "
+                } flex items-center p-4 transition-colors cursor-pointer ${
+                  location.pathname === "/report/inventaris"
+                    ? "underline"
+                    : "hover:opacity-80"
+                }`}
+              >
+                <FaSignOutAlt className="mr-3" />
+                <span>Laporan Inventaris</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={"/report/kir"}
+                className={`flex items-center p-4 transition-colors cursor-pointer ${
+                  isSubMenuOpen5 ? "visible" : "hidden"
+                } ${
+                  location.pathname.startsWith("/report/kir")
+                    ? "underline"
+                    : "hover:opacity-80"
+                }`}
+              >
+                <FaSignOutAlt className="mr-3" />
+                <span>Laporan KIR</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                to={"/report/barangkeluar"}
+                className={`${
+                  isSubMenuOpen5 ? "visible" : " hidden "
+                } flex items-center p-4 transition-colors cursor-pointer ${
+                  location.pathname === "/report/barangkeluar"
+                    ? "underline"
+                    : "hover:opacity-80"
+                }`}
+              >
+                <FaSignOutAlt className="mr-3" />
+                <span>Laporan Barang Keluar</span>
               </Link>
             </li>
           </motion.ul>

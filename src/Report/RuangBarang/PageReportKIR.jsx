@@ -69,7 +69,7 @@ const PageReportKIR = () => {
           margin-top: 20mm;
         }
         body {
-          transform: ${length >= 14 ? "scale(1); " : "scale(0.86)"}
+          transform: ${length >= 14 ? "scale(1); " : ""}
     
         }
         .page-break { page-break-before: always; }

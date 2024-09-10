@@ -100,12 +100,13 @@ export const getPrintQrCode = async () => {
   }
 };
 
-
-export const getReportBarangKeluar = async () => { 
+export const getReportBarangKeluar = async (year) => {
   try {
-    const respose = await AxiosInstance.get("/report/barangkeluar");
+    const respose = await AxiosInstance.post("/report/barangkeluar", {
+      year : year,
+    });
     return respose.data;
   } catch (error) {
     handleError(error);
   }
-}
+};

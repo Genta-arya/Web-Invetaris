@@ -1,18 +1,20 @@
 import React from "react";
 import KOPsurat from "../../Inventaris/components/KOPsurat";
+import HeaderBarangKeluar from "./Header";
 
-const TableBarangKeluar = ({ data }) => {
+const TableBarangKeluar = ({ data , tahun }) => {
   return (
     <>
     <KOPsurat tipe={"kir"} length={data.length} />
+    <HeaderBarangKeluar tahun={tahun} />
       <table className="table-auto w-full text-xs border-collapse border border-gray-300 ">
         <thead>
-          <tr className="bg-gray-100 text-center">
+          <tr className="bg-gray-100 print:bg-red-500 text-center">
             <th className="border border-gray-300 px-4 py-2">No</th>
             <th className="border border-gray-300 px-4 py-2">Nama Barang</th>
             <th className="border border-gray-300 px-4 py-2">Jenis</th>
             <th className="border border-gray-300 px-4 py-2">Nama Ruangan</th>
-            <th className="border border-gray-300 px-4 py-2">Total Qty</th>
+            <th className="border border-gray-300 px-4 py-2">Total</th>
           </tr>
         </thead>
         <tbody>

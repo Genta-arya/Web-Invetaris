@@ -8,7 +8,7 @@ const KOPsurat = ({ length, tipe }) => {
       {/* Logo Sebelah Kiri */}
       <div
         className={`absolute ${
-          length === 8 && tipe === "inventaris" ? "print:left-12 -left-5" : length === 14 && tipe === "kir" ? "print:left-24 -left-10" : "-left-5"
+          length === 8 && tipe === "inventaris" ? "print:left-12 -left-5" : length === 14 && tipe === "kir" ? "print:left-24 -left-10" : "-left-5 print:-left-1" 
         } -bottom-8 transform -translate-y-1/2 w-[80px]`}
       >
         <img
@@ -21,7 +21,7 @@ const KOPsurat = ({ length, tipe }) => {
       {/* Logo Sebelah Kanan */}
       <div
         className={`absolute ${
-          length === 8 && tipe === "inventaris" ? "print:right-12 -right-6" : length === 14 && tipe === "kir" ? "print:right-24 -right-10" : "-right-6 print:right-2"
+          length === 8 && tipe === "inventaris" ? "print:right-12 -right-6" : length === 14 && tipe === "kir" ? "print:right-24 -right-10" : "-right-6 print:right-0"
         } -bottom-6 transform -translate-y-1/2 w-[70px]`}
       >
         <img

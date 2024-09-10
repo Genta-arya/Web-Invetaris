@@ -23,6 +23,7 @@ import PagePengajuanPinjaman from "./Mobile/components/Peminjaman/components/For
 import PrintQr from "./Mobile/components/Barang/DaftarBarang/components/PrintQr.jsx";
 import PageNotFound from "./Mobile/PageNotFound.jsx";
 import PageReportBarangKeluar from "./Report/BarangKeluar/PageReportBarangKeluar.jsx";
+import PageKir from "./Report/RuangBarang/components/PageKir.jsx";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
   {
     path: "/report/kir/:id",
     element: <ProtectedRoute element={<PageReportKIR />} />,
+  },
+  {
+    path: "/report/kir",
+    element: <ProtectedRoute element={<PageKir />} />,
   },
   {
     path: "/report/usulan/:id",

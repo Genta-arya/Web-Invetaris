@@ -1,22 +1,32 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../../Mobile/components/Navbar";
 import Header from "../../Mobile/components/Header";
-import { FaPrint } from "react-icons/fa";
+import { FaCalendar, FaPrint } from "react-icons/fa";
 import { useReactToPrint } from "react-to-print";
 import handleError from "../../Utils/HandleError";
 import { getReportBarangKeluar } from "../../Service/API/Barang/Service_Barang";
 import LoadingGlobal from "../../Mobile/components/LoadingGlobal";
 import TableBarangKeluar from "./components/TableBarangKeluar";
+import ModalDate from "../../Mobile/components/Inventaris/components/ModalDate";
 
 const PageReportBarangKeluar = () => {
   const componentRef = useRef();
   const [data, setData] = useState([]);
   const [tahun, setTahun] = useState(null);
   const [loading, setLoading] = useState(false);
+  // get year
+  const [selectedYear, setSelectedYear] = useState(new Date());
+  const [open, setOpen] = useState(false);
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await getReportBarangKeluar();
+      const response = await getReportBarangKeluar(selectedYear);
+      // looping data
+      // const multipliedData = [];
+      // for (let i = 0; i < 50; i++) {
+      //   multipliedData.push(...response.data);
+      // }
+      // setData(multipliedData);
       setData(response.data);
       setTahun(response.tahun);
     } catch (error) {
@@ -34,11 +44,7 @@ const PageReportBarangKeluar = () => {
            
               margin-top: 10mm;
             }
-            body {
-            
-           
-        
-            }
+          
             .page-break { page-break-before: always; }
             .page-break-margin { margin-top: 20mm; }
           }
@@ -55,10 +61,20 @@ const PageReportBarangKeluar = () => {
       <Navbar />
       <Header text={`Laporan KIR`} />
       <div className="flex justify-start mt-4 gap-4 lg:px-16 px-4 border-b-2  pb-4">
+        {/* filter tahun */}
+        <button
+          onClick={() => setOpen(true)}
+          className="bg-hijau text-xs  text-white px-4 py-2 rounded flex justify-center items-center gap-2 "
+        >
+          <div className="flex items-center  justify-center gap-2">
+            <FaCalendar />
+            <p>Filter Tahun</p>
+          </div>
+        </button>
         <button
           onClick={handlePrint}
           disabled={data.length === 0}
-          className={`bg-hijau text-xs w-full text-white px-4 py-2 rounded flex justify-center items-center gap-2 ${
+          className={`bg-hijau text-xs  text-white px-4 py-2 rounded flex justify-center items-center gap-2 ${
             data.length === 0 ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
@@ -83,10 +99,18 @@ const PageReportBarangKeluar = () => {
           style={{ boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)" }}
         >
           <div ref={componentRef} className="p-4 print:mt-5">
-            <TableBarangKeluar data={data} />
+            <TableBarangKeluar data={data} tahun={tahun} />
           </div>
         </div>
       </div>
+      {open && (
+        <ModalDate
+          refresh={fetchData}
+          onClose={() => setOpen(false)}
+          selectedDate={selectedYear}
+          setSelectedDate={setSelectedYear}
+        />
+      )}
     </div>
   );
 };

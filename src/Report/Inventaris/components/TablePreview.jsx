@@ -15,7 +15,7 @@ const TablePreview = ({
       className="md:w-[220mm] scroll-container md:mt-8 lg:mt-12 lg:w-[240mm]  w-[95%] min-h-[297mm] border border-gray-300 rounded-lg mt-4 mb-12 p-8  lg:p-0 md:p-8 overflow-auto"
       style={{ boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)" }}
     >
-      <div ref={componentRef} className="p-4 print:-mt-16">
+      <div ref={componentRef} className="p-4 print:0">
         <KOPsurat length={length} tipe={"inventaris"} />
         <HeaderReportInventaris length={length} />
 
