@@ -59,7 +59,7 @@ const PageReportBarangKeluar = () => {
     <div>
       {" "}
       <Navbar />
-      <Header text={`Laporan KIR`} />
+      <Header text={`Laporan Barang Keluar`} />
       <div className="flex justify-start mt-4 gap-4 lg:px-16 px-4 border-b-2  pb-4">
         {/* filter tahun */}
         <button
