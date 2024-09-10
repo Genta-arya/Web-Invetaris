@@ -99,3 +99,13 @@ export const getPrintQrCode = async () => {
     handleError(error);
   }
 };
+
+
+export const getReportBarangKeluar = async () => { 
+  try {
+    const respose = await AxiosInstance.get("/report/barangkeluar");
+    return respose.data;
+  } catch (error) {
+    handleError(error);
+  }
+}

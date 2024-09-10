@@ -6,6 +6,7 @@ import LoadingGlobal from "../../../LoadingGlobal";
 import { useNavigate } from "react-router-dom";
 import TableBarangKeluar from "./TableBarangKeluar";
 import ItemNotFound from "../../../../ItemNotFound";
+import { FaPrint } from "react-icons/fa";
 
 const jenisStyles = {
   "Habis Pakai": "bg-blue-100 text-blue-800",
@@ -80,6 +81,10 @@ const ContentBarangKeluar = () => {
     navigate(`/detail/${id}`);
   };
 
+   const handleReport = () => {
+    navigate("/report/barangkeluar");
+   }
+
   if (loading) {
     return <LoadingGlobal />;
   }
@@ -103,6 +108,18 @@ const ContentBarangKeluar = () => {
               placeholder="Masukkan nama barang"
               className="border border-gray-300 outline-none rounded-lg px-4 py-2 text-sm w-full focus:ring-2 focus:ring-hijau"
             />
+          </div>
+
+          <div className="flex-1 min-w-[200px] ">
+            <label className="block text-sm font-bold mb-2">
+              Print
+            </label>
+            <button onClick={handleReport} className="outline-none border border-gray-300 w-full py-[9px] text-sm px-4 rounded-lg focus:ring-2 focus:ring-hijau">
+              <div className="flex items-center gap-2">
+                <FaPrint />
+                <p>Cetak Laporan</p>
+              </div>
+            </button>
           </div>
 
           <div className="flex-1 min-w-[200px]">
@@ -148,7 +165,9 @@ const ContentBarangKeluar = () => {
 
       {filteredBarangKeluar.length === 0 ? (
         <p className="text-sm text-center mt-24">
-          <ItemNotFound text={"Tidak ada barang keluar pada tanggal tersebut"} />
+          <ItemNotFound
+            text={"Tidak ada barang keluar pada tanggal tersebut"}
+          />
         </p>
       ) : (
         <TableBarangKeluar

@@ -22,6 +22,7 @@ import PagePeminjaman from "./Mobile/components/Peminjaman/PagePeminjaman.jsx";
 import PagePengajuanPinjaman from "./Mobile/components/Peminjaman/components/Form/PagePengajuanPinjaman.jsx";
 import PrintQr from "./Mobile/components/Barang/DaftarBarang/components/PrintQr.jsx";
 import PageNotFound from "./Mobile/PageNotFound.jsx";
+import PageReportBarangKeluar from "./Report/BarangKeluar/PageReportBarangKeluar.jsx";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: "/report/usulan/:id",
     element: <ProtectedRoute element={<PageReportUsulan />} />,
+  },
+  {
+    path: "/report/barangkeluar",
+    element: <ProtectedRoute element={<PageReportBarangKeluar />} />,
   },
   {
     path: "/karyawan",

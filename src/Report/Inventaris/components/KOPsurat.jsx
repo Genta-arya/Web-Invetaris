@@ -21,7 +21,7 @@ const KOPsurat = ({ length, tipe }) => {
       {/* Logo Sebelah Kanan */}
       <div
         className={`absolute ${
-          length === 8 && tipe === "inventaris" ? "print:right-12 -right-6" : length === 14 && tipe === "kir" ? "print:right-24 -right-10" : "-right-6"
+          length === 8 && tipe === "inventaris" ? "print:right-12 -right-6" : length === 14 && tipe === "kir" ? "print:right-24 -right-10" : "-right-6 print:right-2"
         } -bottom-6 transform -translate-y-1/2 w-[70px]`}
       >
         <img
