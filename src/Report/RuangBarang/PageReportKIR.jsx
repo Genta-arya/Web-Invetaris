@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { getReportKir } from "../../Service/API/Ruangan/Service_Ruangan";
 import handleError from "../../Utils/HandleError";
 import LoadingGlobal from "../../Mobile/components/LoadingGlobal";
+import { Toaster } from "sonner";
 
 const PageReportKIR = () => {
   const [data, setData] = useState([]);
@@ -110,6 +111,7 @@ const PageReportKIR = () => {
           length={length}
         />
       </div>
+      <Toaster richColors position="top-right" />
     </div>
   );
 };

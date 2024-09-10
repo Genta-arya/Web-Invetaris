@@ -8,6 +8,7 @@ import { getReportBarangKeluar } from "../../Service/API/Barang/Service_Barang";
 import LoadingGlobal from "../../Mobile/components/LoadingGlobal";
 import TableBarangKeluar from "./components/TableBarangKeluar";
 import ModalDate from "../../Mobile/components/Inventaris/components/ModalDate";
+import { Toaster } from "sonner";
 
 const PageReportBarangKeluar = () => {
   const componentRef = useRef();
@@ -111,6 +112,7 @@ const PageReportBarangKeluar = () => {
           setSelectedDate={setSelectedYear}
         />
       )}
+      <Toaster richColors position="top-right" />
     </div>
   );
 };

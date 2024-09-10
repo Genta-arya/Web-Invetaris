@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../../Header";
 import Navbar from "../../Navbar";
 import ContentBarangKeluar from "./components/ContentBarangKeluar";
+import { Toaster } from "sonner";
 
 const PageBarangKeluar = () => {
   return (
@@ -17,6 +18,7 @@ const PageBarangKeluar = () => {
       </div>
 
       <div></div>
+      <Toaster richColors position="top-right" />
     </main>
   );
 };

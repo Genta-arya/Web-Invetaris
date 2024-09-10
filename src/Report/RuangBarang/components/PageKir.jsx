@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select"; // Import react-select
 import { useNavigate } from "react-router-dom";
 import { getAllRuangan } from "../../../Service/API/Ruangan/Service_Ruangan";
+import handleError from "../../../Utils/HandleError";
 
 const PageKir = () => {
   const [ruanganList, setRuanganList] = useState([]);
@@ -20,7 +21,7 @@ const PageKir = () => {
         }));
         setRuanganList(options); // Set data ruangan ke state dalam format yang dibutuhkan react-select
       } catch (error) {
-        console.error("Error fetching ruangan:", error);
+        handleError(error);
       }
     };
 

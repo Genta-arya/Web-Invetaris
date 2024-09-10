@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../Navbar";
 import TableItem from "./components/TableItem";
 import Header from "../Header";
+import { Toaster } from "sonner";
 
 const PageBarang = () => {
   return (
@@ -18,6 +19,7 @@ const PageBarang = () => {
           <TableItem />
         </div>
       </div>
+      <Toaster richColors position="top-right" />
     </main>
   );
 };

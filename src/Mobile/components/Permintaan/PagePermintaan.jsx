@@ -4,6 +4,7 @@ import Header from "../Header";
 import FormPermintaan from "./components/FormPermintaan";
 import { useLocation } from "react-router-dom";
 import ListPermintaan from "./components/ListPermintaan";
+import { Toaster } from "sonner";
 
 const PagePermintaan = () => {
   const location = useLocation();
@@ -26,6 +27,7 @@ const PagePermintaan = () => {
       )}
 
       <div></div>
+      <Toaster richColors position="top-right" />
     </main>
   );
 };

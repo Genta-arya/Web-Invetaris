@@ -20,6 +20,7 @@ const PageDetail = () => {
       </div>
 
       <div></div>
+      
     </main>
   );
 };

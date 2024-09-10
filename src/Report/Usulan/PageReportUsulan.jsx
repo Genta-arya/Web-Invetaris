@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import LoadingGlobal from "../../Mobile/components/LoadingGlobal";
 import { getReportUsulan } from "../../Service/API/Usulan/Service_Usulan";
 import TablePreviewUsulan from "./components/TableUsulan";
+import { Toaster } from "sonner";
 
 const PageReportUsulan = () => {
   const [data, setData] = useState([]);
@@ -78,8 +79,13 @@ const PageReportUsulan = () => {
         </p>
       </div>
       <div className="bg-white flex justify-center flex-col items-center ">
-        <TablePreviewUsulan componentRef={componentRef} data={data} length={length} />
+        <TablePreviewUsulan
+          componentRef={componentRef}
+          data={data}
+          length={length}
+        />
       </div>
+      <Toaster richColors position="top-right" />
     </div>
   );
 };

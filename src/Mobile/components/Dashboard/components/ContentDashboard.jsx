@@ -21,7 +21,7 @@ const ContentDashboard = () => {
         const response = await getDataDashboard();
         setDashboardData(response.data);
       } catch (error) {
-        handleError(error);
+        handleError(error , navigate);
       } finally {
         setLoading(false);
       }

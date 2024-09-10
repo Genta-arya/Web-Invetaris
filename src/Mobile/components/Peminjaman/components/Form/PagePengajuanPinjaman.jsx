@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../../../Navbar";
 import Header from "../../../Header";
 import FormPeminjaman from "./FormPeminjaman";
+import { Toaster } from "sonner";
 
 const PagePengajuanPinjaman = () => {
   return (
@@ -17,6 +18,7 @@ const PagePengajuanPinjaman = () => {
       </div>
 
       <div></div>
+      <Toaster richColors position="top-right" />
     </main>
   );
 };

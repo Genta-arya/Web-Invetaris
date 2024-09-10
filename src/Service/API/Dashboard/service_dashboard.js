@@ -7,6 +7,7 @@ export const getDataDashboard = async () => {
         const response = await AxiosInstance.get("/dashboard");
         return response.data;
     } catch (error) {
+       
         throw error;
     }
 }

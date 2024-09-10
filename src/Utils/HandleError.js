@@ -1,23 +1,24 @@
 import { toast, Toaster } from "sonner";
 
-const handleError = (error, navigate) => {
-
+const handleError = (error) => {
   if (error.response) {
     const { status, data } = error.response;
     const message = data?.message || "An unexpected error occurred.";
 
     switch (status) {
       case 400:
-        toast.error(`${message}`);
+        toast.info(`${message}`);
 
         break;
       case 401:
         toast.error(`${message}`);
-        setTimeout(() => navigate("/login"), 2000);
+        setTimeout(() => (window.location.href = "/login"), 2000);
+        localStorage.clear();
         break;
       case 500:
         toast.error(`${message}`);
-        setTimeout(() => navigate("/login"), 2000);
+        setTimeout(() => (window.location.href = "/login"), 2000);
+        localStorage.clear();
         break;
       default:
         toast.error(`${status}: ${message}`);
@@ -27,7 +28,7 @@ const handleError = (error, navigate) => {
     toast.error("Network Error: Failed to reach the server.");
   } else if (error.code === "ERR_NETWORK") {
     toast.error("Network Error: Failed to reach the server.");
-    setTimeout(() => navigate("/login"), 2000);
+    setTimeout(() => (window.location.href = "/login"), 2000);
   } else {
     toast.error("An unexpected error occurred while setting up the request.");
   }

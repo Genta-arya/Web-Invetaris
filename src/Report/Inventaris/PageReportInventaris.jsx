@@ -9,6 +9,8 @@ import Header from "../../Mobile/components/Header";
 import useLoadingStore from "../../Utils/Zustand/useLoading";
 import LoadingGlobal from "../../Mobile/components/LoadingGlobal";
 import TablePreview from "./components/TablePreview";
+import { Toaster } from "sonner";
+import handleError from "../../Utils/HandleError";
 
 const PageReportInventaris = () => {
   const componentRef = useRef();
@@ -25,7 +27,7 @@ const PageReportInventaris = () => {
       // setDataInventaris(report);
       setDataInventaris(multipliedReport);
     } catch (error) {
-      console.error("Error fetching data: ", error);
+      handleError(error);
     } finally {
       setLoading(false);
     }
@@ -100,9 +102,7 @@ const PageReportInventaris = () => {
         <div className="px-4">
           <div className="flex flex-col  mt-2 items-center font-bold">
             <p>Preview Laporan Inventaris</p>
-            <p className=" ">
-              Tahun {selectedYear.getFullYear()}
-            </p>
+            <p className=" ">Tahun {selectedYear.getFullYear()}</p>
           </div>
           <p className="md:hidden lg:hidden block  text-xs -mb-1 text-red-500">
             * Preview Lebih baik dilihat menggunakan tampilan landscape /
@@ -128,6 +128,7 @@ const PageReportInventaris = () => {
           onSave={handleSaveDate}
         />
       )}
+      <Toaster richColors position="top-right" />
     </>
   );
 };

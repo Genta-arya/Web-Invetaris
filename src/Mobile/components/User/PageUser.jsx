@@ -4,6 +4,7 @@ import Navbar from "../Navbar";
 import TableUser from "./components/TableUser";
 import useAuth from "../../../Utils/Zustand/useAuth";
 import { useNavigate } from "react-router-dom";
+import { Toaster } from "sonner";
 
 const PageUser = () => {
   const { user } = useAuth();
@@ -28,6 +29,7 @@ const PageUser = () => {
           </div>
 
           <div></div>
+          <Toaster richColors position="top-right" />
         </main>
       )}
     </>
