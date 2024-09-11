@@ -26,9 +26,12 @@ const handleError = (error) => {
     }
   } else if (error.request) {
     toast.error("Network Error: Failed to reach the server.");
+    setTimeout(() => (window.location.href = "/login"), 2000);
+    localStorage.clear();
   } else if (error.code === "ERR_NETWORK") {
     toast.error("Network Error: Failed to reach the server.");
     setTimeout(() => (window.location.href = "/login"), 2000);
+    localStorage.clear();
   } else {
     toast.error("An unexpected error occurred while setting up the request.");
   }
