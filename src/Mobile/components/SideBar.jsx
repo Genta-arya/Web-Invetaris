@@ -85,7 +85,7 @@ const SideBar = ({ role, user, token }) => {
         </Link>
         <li
           className={`flex flex-col ${
-            location.pathname.startsWith("/inventory")
+            location.pathname.endsWith("/inventory")
               ? "border-t border-b"
               : ""
           }`}
@@ -129,7 +129,7 @@ const SideBar = ({ role, user, token }) => {
 
         <li
           className={`flex flex-col ${
-            location.pathname.startsWith("/stok") ? "border-t border-b" : ""
+            location.pathname.startsWith("/inventory/") ? "border-t border-b" : ""
           }`}
         >
           <div
@@ -157,7 +157,7 @@ const SideBar = ({ role, user, token }) => {
                 className={`${
                   isSubMenuOpen1 ? "visible" : " hidden "
                 } flex items-center p-4 transition-colors cursor-pointer ${
-                  location.pathname === "/inventory/daftar-barnag"
+                  location.pathname === "/inventory/daftar-barang"
                     ? "underline"
                     : "hover:opacity-80"
                 }`}
@@ -188,7 +188,7 @@ const SideBar = ({ role, user, token }) => {
                   isSubMenuOpen1 ? "visible" : " hidden "
                 } flex items-center p-4 transition-colors cursor-pointer ${
                   location.pathname === "/inventory/barang-keluar"
-                    ? "border-t border-b"
+                    ? "underline"
                     : "hover:opacity-80"
                 }`}
               >
@@ -200,7 +200,7 @@ const SideBar = ({ role, user, token }) => {
         </li>
         <li
           className={`flex flex-col ${
-            location.pathname.startsWith("/permintaan")
+            location.pathname.startsWith("/permintaan") || location.pathname === "/pengajuan/permintaan"
               ? "border-t border-b"
               : ""
           }`}
@@ -245,8 +245,8 @@ const SideBar = ({ role, user, token }) => {
                 className={`${
                   isSubMenuOpen2 ? "visible" : " hidden "
                 } flex items-center p-4 transition-colors cursor-pointer ${
-                  location.pathname === "/pengajuan/permintaan"
-                    ? "border-t border-b"
+                  location.pathname === "/pengajuan/permintaan" 
+                    ? "underline"
                     : "hover:opacity-80"
                 }`}
               >
@@ -301,7 +301,7 @@ const SideBar = ({ role, user, token }) => {
 
         <li
           className={`flex flex-col ${
-            location.pathname.startsWith("/peminjaman")
+            location.pathname.startsWith("/peminjaman") || location.pathname === "/pengajuan/peminjaman"
               ? "border-t border-b"
               : ""
           }`}

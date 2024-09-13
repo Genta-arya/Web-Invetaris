@@ -13,7 +13,8 @@ const Profil = () => {
   const [selectedFile, setSelectedFile] = useState(null); // State untuk file yang dipilih
   const [previewImage, setPreviewImage] = useState(user.avatar || dummyProfil); // State untuk preview gambar
   const [loading, setLoading] = useState(false);
-  console.log(user);
+
+
   const handleEditClick = () => {
     setIsModalOpen(true); // Buka modal
   };
