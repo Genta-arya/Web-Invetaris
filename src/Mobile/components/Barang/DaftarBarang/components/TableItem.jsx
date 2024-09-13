@@ -230,7 +230,7 @@ const TableItem = () => {
                           setSelectedId(item.id);
                           setIsPreviewOpen(true);
                         }}
-                        className="cursor-pointer"
+                        className="cursor-pointer w-32"
                       />
                     </td>
                     <td className="border-b py-2 px-4">{item.namaBarang}</td>
@@ -246,7 +246,7 @@ const TableItem = () => {
                       <img
                         src={item.foto}
                         alt="Foto Barang"
-                        className="lg:w-52 border rounded-md lg:h-auto"
+                        className="lg:w-24 border rounded-md "
                       />
                     </td>
                   </tr>

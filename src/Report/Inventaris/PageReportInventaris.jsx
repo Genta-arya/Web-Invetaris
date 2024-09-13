@@ -23,9 +23,9 @@ const PageReportInventaris = () => {
       setLoading(true);
       const year = selectedYear.getFullYear();
       const report = await getReport(year);
-      const multipliedReport = Array(2).fill(report).flat();
-      // setDataInventaris(report);
-      setDataInventaris(multipliedReport);
+      // const multipliedReport = Array(2).fill(report).flat();
+      setDataInventaris(report);
+      // setDataInventaris(multipliedReport);
     } catch (error) {
       handleError(error);
     } finally {
