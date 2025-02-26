@@ -18,9 +18,7 @@ const ContentBarangKeluar = () => {
   const [loading, setLoading] = useState(true);
   const [filterRuangan, setFilterRuangan] = useState("");
   const [searchNamaBarang, setSearchNamaBarang] = useState("");
-  const [filterTanggal, setFilterTanggal] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+  const [filterTanggal, setFilterTanggal] = useState(null);
   const [filterJenisBarang, setFilterJenisBarang] = useState("");
   const [filteredBarangKeluar, setFilteredBarangKeluar] = useState([]);
   const [jenisBarangOptions] = useState(["Habis Pakai", "Asset"]);
@@ -53,19 +51,10 @@ const ContentBarangKeluar = () => {
         .toLowerCase()
         .includes(searchNamaBarang.toLowerCase());
 
-      const matchesTanggal =
-        filterTanggal === "" ||
-        formatTanggal(item.tanggal) === formatTanggal(filterTanggal);
-
       const matchesJenisBarang =
         filterJenisBarang === "" || item.barangJenis === filterJenisBarang;
 
-      return (
-        matchesRuangan &&
-        matchesNamaBarang &&
-        matchesTanggal &&
-        matchesJenisBarang
-      );
+      return matchesRuangan && matchesNamaBarang && matchesJenisBarang;
     });
 
     setFilteredBarangKeluar(dataToDisplay);
@@ -81,9 +70,9 @@ const ContentBarangKeluar = () => {
     navigate(`/detail/${id}`);
   };
 
-   const handleReport = () => {
+  const handleReport = () => {
     navigate("/report/barangkeluar");
-   }
+  };
 
   if (loading) {
     return <LoadingGlobal />;
@@ -111,10 +100,11 @@ const ContentBarangKeluar = () => {
           </div>
 
           <div className="flex-1 min-w-[200px] ">
-            <label className="block text-sm font-bold mb-2">
-              Print
-            </label>
-            <button onClick={handleReport} className="outline-none border border-gray-300 w-full py-[9px] text-sm px-4 rounded-lg focus:ring-2 focus:ring-hijau">
+            <label className="block text-sm font-bold mb-2">Print</label>
+            <button
+              onClick={handleReport}
+              className="outline-none border border-gray-300 w-full py-[9px] text-sm px-4 rounded-lg focus:ring-2 focus:ring-hijau"
+            >
               <div className="flex items-center gap-2">
                 <FaPrint />
                 <p>Cetak Laporan</p>

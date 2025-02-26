@@ -10,9 +10,7 @@ import { FaCheckCircle } from "react-icons/fa";
 
 const TablePeminjaman = () => {
   const [peminjaman, setPeminjaman] = useState([]);
-  const [filterDate, setFilterDate] = useState(
-    new Date().toISOString().split("T")[0]
-  ); // Format YYYY-MM-DD
+  const [filterDate, setFilterDate] = useState(null); // Format YYYY-MM-DD
   const [loading, setLoading] = useState(true);
 
   const fetchPeminjaman = async () => {
