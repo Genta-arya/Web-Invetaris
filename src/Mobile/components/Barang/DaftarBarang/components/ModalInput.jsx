@@ -77,7 +77,7 @@ const ModalInput = ({ isOpen, onClose, refresh }) => {
       setPerolehan("");
       setJenisBarang("Habis Pakai");
     } catch (error) {
-      handleError(error);
+      // handleError(error);
     } finally {
       setLoading(false);
     }
