@@ -65,7 +65,7 @@ const PageReportKIR = () => {
     pageStyle: `
       @media print {
         @page {
-          size: ${length >= 14 ? "landscape" : " portrait"};
+        
        
           margin-top: 20mm;
         }

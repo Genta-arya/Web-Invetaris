@@ -5,11 +5,11 @@ import {
   EditBarang,
   PostBarang,
 } from "../../../../../Service/API/Barang/Service_Barang";
-import { formatRupiah } from "../../../../../Utils/Format";
+import { formatRupiah, options } from "../../../../../Utils/Format";
 import useLoadingStore from "../../../../../Utils/Zustand/useLoading";
 import { toast } from "sonner";
 import LoadingButton from "../../../LoadingButton";
-
+import CreatableSelect from "react-select/creatable";
 const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
   const [kodeBarang, setKodeBarang] = useState("");
   const [namaBarang, setNamaBarang] = useState("");
@@ -19,7 +19,8 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
   const [qty, setQty] = useState("");
   const [hargaBarang, setHargaBarang] = useState("");
   const [kondisi, setKondisi] = useState("");
- 
+  const [tahun, setTahun] = useState("");
+
   const [perolehan, setPerolehan] = useState("");
   const [jenisBarang, setJenisBarang] = useState("Habis Pakai"); // New state for item type
   const { loading, setLoading } = useLoadingStore();
@@ -29,7 +30,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
     setNamaBarang(data?.namaBarang);
 
     setNomorRegister(data?.nomorRegister);
-
+    setTahun(data?.tahun);
     setMerkType(data?.merkType);
     setUkuran(data?.ukuran);
     setQty(data?.qty);
@@ -65,7 +66,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
         nomorRegister,
         merkType,
         ukuran,
-
+        tahun,
         hargaBarang,
         kondisi,
         perolehan,
@@ -93,11 +94,32 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
       setLoading(false);
     }
   };
+   const customSelectStyles = {
+    control: (base, state) => ({
+      ...base,
+      borderColor: state.isFocused ? "#018a8c" : base.borderColor, // warna hijau muda
+      boxShadow: state.isFocused ? "0 0 0 2px #018a8c" : "none",
+      "&:hover": {
+        borderColor: "#018a8c",
+      },
+      fontSize: "0.75rem", // text-xs
+      minHeight: "32px",
+    }),
+    multiValue: (base) => ({
+      ...base,
+      backgroundColor: "#bbf7d0", // hijau muda bg untuk item terpilih
+      color: "#065f46",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      fontSize: "0.75rem", // biar placeholder juga kecil
+    }),
+  };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded shadow-lg md:w-[80%] w-[95%] relative"
@@ -144,15 +166,18 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
               <strong className="text-sm">Asal Perolehan</strong>
             </label>
 
-            <input
-              type="text"
+            <CreatableSelect
+            styles={customSelectStyles}
+              isClearable
+              options={options}
               placeholder="Asal Perolehan"
-              value={perolehan}
-              required
-              onChange={handleInputChange(setPerolehan)}
-              className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-hijau"
+              value={perolehan ? { label: perolehan, value: perolehan } : null}
+              onChange={(selectedOption) =>
+                setPerolehan(selectedOption ? selectedOption.value : "")
+              }
             />
           </div>
+
           <div className="grid grid-cols-2 gap-2">
             <label htmlFor="kodeBarang">
               <strong className="text-sm">Nama Barang</strong>
@@ -163,8 +188,22 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
               placeholder="Nama Barang"
               value={namaBarang}
               required
-              maxLength={20}
+              maxLength={200}
               onChange={handleInputChange(setNamaBarang)}
+              className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-hijau"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <label htmlFor="tahun">
+              <strong className="text-sm">Tahun</strong>
+            </label>
+            <input
+              type="number"
+              placeholder="Tahun"
+              value={tahun}
+              required
+              onChange={handleInputChange(setTahun)}
               className="w-full px-3 py-2 text-xs border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-hijau"
             />
           </div>

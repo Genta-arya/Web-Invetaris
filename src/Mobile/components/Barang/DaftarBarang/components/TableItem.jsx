@@ -17,6 +17,7 @@ import ModalPenerimaanStok from "./ModalPenerimaanStok";
 import useAuth from "../../../../../Utils/Zustand/useAuth";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
+import Select from "react-select";
 
 const TableItem = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,6 +30,9 @@ const TableItem = () => {
   const [selectData, setSelectData] = useState(null);
   const [isOpenEdit, setOpenEdit] = useState(false);
   const [isOpenStok, setOpenStok] = useState(false);
+  const [selectedPerolehan, setSelectedPerolehan] = useState([]);
+  const [selectedTahun, setSelectedTahun] = useState([]);
+
   const { user } = useAuth();
   const navigate = useNavigate();
   const fetchData = async () => {
@@ -46,6 +50,10 @@ const TableItem = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  const uniqueTahun = [...new Set(data.map((item) => item.tahun))].map((t) => ({
+    value: t,
+    label: t,
+  }));
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value || "");
@@ -56,11 +64,21 @@ const TableItem = () => {
     return `Rp${value.toLocaleString("id-ID")}`;
   };
 
-  const filteredData = (data || []).filter((item) =>
-    (item.namaBarang || "")
+  const filteredData = data.filter((item) => {
+    const matchesSearch = item.namaBarang
       .toLowerCase()
-      .includes((searchTerm || "").toLowerCase())
-  );
+      .includes(searchTerm.toLowerCase());
+
+    const matchesPerolehan =
+      selectedPerolehan.length === 0 ||
+      selectedPerolehan.some((sel) => sel.value === item.perolehan);
+
+    const matchesTahun =
+      selectedTahun.length === 0 ||
+      selectedTahun.some((sel) => sel.value === item.tahun);
+
+    return matchesSearch && matchesPerolehan && matchesTahun;
+  });
 
   const handleDelete = async (id) => {
     setLoading(true);
@@ -74,6 +92,12 @@ const TableItem = () => {
       setLoading(false);
     }
   };
+  const uniquePerolehans = [...new Set(data.map((item) => item.perolehan))].map(
+    (p) => ({
+      value: p,
+      label: p,
+    })
+  );
 
   const handleEdit = (data) => {
     setOpenEdit(true);
@@ -83,6 +107,27 @@ const TableItem = () => {
 
   const print = () => {
     navigate("/qrcode/barang");
+  };
+  const customSelectStyles = {
+    control: (base, state) => ({
+      ...base,
+      borderColor: state.isFocused ? "#018a8c" : base.borderColor, // warna hijau muda
+      boxShadow: state.isFocused ? "0 0 0 2px #018a8c" : "none",
+      "&:hover": {
+        borderColor: "#018a8c",
+      },
+      fontSize: "0.75rem", // text-xs
+      minHeight: "32px",
+    }),
+    multiValue: (base) => ({
+      ...base,
+      backgroundColor: "#bbf7d0", // hijau muda bg untuk item terpilih
+      color: "#065f46",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      fontSize: "0.75rem", // biar placeholder juga kecil
+    }),
   };
 
   const isBarangMasukPage =
@@ -106,6 +151,28 @@ const TableItem = () => {
           onChange={handleSearch}
         />
 
+        <Select
+          isMulti
+          isSearchable={true}
+          options={uniquePerolehans}
+          value={selectedPerolehan}
+          onChange={(selected) => setSelectedPerolehan(selected)}
+          className="w-full mt-2 z-30"
+          styles={customSelectStyles}
+          placeholder="Filter berdasarkan Asal Perolehan"
+        />
+
+        <Select
+          isMulti
+          isSearchable
+          options={uniqueTahun}
+          value={selectedTahun}
+          onChange={(selected) => setSelectedTahun(selected)}
+          className="w-full mt-2 z-20"
+          styles={customSelectStyles}
+          placeholder="Filter berdasarkan Tahun"
+        />
+
         <div className="flex gap-4 flex-row ">
           {isBarangMasukPage && user.role === "admin" && (
             <>
@@ -121,7 +188,7 @@ const TableItem = () => {
                   420: {
                     slidesPerView: 2.4,
                   },
-                
+
                   640: {
                     slidesPerView: 2.5,
                   },
@@ -158,7 +225,10 @@ const TableItem = () => {
                   </button>
                 </SwiperSlide>
                 <SwiperSlide>
-                  <button onClick={print} className="bg-hijau text-white px-4 py-2 rounded text-xs">
+                  <button
+                    onClick={print}
+                    className="bg-hijau text-white px-4 py-2 rounded text-xs"
+                  >
                     <div className="flex items-center gap-2">
                       <FaPrint />
                       <p>Cetak QrCode</p>
@@ -190,6 +260,10 @@ const TableItem = () => {
                   <th className="border-b py-2 px-4 text-center">
                     Nomor Register
                   </th>
+                  <th className="border-b py-2 px-4 text-center">
+                    Asal Perolehan
+                  </th>
+                  <th className="border-b py-2 px-4 text-center">Tahun</th>
                   <th className="border-b py-2 px-4 text-center">Merk Type</th>
                   <th className="border-b py-2 px-4 text-center">Jenis</th>
                   <th className="border-b py-2 px-4 text-center">Ukuran</th>
@@ -235,6 +309,8 @@ const TableItem = () => {
                     </td>
                     <td className="border-b py-2 px-4">{item.namaBarang}</td>
                     <td className="border-b py-2 px-4">{item.nomorRegister}</td>
+                    <td className="border-b py-2 px-4">{item.perolehan}</td>
+                    <td className="border-b py-2 px-4">{item.tahun}</td>
                     <td className="border-b py-2 px-4">{item.merkType}</td>
                     <td className="border-b py-2 px-4">{item.jenis}</td>
                     <td className="border-b py-2 px-4">{item.ukuran}</td>

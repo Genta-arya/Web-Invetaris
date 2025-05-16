@@ -43,3 +43,10 @@ export const formatRupiah = (value) => {
       currency: "IDR",
     }).format(amount);
   };
+
+    export const options = [
+      { value: "BOS", label: "BOS" },
+      { value: "Bantuan Provinsi", label: "Bantuan Provinsi" },
+      { value: "Bantuan Pusat", label: "Bantuan Pusat" },
+  
+    ];
