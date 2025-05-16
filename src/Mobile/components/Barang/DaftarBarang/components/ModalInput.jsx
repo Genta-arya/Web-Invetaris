@@ -369,6 +369,7 @@ const ModalInput = ({ isOpen, onClose, refresh }) => {
               <input
                 type="file"
                 accept="image/*"
+                capture="environment" // kamera belakang
                 required
                 onChange={handleFileChange}
                 className="w-full px-3 py-2 text-xs border border-gray-300 rounded"
