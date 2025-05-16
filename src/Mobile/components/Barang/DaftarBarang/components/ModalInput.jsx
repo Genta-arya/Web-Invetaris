@@ -350,7 +350,7 @@ const ModalInput = ({ isOpen, onClose, refresh }) => {
                   {fotoSource !== "camera" && (
                     <button
                       type="button"
-                      className="text-xs px-2 py-1 bg-green-500 text-white rounded"
+                      className="text-xs px-2 py-1 hidden lg:block md:block bg-green-500 text-white rounded"
                       onClick={() => {
                         setUseCamera(true);
                         setFoto(null);
