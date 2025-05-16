@@ -372,9 +372,42 @@ const ModalInput = ({ isOpen, onClose, refresh }) => {
                 capture="environment" // kamera belakang
                 required
                 onChange={handleFileChange}
-                className="w-full px-3 py-2 text-xs border border-gray-300 rounded"
+                className="w-full px-3 py-2 text-xs border hidden lg:block md:block border-gray-300 rounded"
               />
             )}
+
+            <div className="flex flex-col gap-2 lg:hidden md:hidden">
+              {/* Tombol Kamera */}
+              <label
+                htmlFor="upload-camera"
+                className="cursor-pointer px-4 py-2 bg-green-500 text-white text-xs rounded text-center"
+              >
+                Ambil dari Kamera 📷
+              </label>
+              <input
+                id="upload-camera"
+                type="file"
+                accept="image/*"
+                capture="environment"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+
+              {/* Tombol Galeri */}
+              <label
+                htmlFor="upload-gallery"
+                className="cursor-pointer px-4 py-2 bg-blue-500 text-white text-xs rounded text-center"
+              >
+                Pilih dari Galeri 🖼️
+              </label>
+              <input
+                id="upload-gallery"
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+            </div>
 
             {useCamera && !fotoPreview && (
               <div className="space-y-2">
