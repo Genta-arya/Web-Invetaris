@@ -90,6 +90,7 @@ const ModalEdit = ({ isOpen, onClose, refresh, data }) => {
       setJenisBarang("Habis Pakai");
     } catch (error) {
       handleError(error);
+      // console.error(error);
     } finally {
       setLoading(false);
     }

@@ -15,7 +15,8 @@ export const DataUnit = [
   { id: 14, name: "Ketua Program Keahlian Teknik Mesin" },
   { id: 15, name: "Ketua Konsentrasi Keahlian PMHP" },
   { id: 16, name: "Ketua Konsentrasi Keahlian TKR" },
-  { id: 17, name: "Koordinator BK" }, 
+  { id: 17, name: "Koordinator BK" },
   { id: 18, name: "Ketua Unit Produksi" },
   { id: 19, name: "Koordinator BKK" },
+  { id: 20, name: "Ketua Program Keahlian TSM" },
 ];

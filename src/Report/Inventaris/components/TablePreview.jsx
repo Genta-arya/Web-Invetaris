@@ -80,8 +80,8 @@ const TablePreview = ({
           </table>
           <TTDLayout
             length={length}
-            name={"HERMAN SYAHADI"}
-            nip={"19860822 201407 1001"}
+            name={"Ahmad Yani, S.IP"}
+            nip={"19820516 200801 1 007"}
             bidang={"Pengurus Barang"}
           />
         </div>

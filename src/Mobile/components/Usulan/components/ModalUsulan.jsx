@@ -63,7 +63,7 @@ const ModalUsulan = ({ onClose, refresh }) => {
                 placeholder="Ketikkan Nama Barang"
                 name="namaBarang"
                 value={namaBarang}
-                maxLength={15}
+          
                 onChange={(e) => setNamaBarang(e.target.value)}
                 required
                 id="namaBarang"
@@ -82,7 +82,7 @@ const ModalUsulan = ({ onClose, refresh }) => {
                 type="text"
                 placeholder="Ketikkan Nama Pengusul"
                 name="namaOrang"
-                maxLength={15}
+        
                 value={namaOrang}
                 onChange={(e) => setNamaOrang(e.target.value)}
                 required
