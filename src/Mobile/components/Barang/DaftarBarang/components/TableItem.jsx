@@ -18,6 +18,7 @@ import useAuth from "../../../../../Utils/Zustand/useAuth";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 
 const TableItem = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,8 +32,15 @@ const TableItem = () => {
   const [isOpenEdit, setOpenEdit] = useState(false);
   const [isOpenStok, setOpenStok] = useState(false);
   const [selectedPerolehan, setSelectedPerolehan] = useState([]);
-  const [selectedTahun, setSelectedTahun] = useState([]);
+  const [selectedTahun, setSelectedTahun] = useState(null);
 
+  const currentYear = new Date().getFullYear();
+
+  // generate tahun: -5 sampai +5
+  const yearOptions = Array.from({ length: 11 }, (_, i) => {
+    const year = currentYear - 5 + i;
+    return { value: year, label: year.toString() };
+  });
   const { user } = useAuth();
   const navigate = useNavigate();
   const fetchData = async () => {
@@ -73,9 +81,7 @@ const TableItem = () => {
       selectedPerolehan.length === 0 ||
       selectedPerolehan.some((sel) => sel.value === item.perolehan);
 
-    const matchesTahun =
-      selectedTahun.length === 0 ||
-      selectedTahun.some((sel) => sel.value === item.tahun);
+    const matchesTahun = !selectedTahun || item.tahun === selectedTahun.value;
 
     return matchesSearch && matchesPerolehan && matchesTahun;
   });
@@ -96,7 +102,7 @@ const TableItem = () => {
     (p) => ({
       value: p,
       label: p,
-    })
+    }),
   );
 
   const handleEdit = (data) => {
@@ -162,7 +168,7 @@ const TableItem = () => {
           placeholder="Filter berdasarkan Asal Perolehan"
         />
 
-        <Select
+        {/* <Select
           isMulti
           isSearchable
           options={uniqueTahun}
@@ -171,6 +177,23 @@ const TableItem = () => {
           className="w-full mt-2 z-20"
           styles={customSelectStyles}
           placeholder="Filter berdasarkan Tahun"
+        /> */}
+
+        <CreatableSelect
+          isSearchable
+          options={yearOptions}
+          value={selectedTahun}
+          onChange={(selected) => setSelectedTahun(selected)}
+          className="w-full mt-2 z-20"
+          styles={customSelectStyles}
+          placeholder="Filter berdasarkan Tahun"
+          formatCreateLabel={(input) => `Tambah tahun: ${input}`}
+          onCreateOption={(input) => {
+            if (!isNaN(input)) {
+              const newOption = { value: Number(input), label: input };
+              setSelectedTahun(newOption);
+            }
+          }}
         />
 
         <div className="flex gap-4 flex-row ">
